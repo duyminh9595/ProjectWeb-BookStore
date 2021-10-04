@@ -24,9 +24,7 @@ namespace ProjectBookShop.Controllers
             this.context = context;
             this.mapper = mapper;
         }
-
         [HttpGet]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "USER")]
         public async Task<ActionResult<List<PublisherReadDTO>>>GetPublishers()
         {
             var publishers = await context.Publisher.AsNoTracking().ToListAsync();
@@ -45,7 +43,7 @@ namespace ProjectBookShop.Controllers
             return Ok(publisherReadDTO);
         }
         [HttpPost]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme,Roles ="ADMIN")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme,Roles ="Admin")]
         public async Task<ActionResult>Post([FromBody]PublisherCreateDTO publisherCreateDTO)
         {
             var publisher =mapper.Map<Publisher>(publisherCreateDTO);

@@ -70,7 +70,7 @@ namespace ProjectBookShop.Controller
         public void AddRole(UserInfo customer)
         {
             UserRole userRole = new UserRole();
-            userRole.Role_Name = "USER";
+            userRole.Role_Name = "Admin";
             userRole.UserInfoId = customer.Id;
             userRole.UserInfo = customer;
             customer.UserRoles.Add(userRole);

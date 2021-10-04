@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjectBookShop.DTO;
@@ -40,6 +42,7 @@ namespace ProjectBookShop.Controllers
             return Ok(typeReadDTO);
         }
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<ActionResult> Post([FromBody] TypeCreateDTO typeCreateDTO)
         {
             var type = mapper.Map<Entities.Type>(typeCreateDTO);

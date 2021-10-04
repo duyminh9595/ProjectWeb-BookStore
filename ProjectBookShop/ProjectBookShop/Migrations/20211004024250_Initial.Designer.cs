@@ -10,7 +10,7 @@ using ProjectBookShop;
 namespace ProjectBookShop.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211004011926_Initial")]
+    [Migration("20211004024250_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
