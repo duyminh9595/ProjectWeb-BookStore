@@ -1,0 +1,18 @@
+<div class="filter-table">
+  <h3>Thể loại</h3>
+  <div class="list-category-column">
+    <ul>
+      <li
+        data-filter="all"
+        class="filter active"
+        *ngFor="let item of numbeProduct"
+      >
+        <a routerLink="/books/type/{{ item.typeId }}" routerLinkActive="active"
+          >{{ item.typeName }} ({{ item.numberBook }})</a
+        >
+        <div class="line-separator"></div>
+        <div class="line-separator2"></div>
+      </li>
+    </ul>
+  </div>
+</div>

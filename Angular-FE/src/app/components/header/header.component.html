@@ -1,0 +1,212 @@
+<section class="top-header">
+  <div class="container">
+    <div class="col-xs-6 col-md-6 top-user">
+      <div class="user-name">
+        <p>Welcome to BookStore</p>
+      </div>
+    </div>
+    <div class="col-xs-6 col-md-6 mainmenu">
+      <nav>
+        <ul>
+          <li></li>
+          <li *ngIf="checkStatusLogin == false">
+            <a routerLink="/signup" routerLinkActive="active">Register</a>
+          </li>
+          <li *ngIf="checkStatusLogin == false">
+            <a routerLink="/login" routerLinkActive="active">Login</a>
+          </li>
+          <li *ngIf="checkStatusLogin == true">
+            <a (click)="logOut()">Logout</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</section>
+
+<!--Menu-->
+<header>
+  <div id="top" class="container box-logo-menu">
+    <div class="row">
+      <nav class="col-md-12 navigation-menu">
+        <div class="col-md-3 content-logo">
+          <a
+            routerLink=""
+            routerLinkActive="active"
+            style="text-decoration: none"
+            ><h2>Evo<span>Book</span></h2></a
+          >
+          <div class="navbar-header">
+            <button
+              type="button"
+              class="navbar-toggle"
+              data-toggle="collapse"
+              data-target="#navbar-collapse-1"
+              aria-expanded="false"
+              aria-controls="nav-collapse1"
+            >
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+          </div>
+        </div>
+        <div class="col-md-8 mainmenu">
+          <div class="collapse navbar-collapse" id="navbar-collapse-1">
+            <ul class="menu-first-level">
+              <li class="expand">
+                <a routerLink="/books" routerLinkActive="active">Home</a>
+                <!-- DropDown Menu -->
+                <ul class="restrain sub-menu">
+                  <li><a href="home.html">Home Version 1</a></li>
+                  <li><a href="home2.html">Home Version 2</a></li>
+                  <li><a href="home3.html">Home Version 3</a></li>
+                  <li><a href="home4.html">Home Version 4</a></li>
+                  <li><a href="home5.html">Home Version 5</a></li>
+                </ul>
+              </li>
+              <li><a href="about.html">About Us</a></li>
+              <li class="exp-mega">
+                <a href="">Categories</a>
+                <!-- Mega Menu Four Column -->
+                <div class="mega-menu">
+                  <span>
+                    <a class="mega-title" href="">Top Categories</a>
+                    <a href="products.html">Tv-Lcd</a>
+                    <a href="products.html">Computer</a>
+                    <a href="products.html">Smartphone</a>
+                    <a href="products.html">Software</a>
+                  </span>
+                  <span>
+                    <a class="mega-title" href="">New Categories</a>
+                    <a href="products.html">Accessories</a>
+                    <a href="products.html">Video</a>
+                    <a href="products.html">HeadPhone</a>
+                    <a href="products.html">Hi-Fi</a>
+                  </span>
+                  <span>
+                    <a class="mega-title" href="">Other Categories</a>
+                    <a href="products.html">Notebook</a>
+                    <a href="products.html">Photography</a>
+                    <a href="products.html">Ebook</a>
+                    <a href="products.html">IPhone</a>
+                  </span>
+                  <span class="mega-menu-img">
+                    <a href="#"
+                      ><img src="../../../assets/images/open-book.png" alt=""
+                    /></a>
+                  </span>
+                </div>
+              </li>
+
+              <li class="expand">
+                <a href="">Pages</a>
+                <!-- DropDown Menu -->
+                <ul class="restrain sub-menu">
+                  <li><a href="services.html">Services</a></li>
+                  <li>
+                    <a routerLink="/login" routerLinkActive="active">Login</a>
+                  </li>
+                  <li>
+                    <a routerLink="/signup" routerLinkActive="active"
+                      >Register</a
+                    >
+                  </li>
+                  <li><a href="products.html">Products</a></li>
+                  <li>
+                    <a href="products_right_column.html">Products Right Col.</a>
+                  </li>
+                  <li><a href="list_products.html">List Products</a></li>
+                  <li><a href="product_details.html">Product Details</a></li>
+                  <li><a href="blog_v1.html">Blog v1</a></li>
+                  <li>
+                    <a href="blog_v1_right_column.html">Blog v1 Right Col.</a>
+                  </li>
+                  <li><a href="blog_v2.html">Blog v2</a></li>
+                  <li><a href="orders.html">Orders</a></li>
+                  <li><a href="contact.html">Contact Us</a></li>
+                  <li><a href="404.html">404 Error</a></li>
+                </ul>
+              </li>
+              <li><a href="contact.html">Contact</a></li>
+            </ul>
+          </div>
+        </div>
+        <!-- Top Cart -->
+        <div class="col-md-1 box-shoppingCart">
+          <div
+            class="list-product dropdown content-count-cart-header"
+            auto-close="disabled"
+          >
+            <a routerLink="/cart" routerLinkActive="active">
+              <div
+                class="dropdown-toggle"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <img src="../../../assets/images/basket.png" alt="" />
+                <p class="number-prod-cart">
+                  <span class="fa-stack fa-3x">
+                    <strong class="fa-stack-1x fa-stack-text fa-inverse">{{
+                      totalBookByIdInCart
+                    }}</strong>
+                  </span>
+                </p>
+              </div>
+            </a>
+            <div
+              id="dropdown"
+              class="dropdown-menu vertical-li dropdown-prod-cart content"
+              role="menu"
+            >
+              <ul>
+                <li class="box-li-cart">
+                  <div class="col-xs-3 col-md-3 box-cart-book">
+                    <img src="../../../assets/images/books/3.png" />
+                  </div>
+                  <div class="col-xs-8 col-md-8 minicart-data">
+                    <p class="mc-name">Logitec LS-35</p>
+                    <p>1 X $25.56</p>
+                  </div>
+                  <div class="btn-remove-prod">
+                    <a><i class="fa fa-times" aria-hidden="true"></i></a>
+                  </div>
+                </li>
+                <li class="box-li-cart">
+                  <div class="col-xs-3 col-md-3 box-cart-book">
+                    <img src="../../../assets/images/books/2.png" />
+                  </div>
+                  <div class="col-xs-8 col-md-8 minicart-data">
+                    <p class="mc-name">Onkio LS</p>
+                    <p>1 X $125.60</p>
+                  </div>
+                  <div class="btn-remove-prod">
+                    <a><i class="fa fa-times" aria-hidden="true"></i></a>
+                  </div>
+                </li>
+                <li class="box-li-cart">
+                  <div class="col-xs-3 col-md-3 box-cart-book">
+                    <img src="../../../assets/images/books/6.png" />
+                  </div>
+                  <div class="col-xs-8 col-md-8 minicart-data">
+                    <p class="mc-name">Hp miro</p>
+                    <p>1 X $220.00</p>
+                  </div>
+                  <div class="btn-remove-prod">
+                    <a><i class="fa fa-times" aria-hidden="true"></i></a>
+                  </div>
+                </li>
+              </ul>
+              <div class="separator"></div>
+              <div id="cartInfo">
+                <p class="minucart-price">Subtotal $371.16</p>
+              </div>
+              <a href="orders.html" id="goToCheckOut">Proceed to purchase</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>

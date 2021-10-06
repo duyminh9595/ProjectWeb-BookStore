@@ -1,0 +1,19 @@
+<div class="sw-search">
+  <div class="nav-search" id="nav-search">
+    <span class="input-icon">
+      <input
+        placeholder="Search by name"
+        class="nav-search-input"
+        autocomplete="off"
+        autofocus=""
+        aria-invalid="false"
+        #myInput
+        (keyUp.enter)="search(myInput.value)"
+      />
+      <i
+        class="search-icon fa fa-search nav-search-icon"
+        (click)="search(myInput.value)"
+      ></i>
+    </span>
+  </div>
+</div>

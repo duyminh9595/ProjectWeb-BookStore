@@ -12,6 +12,5 @@ namespace ProjectBookShop.Entities
         public Cart Cart { get; set; }
         public Book Book { get; set; }
         public int Quantity { get; set; }
-        public int Price { get; set; }
     }
 }

@@ -21,6 +21,13 @@ namespace ProjectBookShop.Helpers
             CreateMap<TypeCreateDTO, Entities.Type>().ReverseMap();
             CreateMap<BookCreateDTO, Book>().ReverseMap();
             CreateMap<BookReadDTO, Book>().ReverseMap();
+            CreateMap<Cart, ListCartDTO>().ReverseMap();
+
+            CreateMap<Book, BookInDetailCartDTO>().ReverseMap();
+
+            CreateMap<CouponDiscount, ListCouponDTO>().ReverseMap();
+
+            CreateMap<CouponCreateDTO, CouponDiscount>().ReverseMap();
         }
     }
 }

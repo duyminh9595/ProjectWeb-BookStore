@@ -1,0 +1,275 @@
+<section class="pattern-1">
+  <div class="container content-top-about">
+    <div class="col-md-12 content-top-about">
+      <div class="img-man">
+        <img alt="" src="assets/images/patterns/man.png" />
+      </div>
+      <div class="fadeInUp animated">
+        <img alt="" src="assets/images/top-book4.png" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="container">
+  <div class="row">
+    <div class="col-md-12 table-padding">
+      <div class="col-md-3 column-box form-search">
+        <app-search-products></app-search-products>
+        <!--FILTER CATEGORIES-->
+
+        <app-filter-categories></app-filter-categories>
+        <app-filter-publishers></app-filter-publishers>
+      </div>
+      <!-- from here load list book -->
+      <div class="col-md-9 panel panel-info-full">
+        <div class="col-banner">
+          <a href="" class="img-adv">
+            <img src="assets/images/banner/banner3.png" alt="" />
+          </a>
+          <div class="adv-txt">
+            <h3>EvoCovers</h3>
+            <p>Free Catalog Evobook</p>
+          </div>
+          <div class="adv-bonus fadeInRight animated">
+            <p class="percentage">25%</p>
+            <p>bonus</p>
+          </div>
+        </div>
+        <div class="panel-heading">
+          <div class="panel-title">
+            <div class="col-xs-6"><h2>Books</h2></div>
+            <div class="col-xs-6 button-new"></div>
+          </div>
+        </div>
+        <!-- day la  -->
+        <div *ngIf="products.length == 0" class="col-md-12">
+          <div class="alert alert-danger" role="alert">Không có sản phẩm</div>
+        </div>
+        <div class="col-md-12" *ngFor="let item of products">
+          <div class="box-prod group-book" id="label-{{ item.id }}">
+            <div class="box-img-book">
+              <div class="col-md-3 box-list-prod">
+                <div class="book-cover-shadow"></div>
+                <img src="{{ item.urlBookImageShow }}" />
+                <div class="box-btn-shop">
+                  <div class="bt-img">
+                    <button
+                      type="button"
+                      class="btn btn-add-cart"
+                      (click)="addBookToCart(item)"
+                    >
+                      <i class="fa fa-shopping-bag"></i>
+                    </button>
+                  </div>
+                  <div class="bt-img">
+                    <button
+                      type="button"
+                      routerLink="/books/{{ item.id }}"
+                      class="btn btn-det-cart"
+                    >
+                      <i class="fa fa-list"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-9 book-desc">
+                <a routerLink="/books/{{ item.id }}" routerLinkActive="active"
+                  ><h2 class="title-product">{{ item.name }}</h2></a
+                >
+
+                <p>
+                  <span><b>Nội dung</b>: </span>
+                  {{ item.shortReview }}
+                </p>
+
+                <p class="author-txt">
+                  <span><b>Tác giả</b>: </span>{{ item.authorName }}
+                </p>
+
+                <p class="author-txt">
+                  <a
+                    routerLink="/books/publisher/{{ item.publisherId }}"
+                    routerLinkActive="active"
+                    ><span><b>Nhà xuất bản</b>: </span
+                    >{{ item.publisherName }}</a
+                  >
+                </p>
+                <p class="author-txt">
+                  <a
+                    routerLink="/books/type/{{ item.typeId }}"
+                    routerLinkActive="active"
+                    ><span><b>Thể loại</b>: </span>{{ item.typeName }}</a
+                  >
+                </p>
+                <p class="book-price">{{ item.price | number: "":"es" }} VNĐ</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button
+          style="margin: auto"
+          class="more btn btn-primary btn-block"
+          (click)="loadMore()"
+          [disabled]="pageNumber == maxPage || products.length == 0"
+        >
+          Load More!
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="header-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 content-header-footer">
+        <div class="col-md-4">
+          <h3>Featured Products</h3>
+          <ul>
+            <li>
+              <div class="col-md-3">
+                <img alt="" src="assets/images/books/1.png" />
+              </div>
+              <div class="col-md-9">
+                <h2 class="title-book">Divina Commedia</h2>
+                <p class="book-price">$7.89<span>$8.89</span></p>
+              </div>
+            </li>
+            <li>
+              <div class="col-md-3">
+                <img alt="" src="assets/images/books/4.png" />
+              </div>
+              <div class="col-md-9">
+                <h2 class="title-book">The ship</h2>
+                <p class="book-price">
+                  $17.30<span class="vis-hidden">$0.00</span>
+                </p>
+              </div>
+            </li>
+            <li>
+              <div class="col-md-3">
+                <img alt="" src="assets/images/books/6.png" />
+              </div>
+              <div class="col-md-9">
+                <h2 class="title-book">Miami</h2>
+                <p class="book-price">$20.00<span>$22.00</span></p>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <h3>Onsale Products</h3>
+          <ul>
+            <li>
+              <div class="col-md-3">
+                <img alt="" src="assets/images/books/2.png" />
+              </div>
+              <div class="col-md-9">
+                <h2 class="title-book">Lovecraft</h2>
+                <p class="book-price">$25.60<span>$28.89</span></p>
+              </div>
+            </li>
+            <li>
+              <div class="col-md-3">
+                <img alt="" src="assets/images/books/4.png" />
+              </div>
+              <div class="col-md-9">
+                <h2 class="title-book">The ship</h2>
+                <p class="book-price">
+                  $17.30<span class="vis-hidden">$0.00</span>
+                </p>
+              </div>
+            </li>
+            <li>
+              <div class="col-md-3">
+                <img alt="" src="assets/images/books/7.png" />
+              </div>
+              <div class="col-md-9">
+                <h2 class="title-book">My Day</h2>
+                <p class="book-price">
+                  $12.00<span class="vis-hidden">$0.00</span>
+                </p>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <h3>Top Rated Products</h3>
+          <ul>
+            <li>
+              <div class="col-md-3">
+                <img alt="" src="assets/images/books/3.png" />
+              </div>
+              <div class="col-md-9">
+                <h2 class="title-book">The secret</h2>
+                <p class="book-price">$15.56<span>$18.56</span></p>
+              </div>
+            </li>
+            <li>
+              <div class="col-md-3">
+                <img alt="" src="assets/images/books/4.png" />
+              </div>
+              <div class="col-md-9">
+                <h2 class="title-book">The ship</h2>
+                <p class="book-price">
+                  $17.30<span class="vis-hidden">$0.00</span>
+                </p>
+              </div>
+            </li>
+            <li>
+              <div class="col-md-3">
+                <img alt="" src="assets/images/books/8.png" />
+              </div>
+              <div class="col-md-9">
+                <h2 class="title-book">Tyson</h2>
+                <p class="book-price">
+                  $16.80<span class="vis-hidden">$0.00</span>
+                </p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWS LETTERS -->
+<section class="footer2 footer-newsletters">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="col-md-6 box-newsletters">
+          <h2 class="newsletters-title">
+            Subscribe now and get special offers
+          </h2>
+          <form name="newsForm" class="form-horizontal" method="post">
+            <div class="input-group">
+              <input
+                type="email"
+                class="form-control"
+                name="email"
+                placeholder="Email"
+                required=""
+              />
+            </div>
+            <div style="margin-top: 20px" class="form-group">
+              <!-- Button -->
+              <div class="col-sm-12 controls">
+                <input
+                  type="submit"
+                  class="btn btn-success news-btn"
+                  value="Send"
+                />
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-md-6 newsletters-img">
+          <img src="assets/images/discount_bags_opt.jpg" alt="" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -222,6 +222,12 @@ namespace ProjectBookShop.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("AuthorName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateOfCreated")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("DateOfDisabled")
                         .HasColumnType("nvarchar(max)");
 
@@ -247,6 +253,9 @@ namespace ProjectBookShop.Migrations
 
                     b.Property<int>("TypeId")
                         .HasColumnType("int");
+
+                    b.Property<string>("UrlBookImageShow")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -288,22 +297,48 @@ namespace ProjectBookShop.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CouponDiscountId")
+                        .HasColumnType("int");
+
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
-                    b.Property<string>("DateOfCreated")
+                    b.Property<DateTime>("DateOfCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateOfDisabled")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NameReceiveProduct")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("DateOfDisabled")
+                    b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Reason")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("SDT")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
+                    b.Property<int>("TotalPrice")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalPriceAfterDiscount")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("CouponDiscountId");
 
                     b.HasIndex("CustomerId");
 
@@ -320,8 +355,14 @@ namespace ProjectBookShop.Migrations
                     b.Property<int>("BookId")
                         .HasColumnType("int");
 
+                    b.Property<int>("CommendReplyByAdmin")
+                        .HasColumnType("int");
+
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
+
+                    b.Property<string>("DateOfCreateCommendByAdmin")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DateOfCreated")
                         .HasColumnType("nvarchar(max)");
@@ -341,15 +382,52 @@ namespace ProjectBookShop.Migrations
                     b.ToTable("CommendOnBook");
                 });
 
+            modelBuilder.Entity("ProjectBookShop.Entities.CouponDiscount", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CountUse")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CouponCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("DateOfCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateOfEnded")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DetailCoupon")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("MaxCountUse")
+                        .HasColumnType("int");
+
+                    b.Property<float>("PercenDiscount")
+                        .HasColumnType("real");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CouponCode")
+                        .IsUnique();
+
+                    b.ToTable("CouponDiscount");
+                });
+
             modelBuilder.Entity("ProjectBookShop.Entities.DetailCart", b =>
                 {
                     b.Property<int>("BookId")
                         .HasColumnType("int");
 
                     b.Property<int>("CartId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Price")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
@@ -409,7 +487,7 @@ namespace ProjectBookShop.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -430,6 +508,9 @@ namespace ProjectBookShop.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.ToTable("Customer");
                 });
@@ -537,11 +618,19 @@ namespace ProjectBookShop.Migrations
 
             modelBuilder.Entity("ProjectBookShop.Entities.Cart", b =>
                 {
+                    b.HasOne("ProjectBookShop.Entities.CouponDiscount", "CouponDiscount")
+                        .WithMany()
+                        .HasForeignKey("CouponDiscountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ProjectBookShop.Entities.UserInfo", "Customer")
                         .WithMany()
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("CouponDiscount");
 
                     b.Navigation("Customer");
                 });
@@ -574,7 +663,7 @@ namespace ProjectBookShop.Migrations
                         .IsRequired();
 
                     b.HasOne("ProjectBookShop.Entities.Cart", "Cart")
-                        .WithMany()
+                        .WithMany("DetailCarts")
                         .HasForeignKey("CartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -600,6 +689,11 @@ namespace ProjectBookShop.Migrations
                     b.Navigation("BookImages");
 
                     b.Navigation("CommendOnBooks");
+                });
+
+            modelBuilder.Entity("ProjectBookShop.Entities.Cart", b =>
+                {
+                    b.Navigation("DetailCarts");
                 });
 
             modelBuilder.Entity("ProjectBookShop.Entities.Publisher", b =>

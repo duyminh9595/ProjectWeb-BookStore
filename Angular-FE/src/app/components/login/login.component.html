@@ -1,0 +1,87 @@
+<section class="content-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="slider-promotion login-content-txt">
+          <h1 class="register-top-title txt-colot-animate tlt">
+            Evo<span>Offers</span>
+          </h1>
+          <h1 class="register-top-title register-top-second tlt2">
+            Art - Crime - Fiction
+          </h1>
+        </div>
+        <div class="fadeInRight animated abc-book">
+          <img src="../../../assets/images/slide-book2.png" alt="" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="container">
+  <div class="row">
+    <div class="col-lg-12 table-padding">
+      <div class="pg-login"></div>
+      <div id="loginbox" class="mainbox col-md-12">
+        <div class="panel panel-info">
+          <div class="panel-heading">
+            <div class="panel-title">Login</div>
+            <div class="forgot-pwd">
+              <button class="btn btn-primary">Forgot your password?</button>
+            </div>
+          </div>
+          <div style="padding-top: 20px" class="panel-body">
+            <form
+              name="loginForm"
+              class="form-horizontal"
+              [formGroup]="formLogin"
+              (ngSubmit)="doLogin()"
+            >
+              <div formGroupName="memberLogin">
+                <div style="margin-top: 25px" class="input-group">
+                  <span class="input-group-addon"
+                    ><i class="glyphicon glyphicon-send"></i
+                  ></span>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="username"
+                    placeholder="Nhập Email"
+                    required
+                    formControlName="emailLogin"
+                  />
+                </div>
+
+                <div style="margin-top: 25px" class="input-group">
+                  <span class="input-group-addon">
+                    <i class="glyphicon glyphicon-lock"></i>
+                  </span>
+                  <input
+                    type="password"
+                    class="form-control"
+                    name="password"
+                    placeholder="Nhập Password"
+                    formControlName="passwordLogin"
+                    required
+                  />
+                </div>
+
+                <div style="margin-top: 20px" class="form-group">
+                  <!-- Button -->
+                  <div class="col-sm-12 controls">
+                    <input
+                      type="submit"
+                      class="btn btn-success login-btn"
+                      value="Log In"
+                    />
+                  </div>
+                  <br /><br />
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

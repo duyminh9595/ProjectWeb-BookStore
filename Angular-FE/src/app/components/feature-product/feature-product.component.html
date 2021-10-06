@@ -1,0 +1,53 @@
+<section class="container">
+  <div class="row">
+    <div class="col-lg-12 text-center shop-title-store">
+      <h1 class="section-title">Sản Phẩm <span>Mới Nhất</span></h1>
+      <p class="sub-title">
+        Luôn cập nhật sản phẩm mới<br />một cách nhanh nhất
+      </p>
+    </div>
+    <div class="col-lg-12 content-store">
+      <div class="">
+        <div class="col-md-2 my-shop-animation" *ngFor="let item of products">
+          <div class="box-prod group-book">
+            <div class="box-img-book">
+              <div class="book-cover-shadow"></div>
+              <img src="{{ item.urlBookImageShow }}" />
+
+              <div class="box-btn-shop">
+                <div class="bt-img">
+                  <button
+                    type="button"
+                    class="btn btn-add-cart"
+                    (click)="addBookToCart(item)"
+                  >
+                    <i class="fa fa-shopping-bag"></i>
+                  </button>
+                </div>
+                <div class="bt-img">
+                  <a
+                    class="btn btn-det-cart"
+                    routerLink="/books/{{ item.id }}"
+                    routerLinkActive="active"
+                    ><i class="fa fa-list"></i
+                  ></a>
+                </div>
+              </div>
+            </div>
+            <a routerLink="/books/{{ item.id }}" routerLinkActive="active">
+              <h2 class="title-book">{{ item.name }}</h2></a
+            >
+
+            <p class="author-txt">{{ item.authorName }}</p>
+
+            <p class="category-txt">{{ item.typeName }}</p>
+
+            <p class="book-price">
+              $17.30<span class="vis-hidden">$0.00</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,20 @@
+<div class="filter-table">
+  <h3>Nhà xuất bản</h3>
+  <div class="list-category-column">
+    <ul>
+      <li
+        data-filter="all"
+        class="filter active"
+        *ngFor="let item of numbeProduct"
+      >
+        <a
+          routerLink="/books/publisher/{{ item.publisherId }}"
+          routerLinkActive="active"
+          >{{ item.publisherName }} ({{ item.numberBook }})</a
+        >
+        <div class="line-separator"></div>
+        <div class="line-separator2"></div>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,109 @@
+<section class="container">
+  <div class="row">
+    <div class="col-lg-12 text-center shop-title-store">
+      <h1 class="section-title">Your Order</h1>
+      <p class="sub-title">Kiểm tra kỹ <br />trước khi thanh toán</p>
+    </div>
+    <div class="col-md-12 box-blog">
+      <div class="content-table-cart">
+        <div class="col-md-6 number-cart-item">
+          <p class="total-items">
+            You Have {{ totalBookByIdInCart }} Items In Your Cart
+          </p>
+        </div>
+        <div class="bt-tourn-back">
+          <a href="products.html">
+            <i class="fa fa-power-off"></i>back to store
+          </a>
+        </div>
+        <!-- items -->
+        <table class="table tab-shop">
+          <!-- header -->
+          <tbody>
+            <tr class="tab-top-txt">
+              <td><p>Product</p></td>
+              <td class="tdCenter"><p>Quantity</p></td>
+              <td class="tdRight"><p>Price</p></td>
+              <td></td>
+            </tr>
+
+            <!-- cart items -->
+            <tr *ngFor="let item of carts">
+              <td class="cart-column-img">
+                <div class="col-md-3 cart-prod-img">
+                  <img
+                    alt="Divina Commedia"
+                    src="{{ item.book.urlBookImageShow }}"
+                  />
+                  <p>{{ item.book.name }}</p>
+                </div>
+              </td>
+              <td class="cart-quantity">
+                <div class="input-append">
+                  <input
+                    class="btn bt-minus-prod"
+                    type="button"
+                    value="-"
+                    aria-disabled="true"
+                    (click)="minusItem(item)"
+                  />
+                  <input
+                    class="text-center quantity-prod"
+                    value="{{ item.quantityInCart }}"
+                    aria-invalid="false"
+                  />
+                  <input
+                    class="btn btn-lg btn-primary bt-plus-prod"
+                    type="button"
+                    value="+"
+                    tabindex="0"
+                    aria-disabled="false"
+                    (click)="addItem(item)"
+                  />
+                </div>
+              </td>
+              <td class="tdRight">
+                <p>{{ item.quantityInCart }} X {{ item.book.price }}</p>
+              </td>
+              <td class="ic-remove" title="remove from cart">
+                <a (click)="removeItem(item)">
+                  <i class="fa fa-times"></i>
+                </a>
+              </td>
+            </tr>
+
+            <!-- footer -->
+            <tr class="cart-total">
+              <td><p>Total</p></td>
+              <td class="tdCenter"><p></p></td>
+              <td class="tdRight">
+                <p>Tổng cộng {{ totalPrice }}</p>
+              </td>
+              <td></td>
+            </tr>
+
+            <tr>
+              <td colspan="4" class="btn-checkout-prod">
+                <button
+                  class="btn btn-lg btn-primary cart-clear-all"
+                  (click)="removeAllItem()"
+                >
+                  <i class="icon-trash icon-white"></i> clear cart
+                </button>
+                <div class="btn-payment">
+                  <button
+                    class="btn btn-lg btn-primary checkout"
+                    routerLink="/checkout"
+                    routerLinkActive="active"
+                  >
+                    <i class="icon-ok icon-white"></i> Check out
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>

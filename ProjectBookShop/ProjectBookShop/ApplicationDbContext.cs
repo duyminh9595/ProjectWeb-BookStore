@@ -30,5 +30,6 @@ namespace ProjectBookShop
         public DbSet<Publisher> Publisher { get; set; }
         public DbSet<Entities.Type> Type { get; set; }
         public DbSet<UserRole> UserRole { get; set; }
+        public DbSet<CouponDiscount> CouponDiscount { get; set; }
     }
 }

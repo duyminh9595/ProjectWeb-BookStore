@@ -33,6 +33,9 @@ namespace ProjectBookShop.Entities
         public string DateOfDisabled { get; set; }
         public int Price { get; set; }
         public List<CommendOnBook> CommendOnBooks { get; set; }
+        public string UrlBookImageShow { get; set; }
+        public string AuthorName { get; set; }
+        public DateTime DateOfCreated { get; set; }
 
     }
 }

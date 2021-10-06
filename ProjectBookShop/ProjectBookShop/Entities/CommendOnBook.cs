@@ -15,5 +15,8 @@ namespace ProjectBookShop.Entities
         public string DateOfCreated { get; set; }
         public bool Status { get; set; }
         public string DateOfDisabled { get; set; }
+        public int CommendReplyByAdmin { get; set; }
+        public string DateOfCreateCommendByAdmin { get; set; }
+
     }
 }

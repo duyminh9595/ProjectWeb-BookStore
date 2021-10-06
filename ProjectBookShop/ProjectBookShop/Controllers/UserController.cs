@@ -70,7 +70,7 @@ namespace ProjectBookShop.Controller
         public void AddRole(UserInfo customer)
         {
             UserRole userRole = new UserRole();
-            userRole.Role_Name = "Admin";
+            userRole.Role_Name = "User";
             userRole.UserInfoId = customer.Id;
             userRole.UserInfo = customer;
             customer.UserRoles.Add(userRole);
@@ -80,19 +80,20 @@ namespace ProjectBookShop.Controller
         private async Task<LoginSuccessDTO> BuildToken(UserInfo userInfo)
         {
 
-            var roleUsers = await context.UserRole.FirstOrDefaultAsync(x=>x.UserInfoId==userInfo.Id);
+            var roleUsers = await context.UserRole.Where(x=>x.UserInfoId==userInfo.Id).ToListAsync();
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:key"]));
-            
 
+          
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, roleUsers.Id.ToString()),
-                    new Claim(ClaimTypes.Role, roleUsers.Role_Name)
+                    new Claim(ClaimTypes.Name, userInfo.Id.ToString()),
+                    new Claim(ClaimTypes.Email, userInfo.Email.ToString()),
+                    new Claim(ClaimTypes.Role, "User"),new Claim(ClaimTypes.Role, "Admin"),
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature)

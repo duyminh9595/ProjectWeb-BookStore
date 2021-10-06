@@ -16,6 +16,11 @@ namespace ProjectBookShop.DTO
         public int TypeId { get; set; }
         public string PublisherName { get; set; }
         public string TypeName { get; set; }
+        public string UrlBookImageShow { get; set; }
+        public string AuthorName { get; set; }
+
+        public string ShortReview { get; set; }
+        public int MaxPage { get; set; }
 
     }
 }

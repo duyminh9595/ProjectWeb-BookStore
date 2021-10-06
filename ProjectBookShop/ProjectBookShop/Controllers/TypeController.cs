@@ -51,5 +51,29 @@ namespace ProjectBookShop.Controllers
             var typeReadDTO = mapper.Map<TypeReadDTO>(type);
             return new CreatedAtRouteResult("getType", new { id = typeReadDTO.Id }, typeReadDTO);
         }
+        [HttpGet("numberbook")]
+        public async Task<ActionResult<List<NumberBookByTypeDTO>>>GetBookByType()
+        {
+            var types = await context.Type.ToListAsync();
+            var books = await context.Book.Where(x => x.Status == true).ToListAsync();
+            List<NumberBookByTypeDTO> numberBookByTypeDTOs = new List<NumberBookByTypeDTO>();
+            NumberBookByTypeDTO data;
+            foreach (var type in types)
+            {
+                data = new NumberBookByTypeDTO();
+                data.NumberBook=books.Where(x => x.TypeId == type.Id).Count();
+                data.TypeId = type.Id;
+                data.TypeName = type.Name;
+                numberBookByTypeDTOs.Add(data);
+            }
+            return numberBookByTypeDTOs;
+        }
+        [HttpGet("searchbytypeid/{id:int}")]
+        public async Task<ActionResult<List<BookReadDTO>>>SearchBookByTypeId(int id)
+        {
+            var books = await context.Book.Where(x => x.TypeId == id).ToListAsync();
+            var data = mapper.Map<List<BookReadDTO>>(books);
+            return data;
+        }
     }
 }
