@@ -35,87 +35,89 @@
               [formGroup]="registerFormGroup"
               (ngSubmit)="onSubmit()"
             >
-              <div class="input-group">
-                <span class="input-group-addon">
-                  <i class="glyphicon glyphicon-send"></i>
-                </span>
-                <input
-                  type="email"
-                  class="form-control"
-                  name="email"
-                  placeholder="Email"
-                  formControlName="email"
-                  required
-                />
-              </div>
-              <div class="input-group">
-                <span class="input-group-addon">
-                  <i class="glyphicon glyphicon-lock"></i>
-                </span>
-                <input
-                  type="password"
-                  class="form-control"
-                  name="password"
-                  placeholder="Nhập Password"
-                  formControlName="passWord"
-                  required
-                />
-              </div>
-
-              <div class="input-group">
-                <span class="input-group-addon">
-                  <i class="glyphicon glyphicon-user"></i>
-                </span>
-                <input
-                  type="text"
-                  class="form-control"
-                  name="First Name"
-                  placeholder="First Name"
-                  formControlName="firstName"
-                  required
-                />
-              </div>
-
-              <div class="input-group">
-                <span class="input-group-addon">
-                  <i class="glyphicon glyphicon-user"></i>
-                </span>
-                <input
-                  type="text"
-                  class="form-control"
-                  name="Last Name"
-                  placeholder="Last Name"
-                  formControlName="lastName"
-                  required
-                />
-              </div>
-
-              <div class="input-group">
-                <span class="input-group-addon">
-                  <i class="glyphicon glyphicon-ok"></i>
-                </span>
-                <select
-                  name="subject"
-                  formControlName="gender"
-                  class="form-control"
-                >
-                  <option [value]="1" selected>Male</option>
-                  <option [value]="0">Female</option>
-                </select>
-              </div>
-
-              <div style="margin-top: 20px" class="form-group">
-                <!-- Button -->
-                <div class="col-sm-12 controls">
-                  <button
-                    type="submit"
-                    class="btn btn-success login-btn"
-                    value="Register"
-                  >
-                    Register
-                  </button>
+              <div formGroupName="member">
+                <div class="input-group">
+                  <span class="input-group-addon">
+                    <i class="glyphicon glyphicon-send"></i>
+                  </span>
+                  <input
+                    type="email"
+                    class="form-control"
+                    name="email"
+                    placeholder="Email"
+                    formControlName="email"
+                    required
+                  />
                 </div>
-                <br /><br />
+                <div class="input-group">
+                  <span class="input-group-addon">
+                    <i class="glyphicon glyphicon-lock"></i>
+                  </span>
+                  <input
+                    type="password"
+                    class="form-control"
+                    name="password"
+                    placeholder="Nhập Password"
+                    formControlName="passWord"
+                    required
+                  />
+                </div>
+
+                <div class="input-group">
+                  <span class="input-group-addon">
+                    <i class="glyphicon glyphicon-user"></i>
+                  </span>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="First Name"
+                    placeholder="First Name"
+                    formControlName="firstName"
+                    required
+                  />
+                </div>
+
+                <div class="input-group">
+                  <span class="input-group-addon">
+                    <i class="glyphicon glyphicon-user"></i>
+                  </span>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="Last Name"
+                    placeholder="Last Name"
+                    formControlName="lastName"
+                    required
+                  />
+                </div>
+
+                <div class="input-group">
+                  <span class="input-group-addon">
+                    <i class="glyphicon glyphicon-ok"></i>
+                  </span>
+                  <select
+                    name="subject"
+                    formControlName="gender"
+                    class="form-control"
+                  >
+                    <option [value]="1" selected>Male</option>
+                    <option [value]="0">Female</option>
+                  </select>
+                </div>
+
+                <div style="margin-top: 20px" class="form-group">
+                  <!-- Button -->
+                  <div class="col-sm-12 controls">
+                    <button
+                      type="submit"
+                      class="btn btn-success login-btn"
+                      value="Register"
+                    >
+                      Register
+                    </button>
+                  </div>
+                  <br /><br />
+                </div>
               </div>
             </form>
           </div>

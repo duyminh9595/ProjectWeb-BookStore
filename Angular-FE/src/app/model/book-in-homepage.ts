@@ -11,4 +11,5 @@ export class BookInHomepage {
   publisherId!: number;
   typeId!: number;
   maxPage!: number;
+  averageStar!: number;
 }

@@ -7,11 +7,17 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { EMPTY, from, Observable, of } from 'rxjs';
+import { ExternalAuthDto } from 'src/app/model/external-auth-dto';
 import { UserLoginDto } from 'src/app/model/user-login-dto';
 import { UserSuccessDto } from 'src/app/model/user-success-dto';
 import { TrimWhiteSpaceService } from 'src/app/validator/trim-white-space.service';
 import { HeaderComponent } from '../header/header.component';
 import { DoLoginService } from './service/do-login.service';
+import { map, concatMap, finalize } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+
+declare const FB: any;
 
 @Component({
   selector: 'ngbd-modal-content',
@@ -66,7 +72,9 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private formBuilder: FormBuilder,
     private loginSer: DoLoginService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
@@ -92,6 +100,50 @@ export class LoginComponent implements OnInit {
   get passwordLogin() {
     return this.formLogin.get('memberLogin.passwordLogin');
   }
+
+  public externalLoginGoogle = () => {
+    this.loginSer.signInWithGoogle().then(
+      (res) => {
+        console.log(res);
+        const externalAuth: ExternalAuthDto = {
+          provider: res.provider,
+          idToken: res.idToken,
+        };
+        this.validateExternalAuthGoogle(externalAuth);
+      },
+      (error) => console.log(error)
+    );
+  };
+  private validateExternalAuthGoogle(externalAuth: ExternalAuthDto) {
+    this.loginSer.sendGoogleAccount(externalAuth).subscribe({
+      next: (res) => {
+        this.loginSuccess(res);
+      },
+      error: (err) => {
+        alert('Vui lòng thử lại sau');
+      },
+    });
+  }
+
+  public externalLoginFacebook = () => {
+    this.loginSer.signInWithFacebook().then(
+      (res) => {
+        console.log(res);
+        this.validateExternalAuthFacebook(res);
+      },
+      (error) => console.log(error)
+    );
+  };
+  private validateExternalAuthFacebook(data: any) {
+    this.loginSer.sendFacebook(data).subscribe({
+      next: (res) => {
+        this.loginSuccess(res);
+      },
+      error: (err) => {
+        alert('Vui lòng thử lại sau');
+      },
+    });
+  }
   doLogin() {
     if (this.formLogin.invalid) {
       console.log('da');
@@ -107,20 +159,20 @@ export class LoginComponent implements OnInit {
       )?.value;
       this.loginSer.doLogin(this.userLogin).subscribe({
         next: (res) => {
-          this.userSuccessDTO = new UserSuccessDto();
-          this.userSuccessDTO.email = res.email;
-          this.userSuccessDTO.token = res.token;
-          this.local.setItem('emailLogin', this.userSuccessDTO.email);
-          this.local.setItem(
-            'tokenLogin',
-            `Bearer ${this.userSuccessDTO.token}`
-          );
-          window.location.href = '/';
+          this.loginSuccess(res);
         },
         error: (err) => {
           alert('Sai Email or Mật Khẩu');
         },
       });
     }
+  }
+  loginSuccess(res: any) {
+    this.userSuccessDTO = new UserSuccessDto();
+    this.userSuccessDTO.email = res.email;
+    this.userSuccessDTO.token = res.token;
+    this.local.setItem('emailLogin', this.userSuccessDTO.email);
+    this.local.setItem('tokenLogin', `Bearer ${this.userSuccessDTO.token}`);
+    window.location.href = '/';
   }
 }

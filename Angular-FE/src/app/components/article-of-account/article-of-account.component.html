@@ -1,0 +1,71 @@
+<section class="container">
+  <div class="row">
+    <div class="col-md-12 box-blog">
+      <div class="content-table-cart">
+        <div class="col-md-6 number-cart-item">
+          <p class="total-items">Bạn đã viết {{ data.length }} bài viết</p>
+        </div>
+
+        <!-- items -->
+        <table class="table tab-shop">
+          <!-- header -->
+          <tbody>
+            <tr class="tab-top-txt">
+              <td><p>Hình Ảnh</p></td>
+              <td class="tdCenter"><p>Tiêu Đề</p></td>
+              <td class="tdRight"><p>Ngày tạo</p></td>
+              <td class="tdRight"><p>Chức Năng</p></td>
+            </tr>
+
+            <!-- cart items -->
+
+            <tr *ngFor="let item of data">
+              <td class="cart-column-img">
+                <div class="">
+                  <img
+                    style="width: 150px; height: 150px"
+                    alt="Divina Commedia"
+                    src="{{ item.urlImageArtice }}"
+                  />
+                  <p style="width: 100%"></p>
+                </div>
+              </td>
+              <td class="cart-quantity">
+                <div class="input-append">{{ item.title }}</div>
+              </td>
+              <td class="tdRight">
+                <p>{{ item.dateOfCreated }}</p>
+              </td>
+              <td
+                class="ic-remove"
+                title="remove from cart"
+                *ngIf="item.approve"
+              >
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  (click)="goToBlog(item.id)"
+                >
+                  Xem bài viết
+                </button>
+              </td>
+              <td
+                class="ic-remove"
+                title="remove from cart"
+                *ngIf="!item.approve"
+              >
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  (click)="deleteBlog(item.id)"
+                >
+                  Xóa bài viết
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>

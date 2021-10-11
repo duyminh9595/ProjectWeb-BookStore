@@ -215,6 +215,49 @@ namespace ProjectBookShop.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("ProjectBookShop.Entities.Article", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AdminId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Approve")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateOfApproved")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateOfCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Reason")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UrlImageArtice")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("Article");
+                });
+
             modelBuilder.Entity("ProjectBookShop.Entities.Book", b =>
                 {
                     b.Property<int>("Id")
@@ -228,8 +271,8 @@ namespace ProjectBookShop.Migrations
                     b.Property<DateTime>("DateOfCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("DateOfDisabled")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("DateOfDisabled")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -345,43 +388,6 @@ namespace ProjectBookShop.Migrations
                     b.ToTable("Cart");
                 });
 
-            modelBuilder.Entity("ProjectBookShop.Entities.CommendOnBook", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("BookId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CommendReplyByAdmin")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("DateOfCreateCommendByAdmin")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DateOfCreated")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DateOfDisabled")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Status")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BookId");
-
-                    b.HasIndex("CustomerId");
-
-                    b.ToTable("CommendOnBook");
-                });
-
             modelBuilder.Entity("ProjectBookShop.Entities.CouponDiscount", b =>
                 {
                     b.Property<int>("Id")
@@ -403,6 +409,7 @@ namespace ProjectBookShop.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DetailCoupon")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("MaxCountUse")
@@ -440,6 +447,84 @@ namespace ProjectBookShop.Migrations
                     b.ToTable("DetailCart");
                 });
 
+            modelBuilder.Entity("ProjectBookShop.Entities.NumberBookOfPublisherPerMonth", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Month")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PublisherId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PublisherId");
+
+                    b.ToTable("NumberBookOfPublisherPerMonth");
+                });
+
+            modelBuilder.Entity("ProjectBookShop.Entities.NumberBookOfTypePerMonth", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Month")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TypeId");
+
+                    b.ToTable("NumberBookOfTypePerMonth");
+                });
+
+            modelBuilder.Entity("ProjectBookShop.Entities.NumberBookSalePerMonth", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Month")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("NumberBookSalePerMonth");
+                });
+
             modelBuilder.Entity("ProjectBookShop.Entities.Publisher", b =>
                 {
                     b.Property<int>("Id")
@@ -454,6 +539,33 @@ namespace ProjectBookShop.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Publisher");
+                });
+
+            modelBuilder.Entity("ProjectBookShop.Entities.RatingStarBook", b =>
+                {
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserInfoId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Commend")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateOfCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<float>("Rating")
+                        .HasColumnType("real");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.HasKey("BookId", "UserInfoId");
+
+                    b.HasIndex("UserInfoId");
+
+                    b.ToTable("RatingStarBook");
                 });
 
             modelBuilder.Entity("ProjectBookShop.Entities.Type", b =>
@@ -504,8 +616,14 @@ namespace ProjectBookShop.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ProviderName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
+
+                    b.Property<string>("UrlImageAvatar")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -586,6 +704,17 @@ namespace ProjectBookShop.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ProjectBookShop.Entities.Article", b =>
+                {
+                    b.HasOne("ProjectBookShop.Entities.UserInfo", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+                });
+
             modelBuilder.Entity("ProjectBookShop.Entities.Book", b =>
                 {
                     b.HasOne("ProjectBookShop.Entities.Publisher", "Publisher")
@@ -635,25 +764,6 @@ namespace ProjectBookShop.Migrations
                     b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("ProjectBookShop.Entities.CommendOnBook", b =>
-                {
-                    b.HasOne("ProjectBookShop.Entities.Book", "Book")
-                        .WithMany("CommendOnBooks")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ProjectBookShop.Entities.UserInfo", "Customer")
-                        .WithMany("CommendOnBooks")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Book");
-
-                    b.Navigation("Customer");
-                });
-
             modelBuilder.Entity("ProjectBookShop.Entities.DetailCart", b =>
                 {
                     b.HasOne("ProjectBookShop.Entities.Book", "Book")
@@ -673,6 +783,58 @@ namespace ProjectBookShop.Migrations
                     b.Navigation("Cart");
                 });
 
+            modelBuilder.Entity("ProjectBookShop.Entities.NumberBookOfPublisherPerMonth", b =>
+                {
+                    b.HasOne("ProjectBookShop.Entities.Publisher", "Publisher")
+                        .WithMany()
+                        .HasForeignKey("PublisherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Publisher");
+                });
+
+            modelBuilder.Entity("ProjectBookShop.Entities.NumberBookOfTypePerMonth", b =>
+                {
+                    b.HasOne("ProjectBookShop.Entities.Type", "Type")
+                        .WithMany()
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Type");
+                });
+
+            modelBuilder.Entity("ProjectBookShop.Entities.NumberBookSalePerMonth", b =>
+                {
+                    b.HasOne("ProjectBookShop.Entities.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+                });
+
+            modelBuilder.Entity("ProjectBookShop.Entities.RatingStarBook", b =>
+                {
+                    b.HasOne("ProjectBookShop.Entities.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProjectBookShop.Entities.UserInfo", "UserInfo")
+                        .WithMany()
+                        .HasForeignKey("UserInfoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("UserInfo");
+                });
+
             modelBuilder.Entity("ProjectBookShop.Entities.UserRole", b =>
                 {
                     b.HasOne("ProjectBookShop.Entities.UserInfo", "UserInfo")
@@ -687,8 +849,6 @@ namespace ProjectBookShop.Migrations
             modelBuilder.Entity("ProjectBookShop.Entities.Book", b =>
                 {
                     b.Navigation("BookImages");
-
-                    b.Navigation("CommendOnBooks");
                 });
 
             modelBuilder.Entity("ProjectBookShop.Entities.Cart", b =>
@@ -708,8 +868,6 @@ namespace ProjectBookShop.Migrations
 
             modelBuilder.Entity("ProjectBookShop.Entities.UserInfo", b =>
                 {
-                    b.Navigation("CommendOnBooks");
-
                     b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618

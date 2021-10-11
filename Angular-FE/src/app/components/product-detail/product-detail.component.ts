@@ -9,7 +9,25 @@ import { AddToCartService } from 'src/app/service/add-to-cart.service';
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
-  styleUrls: ['./product-detail.component.css'],
+  styles: [
+    `
+      .star {
+        position: relative;
+        display: inline-block;
+        font-size: 3rem;
+        color: #d3d3d3;
+      }
+      .full {
+        color: red;
+      }
+      .half {
+        position: absolute;
+        display: inline-block;
+        overflow: hidden;
+        color: red;
+      }
+    `,
+  ],
 })
 export class ProductDetailComponent implements OnInit {
   product: BookInHomepage = new BookInHomepage();
@@ -31,6 +49,7 @@ export class ProductDetailComponent implements OnInit {
       let bookId = +this.activeRoute.snapshot.paramMap.get('id')!;
       this.productDetailSer.getProductById(bookId).subscribe({
         next: (res: any) => {
+          console.log(res);
           this.product = res;
         },
         error: (err) => {

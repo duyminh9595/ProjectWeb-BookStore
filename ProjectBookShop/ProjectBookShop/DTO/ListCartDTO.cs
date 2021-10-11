@@ -11,5 +11,8 @@ namespace ProjectBookShop.DTO
         public string DateOfCreated { get; set; }
         public int TotalPrice { get; set; }
         public int TotalPriceAfterDiscount { get; set; }
+        public bool Status { get; set; }
+        public int CouponDiscountId { get; set; }
+        public float PercentDiscount { get; set; }
     }
 }

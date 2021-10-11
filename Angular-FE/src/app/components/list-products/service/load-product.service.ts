@@ -35,7 +35,13 @@ export class LoadProductService {
     return this.httpClient.get<GetResponseProduct>(url).pipe();
   }
   getProductsByName(recordPerPage: number, name: string) {
-    const url = this.APIAllProducts + recordPerPage + '&name=' + name;
+    const url =
+      this.APIEndPoint +
+      'book/homepage/searchbyname?page=1&recordsPerPage' +
+      recordPerPage +
+      '&name=' +
+      name;
+    console.log(url);
     return this.httpClient.get<GetResponseProduct>(url).pipe();
   }
 }

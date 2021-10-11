@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using ProjectBookShop.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,12 +39,29 @@ namespace ProjectBookShop
             services.AddAutoMapper(typeof(Startup));
 
 
+
             var key = Encoding.ASCII.GetBytes(Configuration["jwt:key"]);
             services.AddAuthentication(auth =>
             {
                 auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/account/google-login";
+                })
+                .AddGoogle(googleOptions =>
+                {
+                    // Đọc thông tin Authentication:Google từ appsettings.json
+                    IConfigurationSection googleAuthNSection = Configuration.GetSection("Authentication:Google");
+
+                    // Thiết lập ClientID và ClientSecret để truy cập API google
+                    googleOptions.ClientId = googleAuthNSection["ClientId"];
+                    googleOptions.ClientSecret = googleAuthNSection["ClientSecret"];
+                    // Cấu hình Url callback lại từ Google (không thiết lập thì mặc định là /signin-google)
+                    googleOptions.CallbackPath = "/api/google/googleresponse";
+
+                })
             .AddJwtBearer(x =>
             {
                 x.RequireHttpsMetadata = false;
@@ -53,10 +71,18 @@ namespace ProjectBookShop
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
-                    ValidateAudience = false
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero
                 };
             });
 
+
+            services.AddTransient<IUserService, UserServiceImpl>();
+            services.AddTransient<IUploadImageToGoogleDrive, UploadImageToGoogleDriveService>();
+            services.AddTransient<IBookService, BookServiceImpl>();
+            services.AddTransient<IArticleService, ArticleServiceImpl>();
+            services.AddTransient<IGetCommentAndAndRatingStarService, GetCommentAndRatingStarServiceImpl>();
 
             services.AddControllers();
         }

@@ -8,6 +8,10 @@ namespace ProjectBookShop.Entities
 {
     public class Cart
     {
+        public Cart()
+        {
+            this.Status = true;
+        }
         public int Id { get; set; }
         public int CustomerId { get; set; }
         public UserInfo Customer { get; set; }

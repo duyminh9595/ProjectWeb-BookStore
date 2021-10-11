@@ -15,7 +15,6 @@ namespace ProjectBookShop.Entities
             this.Quantity = 0;
             this.Status = true;
             BookImages = new List<BookImage>();
-            CommendOnBooks = new List<CommendOnBook>();
         }
         [Key]
         public int Id { get; set; }
@@ -30,9 +29,8 @@ namespace ProjectBookShop.Entities
         [Required]
         public string ShortReview { get; set; }
         public List<BookImage> BookImages { get; set; }
-        public string DateOfDisabled { get; set; }
+        public DateTime DateOfDisabled { get; set; }
         public int Price { get; set; }
-        public List<CommendOnBook> CommendOnBooks { get; set; }
         public string UrlBookImageShow { get; set; }
         public string AuthorName { get; set; }
         public DateTime DateOfCreated { get; set; }

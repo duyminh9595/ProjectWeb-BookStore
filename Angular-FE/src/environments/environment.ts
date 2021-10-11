@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   APIEndpoint: 'https://localhost:5001/api/',
+  facebookAppId: '1557335981272770',
 };
 
 /*

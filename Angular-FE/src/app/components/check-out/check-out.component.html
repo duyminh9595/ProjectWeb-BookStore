@@ -1,5 +1,6 @@
 <div
-  class="col-md-12 content-send-order animate-show animate-hide"
+  class="col-md-8 content-send-order animate-show animate-hide"
+  style="float: none; margin: auto"
   aria-hidden="true"
 >
   <h2>Hoàng thành thông tin giao hàng</h2>
@@ -11,7 +12,8 @@
         [formGroup]="formCustomerReceiverBook"
       >
         <div class="form-group">
-          <div class="col-lg-12">
+          <div class="col-md-6"><h1>Họ Tên:</h1></div>
+          <div class="col-md-12">
             <input
               type="text"
               class="form-control"
@@ -25,7 +27,8 @@
           </div>
         </div>
         <div class="form-group">
-          <div class="col-lg-12">
+          <div class="col-md-6"><h1>Số điện thoại:</h1></div>
+          <div class="col-md-12">
             <input
               type="number"
               class="form-control"
@@ -41,7 +44,8 @@
         <!-- COUNTRY -->
 
         <div class="form-group">
-          <div class="col-lg-12">
+          <div class="col-md-6"><h1>Chọn tỉnh</h1></div>
+          <div class="col-md-12">
             <!-- chọn tỉnh -->
             <select
               class="select-opt form-control-select"
@@ -57,7 +61,8 @@
         </div>
         <!-- City -->
         <div class="form-group" *ngIf="checkSelectedProvince">
-          <div class="col-lg-12">
+          <div class="col-md-6"><h1>Chọn phường</h1></div>
+          <div class="col-md-12">
             <select
               class="select-opt form-control-select"
               aria-invalid="false"
@@ -75,7 +80,8 @@
         </div>
         <!-- City -->
         <div class="form-group" *ngIf="checkSelectedDistinct">
-          <div class="col-lg-12">
+          <div class="col-md-6"><h1>Chọn khu phố</h1></div>
+          <div class="col-md-12">
             <select
               class="select-opt form-control-select"
               aria-invalid="false"
@@ -92,7 +98,8 @@
         </div>
         <!-- ADDRESS -->
         <div class="form-group">
-          <div class="col-lg-12">
+          <div class="col-md-6"><h1>Nhập số nhà</h1></div>
+          <div class="col-md-12">
             <input
               type="text"
               name="address"
@@ -106,7 +113,8 @@
         </div>
 
         <div class="form-group">
-          <div class="col-lg-12">
+          <div class="col-md-6"><h1>Ghi chú</h1></div>
+          <div class="col-md-12">
             <textarea
               class="form-control"
               rows="4"
@@ -119,12 +127,13 @@
           </div>
         </div>
         <div class="form-group">
-          <div class="col-lg-12">
+          <div class="col-md-6"><h1>mã giảm giá</h1></div>
+          <div class="col-md-12">
             <input
               type="text"
               name="address"
               class="form-control"
-              placeholder="Mã giảm giá"
+              placeholder="Mã giảm giá (default: No)"
               required=""
               autocomplete="off"
               formControlName="couponCode"

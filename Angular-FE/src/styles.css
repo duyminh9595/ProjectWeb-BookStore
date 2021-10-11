@@ -15,3 +15,13 @@
 @import "./assets/responsive.css";
 
 @import "./assets/panelSettings.css";
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

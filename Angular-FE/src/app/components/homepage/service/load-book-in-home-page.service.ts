@@ -13,6 +13,7 @@ export class LoadBookInHomePageService {
     this.APIEndPoint + 'book/homepage?recordsPerPage=12&page=1';
   constructor(private httpClient: HttpClient) {}
   getProductsInHomePage() {
+    console.log(this.APIAllProducts);
     return this.httpClient.get<GetResponseProduct>(this.APIAllProducts).pipe();
   }
 }

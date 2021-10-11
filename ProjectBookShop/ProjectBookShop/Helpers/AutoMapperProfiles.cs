@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Google.Apis.Auth;
 using ProjectBookShop.DTO;
 using ProjectBookShop.Entities;
 using System;
@@ -28,6 +29,20 @@ namespace ProjectBookShop.Helpers
             CreateMap<CouponDiscount, ListCouponDTO>().ReverseMap();
 
             CreateMap<CouponCreateDTO, CouponDiscount>().ReverseMap();
+
+            CreateMap<UserInfo, UserInfoDTO>().ReverseMap();
+
+            CreateMap<Article, ArticleShowDTO>().ReverseMap();
+
+            CreateMap<Article, ArticleCreateDTO>().ReverseMap();
+
+            CreateMap<RatingStarBook, CommendAndRatingDTO>().ReverseMap();
+
+            CreateMap<RatingStarBook, CreateRatingStarAndCommendDTO>().ReverseMap();
+
+            CreateMap<ExternalGoogleLoginDTO, GoogleJsonWebSignature.Payload>().ReverseMap();
+
+            CreateMap<ExternalLoginFacebookDTO, UserInfo>().ReverseMap();
         }
     }
 }

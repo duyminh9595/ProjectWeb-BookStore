@@ -21,6 +21,6 @@ namespace ProjectBookShop.DTO
 
         public string ShortReview { get; set; }
         public int MaxPage { get; set; }
-
+        public float AverageStar { get; set; }
     }
 }

@@ -1,0 +1,59 @@
+<div *ngIf="checkTokenValid">
+  <div class="mat-h2">Để lại cảm nhận của bạn</div>
+  <!-- Display an array of star/star_border buttons -->
+
+  <div
+    *ngIf="!checkUserHasComment && checkUserHasBuy"
+    class="row"
+    style="color: orange; font-size: 15pt"
+  >
+    <div class="col-md-2">
+      <ng-template #t let-fill="fill">
+        <span class="star" [class.full]="fill === 100">
+          <span class="half" [style.width.%]="fill">&hearts;</span>&hearts;
+        </span>
+      </ng-template>
+
+      <ngb-rating
+        [(rate)]="currentRate"
+        [starTemplate]="t"
+        [readonly]="false"
+        [max]="5"
+      ></ngb-rating>
+    </div>
+    <div class="col-md-7">
+      <mat-form-field
+        class="example-full-width"
+        appearance="fill"
+        style="width: 100%"
+      >
+        <mat-label>Để lại cảm nhận của bạn đi nha</mat-label>
+        <textarea
+          #inputCommend
+          matInput
+          placeholder="Ex. It makes me feel..."
+        ></textarea>
+      </mat-form-field>
+    </div>
+    <div class="col-md-3">
+      <button
+        style="font-size: 15pt"
+        type="button"
+        class="btn btn-primary"
+        (click)="doPostCommandAndRating(inputCommend.value)"
+      >
+        Đăng bình luận
+      </button>
+    </div>
+  </div>
+  <div *ngIf="checkUserHasComment">
+    <div class="alert alert-warning" role="alert" style="font-size: 14pt">
+      Bạn đã đánh giá sản phẩm này r
+    </div>
+  </div>
+  <div *ngIf="!checkUserHasBuy">
+    <div class="alert alert-warning" role="alert" style="font-size: 14pt">
+      Bạn hãy mua sản phẩm để dánh giá nha
+    </div>
+  </div>
+</div>

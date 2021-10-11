@@ -125,7 +125,9 @@ export class RegisterComponent implements OnInit {
           const modalRef = this.modalService.open(ModalLoginSuccess);
           modalRef.componentInstance.name = `Đăng Ký thành công oy 3be ui. Đăng Nhập để dùng nhóe`;
           modalRef.componentInstance.imageUrl = `assets/register-success.gif`;
-          this.router.navigateByUrl('/');
+          this.router.navigateByUrl('/').then(() => {
+            window.location.reload();
+          });
         },
         error: (err) => {
           const modalRef = this.modalService.open(NgbdModalContent);

@@ -79,6 +79,43 @@
                 </div>
               </div>
             </form>
+            <div class="or-container">
+              <div class="line-separator"></div>
+              <div class="or-label">or</div>
+              <div class="line-separator"></div>
+            </div>
+            <div class="col-md-12">
+              <button
+                class="btn btn-lg btn-google btn-block text-uppercase"
+                (click)="externalLoginGoogle()"
+              >
+                <img
+                  src="https://img.icons8.com/color/16/000000/google-logo.png"
+                />
+                Signup Using Google
+              </button>
+            </div>
+            <div
+              class="col-md-12"
+              style="margin-top: 15px; margin-bottom: 15px"
+            >
+              <button
+                class="btn btn-lg btn-google btn-block text-uppercase"
+                (click)="externalLoginFacebook()"
+              >
+                <img
+                  src="assets/facebook.jpg"
+                  style="width: 16px; height: 16px"
+                />
+                Signup Using Facebook
+              </button>
+            </div>
+            <br />
+            <br />
+            <br />
+            <p class="text-inverse text-center" style="color: blue">
+              <a routerLink="/signup" routerLinkActive="active">Register</a>
+            </p>
           </div>
         </div>
       </div>

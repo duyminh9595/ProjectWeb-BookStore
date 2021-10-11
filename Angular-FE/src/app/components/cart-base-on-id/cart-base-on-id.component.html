@@ -1,0 +1,84 @@
+<section class="container table-padding">
+  <div class="row about-solution">
+    <div class="col-md-12 box-about">
+      <div class="col-md-12">
+        <h2>Mã Đơn Hàng: {{ data.cartId }}</h2>
+      </div>
+      <div class="col-md-7">
+        <h2>Mã giảm giá: {{ data.couponCode }}</h2>
+      </div>
+      <div class="col-md-7">
+        <h2>Phẩn trăm giảm giá: {{ data.percentDiscount }}</h2>
+      </div>
+      <div class="col-md-7">
+        <h2>Số tiền trước khi giảm giá: {{ data.totalPrice }}</h2>
+      </div>
+      <div class="col-md-7">
+        <h2>Số tiền thực trả:{{ data.totalPriceAfterDisCount }}</h2>
+      </div>
+      <div class="col-md-7">
+        <h2>Tên Người Nhận Hàng: {{ data.nameReceiveProduct }}</h2>
+      </div>
+      <div class="col-md-7">
+        <h2>Địa Chỉ: {{ data.address }}</h2>
+      </div>
+      <div class="col-md-7">
+        <h2>Số Điện Thoại: {{ data.sdt }}</h2>
+      </div>
+      <div class="col-md-7">
+        <h2>Ghi chú: {{ data.note }}</h2>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="container">
+  <div class="row">
+    <div class="col-md-12 box-blog">
+      <div class="content-table-cart">
+        <div class="col-md-6 number-cart-item">
+          <p class="total-items">
+            You Have {{ data.bookInDetailCartDTOs.length }} Items In Your Cart
+          </p>
+        </div>
+
+        <!-- items -->
+        <table class="table tab-shop">
+          <!-- header -->
+          <tbody>
+            <tr class="tab-top-txt">
+              <td><p>Product</p></td>
+              <td class="tdCenter"><p>Quantity</p></td>
+              <td class="tdRight"><p>Price Per Unit</p></td>
+              <td class="tdRight"><p>Tổng Tiền</p></td>
+            </tr>
+
+            <!-- cart items -->
+
+            <tr *ngFor="let item of data.bookInDetailCartDTOs">
+              <td class="cart-column-img">
+                <div class="" routerLink="/books/{{ item.id }}">
+                  <img
+                    style="width: 150px; height: 150px"
+                    alt="Divina Commedia"
+                    src="{{ item.imageUrl }}"
+                  />
+                  <p style="width: 100%">{{ item.name }}</p>
+                </div>
+              </td>
+              <td class="cart-quantity">
+                <div class="input-append">{{ item.quantity }}</div>
+              </td>
+              <td class="tdRight">
+                <p>{{ item.price }}</p>
+              </td>
+              <td class="ic-remove" title="remove from cart">
+                <p>{{ item.price * item.quantity }}</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>

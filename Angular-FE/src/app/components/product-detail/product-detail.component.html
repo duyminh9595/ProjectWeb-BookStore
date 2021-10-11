@@ -13,6 +13,7 @@
               </div>
             </div>
           </div>
+
           <div class="col-md-9 box-desc-detail">
             <h2 class="title-product">{{ product.name }}</h2>
 
@@ -27,9 +28,23 @@
             <p class="cat-txt"><span>Category: </span>{{ product.typeName }}</p>
             <p class="cat-txt"><span>NXB: </span>{{ product.publisherName }}</p>
             <p class="book-price">{{ product.price | number: "":"es" }} VNĐ</p>
+            <div style="color: orange">
+              <ng-template #t let-fill="fill">
+                <span class="star" [class.full]="fill === 100">
+                  <span class="half" [style.width.%]="fill">&hearts;</span
+                  >&hearts;
+                </span>
+              </ng-template>
 
+              <ngb-rating
+                [(rate)]="product.averageStar"
+                [starTemplate]="t"
+                [readonly]="true"
+                [max]="5"
+              ></ngb-rating>
+            </div>
             <div class="box-btn-shop">
-              <div class="bt-img">
+              <div class="bt-img" *ngIf="product.quantity > 0">
                 <button
                   type="button"
                   class="btn btn-add-cart"
@@ -41,90 +56,13 @@
             </div>
           </div>
 
-          <div class="col-md-12 detail-box-desc">
-            <div class="col-md-3"><h1 class="txt-info-vertical">Info</h1></div>
-            <div class="col-md-9 info-box">
-              <p class="cat-txt"><span>Isbn: </span>123456789</p>
-              <p class="cat-txt"><span>Pages: </span>677</p>
-              <p class="cat-txt"><span>Format: </span>12-02-2016</p>
-              <p class="cat-txt"><span>Publisher: </span>Romana editore</p>
-              <p class="cat-txt"><span>Status: </span>disponibile</p>
-              <p class="cat-txt"><span>Quantity: </span>38</p>
-              <p class="cat-txt">
-                <span>Description: </span>Productivity concept from motivation
-                and book setting to focus and decision making thatexplain why
-                pay people and companies get so much done.
-              </p>
-            </div>
+          <div
+            class="col-md-12"
+            style="margin-top: 12px; border-top: 1px dashed dimgray"
+          >
+            <app-rate-and-commend></app-rate-and-commend>
           </div>
-        </div>
-
-        <div class="col-lg-12 col-md-12 col-sm-12 service-banner">
-          <div class="slider">
-            <div id="slider" class="flexslider .flexslider-attachments">
-              <div class="flex-viewport">
-                <ul class="slides">
-                  <li>
-                    <div class="col-md-8 product-items-details">
-                      <h3>Samsung</h3>
-                      <a href="">Smartphone - Accessories </a>
-                      <div class="product-item-des">
-                        Launch Tach Ltd Specialzes in car diagnostics and
-                        tessting tools that are mobile- friendly and superior in
-                        quality.
-                      </div>
-                      <a class="btn" href=""><span>Shop Brand Now </span></a>
-                    </div>
-                    <div class="col-md-4">
-                      <img
-                        src="assets/images/books/1.png"
-                        alt=""
-                        draggable="false"
-                      />
-                    </div>
-                  </li>
-                  <li>
-                    <div class="col-md-8 product-items-details">
-                      <h3>Samsung</h3>
-                      <a href="">Smartphone - Accessories </a>
-                      <div class="product-item-des">
-                        Launch Tach Ltd Specialzes in car diagnostics and
-                        tessting tools that are mobile- friendly and superior in
-                        quality.
-                      </div>
-                      <a class="btn" href=""><span>Shop Brand Now </span></a>
-                    </div>
-                    <div class="col-md-4">
-                      <img
-                        src="assets/images/books/2.png"
-                        alt=""
-                        draggable="false"
-                      />
-                    </div>
-                  </li>
-                  <li>
-                    <div class="col-md-8 product-items-details">
-                      <h3>Samsung</h3>
-                      <a href="">Smartphone - Accessories </a>
-                      <div class="product-item-des">
-                        Launch Tach Ltd Specialzes in car diagnostics and
-                        tessting tools that are mobile- friendly and superior in
-                        quality.
-                      </div>
-                      <a class="btn" href=""><span>Shop Brand Now </span></a>
-                    </div>
-                    <div class="col-md-4">
-                      <img
-                        src="assets/images/books/3.png"
-                        alt=""
-                        draggable="false"
-                      />
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
+          <app-all-commend-rate-baseon-bookid></app-all-commend-rate-baseon-bookid>
         </div>
       </div>
     </div>

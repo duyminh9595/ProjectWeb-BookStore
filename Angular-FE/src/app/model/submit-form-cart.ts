@@ -6,5 +6,5 @@ export class SubmitFormCart {
   SDT!: string;
   NameReceiveProduct!: string;
   Note!: string;
-  books!: BookInDetailCartDto[];
+  BookInDetailCartDTOs!: BookInDetailCartDto[];
 }

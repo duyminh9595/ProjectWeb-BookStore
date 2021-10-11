@@ -14,7 +14,7 @@ namespace ProjectBookShop.Entities
         {
             this.Status = true;
             this.UserRoles = new List<UserRole>();
-            CommendOnBooks = new List<CommendOnBook>();
+            this.DateOfCreated= DateTime.Now.Year.ToString() + "-" + DateTime.Now.Month.ToString() + "-" + DateTime.Now.Day.ToString();
         }
         public int Id { get; set; }
         [Required]
@@ -26,11 +26,13 @@ namespace ProjectBookShop.Entities
         [Required]
         public string Email { get; set; }
         [Required]
+        [MinLength(6)]
         public string Password { get; set; }
         public bool Status { get; set; }
         public List<UserRole> UserRoles { get; set; }
-        public List<CommendOnBook> CommendOnBooks { get; set; }
         [Required]
         public bool Gender { get; set; }
+        public string UrlImageAvatar { get; set; }
+        public string ProviderName { get; set; }
     }
 }

@@ -150,7 +150,6 @@ C:\Users\duyminh\Documents\Visual Studio 2019\Templates\ProjectWeb-BookStore\Pro
 C:\Users\duyminh\Documents\Visual Studio 2019\Templates\ProjectWeb-BookStore\ProjectBookShop\ProjectBookShop\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.pdb
 C:\Users\duyminh\Documents\Visual Studio 2019\Templates\ProjectWeb-BookStore\ProjectBookShop\ProjectBookShop\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
 C:\Users\duyminh\Documents\Visual Studio 2019\Templates\ProjectWeb-BookStore\ProjectBookShop\ProjectBookShop\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-C:\Users\duyminh\Documents\Visual Studio 2019\Templates\ProjectWeb-BookStore\ProjectBookShop\ProjectBookShop\obj\Debug\netcoreapp3.1\ProjectBookShop.csproj.AssemblyReference.cache
 C:\Users\duyminh\Documents\Visual Studio 2019\Templates\ProjectWeb-BookStore\ProjectBookShop\ProjectBookShop\obj\Debug\netcoreapp3.1\ProjectBookShop.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\duyminh\Documents\Visual Studio 2019\Templates\ProjectWeb-BookStore\ProjectBookShop\ProjectBookShop\obj\Debug\netcoreapp3.1\ProjectBookShop.AssemblyInfoInputs.cache
 C:\Users\duyminh\Documents\Visual Studio 2019\Templates\ProjectWeb-BookStore\ProjectBookShop\ProjectBookShop\obj\Debug\netcoreapp3.1\ProjectBookShop.AssemblyInfo.cs
@@ -164,3 +163,7 @@ C:\Users\duyminh\Documents\Visual Studio 2019\Templates\ProjectWeb-BookStore\Pro
 C:\Users\duyminh\Documents\Visual Studio 2019\Templates\ProjectWeb-BookStore\ProjectBookShop\ProjectBookShop\obj\Debug\netcoreapp3.1\ProjectBookShop.dll
 C:\Users\duyminh\Documents\Visual Studio 2019\Templates\ProjectWeb-BookStore\ProjectBookShop\ProjectBookShop\obj\Debug\netcoreapp3.1\ProjectBookShop.pdb
 C:\Users\duyminh\Documents\Visual Studio 2019\Templates\ProjectWeb-BookStore\ProjectBookShop\ProjectBookShop\obj\Debug\netcoreapp3.1\ProjectBookShop.genruntimeconfig.cache
+C:\Users\duyminh\Documents\Visual Studio 2019\Templates\ProjectWeb-BookStore\ProjectBookShop\ProjectBookShop\obj\Debug\netcoreapp3.1\ProjectBookShop.csproj.AssemblyReference.cache
+C:\Users\duyminh\Documents\Visual Studio 2019\Templates\ProjectWeb-BookStore\ProjectBookShop\ProjectBookShop\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.Google.dll
+C:\Users\duyminh\Documents\Visual Studio 2019\Templates\ProjectWeb-BookStore\ProjectBookShop\ProjectBookShop\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.dll
+C:\Users\duyminh\Documents\Visual Studio 2019\Templates\ProjectWeb-BookStore\ProjectBookShop\ProjectBookShop\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.Binder.dll

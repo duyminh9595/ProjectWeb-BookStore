@@ -43,9 +43,14 @@ namespace ProjectBookShop.Controllers
             if (email == emailInToken && userInfo!=null)
             {
                 var queryable = context.Cart.AsQueryable().Where(s => s.CustomerId == Int32.Parse(idInToken));
-                await HttpContext.InsertPaginationParametersInResponse(queryable, pagination.RecordsPerPage);
-                var carts = await queryable.Paginate(pagination).ToListAsync();
+                await HttpContext.InsertPaginationParametersInResponse(queryable, Int32.MaxValue);
+                var carts = await queryable.OrderByDescending(x=>x.DateOfCreated).Paginate(pagination).ToListAsync();
                 var cartsDTO = mapper.Map<List<ListCartDTO>>(carts);
+                var coupons = await context.CouponDiscount.ToListAsync();
+                foreach (var item in cartsDTO)
+                {
+                    item.PercentDiscount=coupons.FirstOrDefault(x => x.Id == item.CouponDiscountId).PercenDiscount;
+                }
                 return Ok(cartsDTO);
             }
             else
@@ -122,6 +127,8 @@ namespace ProjectBookShop.Controllers
                 else
                 {
                     var cart =await  context.Cart.FirstOrDefaultAsync(x => x.Id == id);
+                    if (cart == null)
+                        return NotFound();
                     return await showBookInCreateCartSucces(cart.Id, cart);
                 }
             }
@@ -152,16 +159,23 @@ namespace ProjectBookShop.Controllers
 
             if (!string.IsNullOrEmpty(createDetailCart.CouponCode))
             {
-                
-                if(couponCode.DateOfEnded < DateTime.Now)
+                if(createDetailCart.CouponCode.ToUpper().Equals("NO") ||string.IsNullOrEmpty(createDetailCart.CouponCode.Trim()))
                 {
-                    return BadRequest("Quá hạn sử dụng của Coupon");
+                    return await doAddCartDetail(createDetailCart, idInToken, couponCode.Id, null);
                 }
-                if(couponCode.MaxCountUse!=0 && couponCode.CountUse==couponCode.MaxCountUse)
+                else
                 {
-                    return BadRequest("Coupon đã quá số lần sử dụng");
+                    if (couponCode.DateOfEnded < DateTime.Now)
+                    {
+                        return BadRequest("Quá hạn sử dụng của Coupon");
+                    }
+                    if (couponCode.MaxCountUse != 0 && couponCode.CountUse == couponCode.MaxCountUse)
+                    {
+                        return BadRequest("Coupon đã quá số lần sử dụng");
+                    }
+                    return await doAddCartDetail(createDetailCart, idInToken, couponCode.Id, couponCode);
                 }
-                return await doAddCartDetail(createDetailCart,idInToken,couponCode.Id,couponCode);
+
 
             }
             else
@@ -194,7 +208,14 @@ namespace ProjectBookShop.Controllers
             cart.Note = createDetailCart.Note;
             cart.NameReceiveProduct = createDetailCart.NameReceiveProduct;
             cart.SDT = createDetailCart.SDT;
-            cart.TotalPriceAfterDiscount = (int)(cart.TotalPrice - (cart.TotalPrice * couponCode.PercenDiscount / 100));
+            if(couponCode==null)
+            {
+                cart.TotalPriceAfterDiscount = cart.TotalPrice;
+            }
+            else
+            {
+                cart.TotalPriceAfterDiscount = (int)(cart.TotalPrice - (cart.TotalPrice * couponCode.PercenDiscount / 100));
+            }
             context.Add(cart);
             await context.SaveChangesAsync();
 
@@ -225,6 +246,13 @@ namespace ProjectBookShop.Controllers
                 data.Quantity = item.Quantity;
                 createCartSuccessDTO.BookInDetailCartDTOs.Add(data);
             }
+            var coupon = await context.CouponDiscount.FirstOrDefaultAsync(x => x.Id == cart.CouponDiscountId);
+            createCartSuccessDTO.CouponCode = coupon.CouponCode;
+            createCartSuccessDTO.PercentDiscount = coupon.PercenDiscount;
+            createCartSuccessDTO.Address= cart.Address;
+            createCartSuccessDTO.NameReceiveProduct = cart.NameReceiveProduct;
+            createCartSuccessDTO.SDT = cart.SDT;
+            createCartSuccessDTO.Note = cart.Note;
             return createCartSuccessDTO;
         }
     }

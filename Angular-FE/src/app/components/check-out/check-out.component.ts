@@ -47,22 +47,21 @@ export class CheckOutComponent implements OnInit {
 
   ngOnInit(): void {
     this.cartItems = JSON.parse(localStorage.getItem('cartItems')!);
-    console.log(this.cartItems);
     if (this.cartItems == null) {
       alert('làm gì có sản phẩm mà thanh toán');
       this.router.navigateByUrl('/books');
     } else {
       this.formCustomerReceiverBook = this.formBuilder.group({
-        name: new FormControl('312', [Validators.required]),
-        sdt: new FormControl('312', [Validators.required]),
+        name: new FormControl('', [Validators.required]),
+        sdt: new FormControl('', [Validators.required]),
         province: new FormControl('', [Validators.required]),
         distinct: new FormControl('', [Validators.required]),
         ward: new FormControl('', [Validators.required]),
-        address: new FormControl('32', [
+        address: new FormControl('', [
           Validators.required,
           TrimWhiteSpaceService.notOnlyWhiteSpace,
         ]),
-        note: new FormControl('No'),
+        note: new FormControl(''),
         couponCode: new FormControl('No'),
       });
 
@@ -152,7 +151,7 @@ export class CheckOutComponent implements OnInit {
         book.ShortReview = item.book.shortReview;
         books.push(book);
       }
-      this.submitFormCart.books = books;
+      this.submitFormCart.BookInDetailCartDTOs = books;
       console.log(this.submitFormCart);
       this.ckOutSer.doCheckOut(this.submitFormCart).subscribe({
         next: (res) => {
@@ -165,7 +164,14 @@ export class CheckOutComponent implements OnInit {
           this.router.navigateByUrl('/');
         },
         error: (err) => {
-          console.log(err);
+          if (err.status == 401) {
+            localStorage.removeItem('tokenLogin');
+            localStorage.removeItem('emailLogin');
+            alert('Phiên đăng nhập của bạn đã hết. Vui Lòng đăng nhập lại');
+            this.router.navigateByUrl('/login').then(() => {
+              window.location.reload();
+            });
+          } else alert(err.error);
         },
       });
     }

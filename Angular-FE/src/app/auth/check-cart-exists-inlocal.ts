@@ -12,7 +12,9 @@ export class CheckCartExistsInlocal implements CanActivate {
     if (!this.checkJwtSer.checkLogin()) {
       this.router.navigateByUrl('/login');
     } else {
-      if (localStorage.getItem('itemCarts') != null) return true;
+      let data = JSON.parse(localStorage.getItem('cartItems')!);
+
+      if (data.length != 0) return true;
       else {
         alert('Làm gì có gì mà thành toán');
         this.router.navigateByUrl('/books');

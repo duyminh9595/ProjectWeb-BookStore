@@ -1,0 +1,107 @@
+<section class="container table-padding">
+  <div class="row about-solution">
+    <div class="col-md-12 box-about">
+      <div class="col-md-5">
+        <img src="{{ userInfo.urlImageAvatar }}" alt="" />
+        <form enctype="multipart/form-data">
+          <fieldset>
+            <div class="form-group">
+              <div>
+                <input
+                  (change)="onUploadFiles($any($event.target).files)"
+                  type="file"
+                  accept="image/png, image/gif, image/jpeg"
+                  name="files"
+                  class="form-control"
+                />
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+      <div class="col-md-7">
+        <h2>Thông Tin Tài Khoản</h2>
+        <form [formGroup]="frmAccountDetail" *ngIf="this.frmAccountDetail">
+          <h3>Email : {{ userInfo.email }}</h3>
+          <h3>Giới tính :</h3>
+          <select style="font-size: 22px" formControlName="gender">
+            <option value="1">Male</option>
+            <option value="0">Female</option>
+          </select>
+          <h3>First Name :</h3>
+          <input
+            formControlName="firstName"
+            #firstNameValue
+            style="font-size: 22px"
+          />
+          <h3>Last Name :</h3>
+          <input
+            formControlName="lastName"
+            #firstNameValue
+            style="font-size: 22px"
+          />
+          <h3>Ngày Sinh :</h3>
+
+          <mat-form-field *ngIf="userInfo.dateOfBirth != ''">
+            <input
+              matInput
+              [matDatepicker]="picker"
+              placeholder="Choose a date"
+              [value]="getDate()"
+              (dateChange)="addEvent('change', $event)"
+              style="font-size: 22px"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              style="font-size: 22px"
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker style="font-size: 22px" #picker></mat-datepicker>
+          </mat-form-field>
+          <br />
+          <button
+            type="button"
+            class="btn btn-primary"
+            value="submit"
+            style="font-size: 22px"
+            (click)="doUpdateAccount()"
+          >
+            Cập Nhật Thông Tin
+          </button>
+        </form>
+        <br />
+        <a routerLink="/cartsbaseonemail" routerLinkActive="active">
+          <button type="button" class="btn btn-info" style="font-size: 22px">
+            Xem Tất Cả Đơn Hàng
+          </button>
+        </a>
+        <br />
+        <br />
+        <a routerLink="/updatePassword" routerLinkActive="active">
+          <button type="button" class="btn btn-warning" style="font-size: 22px">
+            Cập Nhật Mật Khẩu
+          </button>
+        </a>
+
+        <br />
+        <br />
+        <a routerLink="/writearticle" routerLinkActive="active">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            style="font-size: 22px"
+          >
+            Viết bài viết mới
+          </button>
+        </a>
+        <br />
+        <br />
+        <a routerLink="/articleaccount" routerLinkActive="active">
+          <button type="button" class="btn btn-success" style="font-size: 22px">
+            Bài viết của account
+          </button>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

@@ -11,6 +11,7 @@ export class SearchProductsComponent implements OnInit {
 
   ngOnInit(): void {}
   search(data: string) {
+    console.log(data);
     if (data.trim() != null) {
       this.router.navigateByUrl(`/search/${data}`);
     }

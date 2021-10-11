@@ -13,12 +13,16 @@ namespace ProjectBookShop.Entities
         public int Id { get; set; }
         [Required]
         public string CouponCode { get; set; }
+        [Required]
         public string  DetailCoupon { get; set; }
+        [Required]
         public DateTime DateOfCreated { get; set; }
         public DateTime DateOfEnded { get; set; }
         public int CountUse { get; set; }
         public int MaxCountUse { get; set; }
+        [Required]
         public bool Status { get; set; }
+        [Required]
         public float PercenDiscount { get; set; }
 
     }

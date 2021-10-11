@@ -1,0 +1,57 @@
+<div class="container">
+  <div class="col-md-12" style="text-align: center">
+    <h2>Viết bài viết mới</h2>
+  </div>
+  <form class="example-form">
+    <mat-form-field
+      class="example-full-width"
+      appearance="fill"
+      style="font-size: 17pt; width: 100%"
+    >
+      <mat-label>Tiêu đề</mat-label>
+      <input
+        style="width: 100%"
+        #inputTitle
+        matInput
+        placeholder="Nhập tiêu đề"
+        value=""
+      />
+    </mat-form-field>
+  </form>
+  <form enctype="multipart/form-data">
+    <fieldset>
+      <div class="form-group">
+        <div>
+          <input
+            (change)="onUploadFiles($any($event.target).files)"
+            type="file"
+            accept="image/png, image/gif, image/jpeg"
+            name="files"
+            placeholder="Hình ảnh thumbnail"
+            class="form-control"
+          />
+        </div>
+      </div>
+    </fieldset>
+  </form>
+  <div class="row" style="margin-top: 20px; margin-bottom: 20px">
+    <div class="col-md-12">
+      <quill-editor (onEditorChanged)="changedEditor($event)"></quill-editor>
+    </div>
+  </div>
+  <!-- <div class="ql-container ql-snow" style="border-width: 0">
+    <div class="ql-editor" [innerHTML]="editorText"></div>
+  </div> -->
+  <div class="row" style="margin-top: 100px; margin-bottom: 40px">
+    <div class="col-md-12">
+      <button
+        style="font-size: 20pt"
+        type="button"
+        class="btn btn-primary"
+        (click)="doPostAritice(inputTitle.value)"
+      >
+        Đăng bài viết
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+<section class="services content-header">
+  <div class="cover"></div>
+  <div class="container">
+    <div class="row">
+      <h1 class="slide-page-text tlt">Blog</h1>
+    </div>
+  </div>
+</section>
+
+<section class="blog-v2">
+  <div class="table-padding" *ngFor="let item of data">
+    <div class="blog-item">
+      <div class="container">
+        <div class="col-md-6 ibook-container">
+          <img alt="" src="{{ item.urlImageArtice }}" />
+        </div>
+        <div class="col-md-6 blog-info-desc">
+          <h2 style="font-size: 30px">
+            {{ item.title }}
+          </h2>
+          <p class="blog-date" style="color: #006994">
+            {{ item.dateOfApproved | slice: 0:10 }} -
+            <span style="color: #800075">by {{ item.authorName }}</span>
+          </p>
+          <p
+            class="blog-info"
+            innerHTML="{{ item.content | slice: 0:400 }}"
+          ></p>
+          <p class="blog-tags">
+            <i class="fa fa-tag" aria-hidden="true"></i
+            ><span>Art - Thriller</span>
+          </p>
+          <button class="btn btn-primary btn-blog" (click)="readBlog(item.id)">
+            Read More
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -9,7 +9,25 @@ import { AddToCartService } from 'src/app/service/add-to-cart.service';
 @Component({
   selector: 'app-list-products',
   templateUrl: './list-products.component.html',
-  styleUrls: ['./list-products.component.css'],
+  styles: [
+    `
+      .star {
+        position: relative;
+        display: inline-block;
+        font-size: 3rem;
+        color: #d3d3d3;
+      }
+      .full {
+        color: red;
+      }
+      .half {
+        position: absolute;
+        display: inline-block;
+        overflow: hidden;
+        color: red;
+      }
+    `,
+  ],
 })
 export class ListProductsComponent implements OnInit {
   products: BookInHomepage[] = [];
@@ -33,21 +51,26 @@ export class ListProductsComponent implements OnInit {
     let checkPublisherId =
       this.activeRoute.snapshot.paramMap.has('publisherId');
     if (checkNameSearch) {
-      let name = +this.activeRoute.snapshot.paramMap.get('keyword')!;
+      this.products = [];
+      let name = this.activeRoute.snapshot.paramMap.get('keyword')!;
+      console.log(name);
       this.loadProduct
-        .getProductsByTypeId(this.pageNumber * 4, name)
+        .getProductsByName(this.pageNumber * 4, name)
         .subscribe(this.getDatas());
     } else if (checkTypeId) {
+      this.products = [];
       let typeId = +this.activeRoute.snapshot.paramMap.get('typeId')!;
       this.loadProduct
         .getProductsByTypeId(this.pageNumber * 4, typeId)
         .subscribe(this.getDatas());
     } else if (checkPublisherId) {
+      this.products = [];
       let publisherId = +this.activeRoute.snapshot.paramMap.get('publisherId')!;
       this.loadProduct
         .getProductsByPublisherId(this.pageNumber * 4, publisherId)
         .subscribe(this.getDatas());
     } else {
+      this.products = [];
       this.loadProduct
         .getProductsInHomePage(this.pageNumber * 4)
         .subscribe(this.getDatas());
