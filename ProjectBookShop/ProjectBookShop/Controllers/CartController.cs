@@ -153,35 +153,42 @@ namespace ProjectBookShop.Controllers
             var emailInToken = tokenS.Claims.First(claim => claim.Type == "email").Value;
             var idInToken = Int16.Parse(tokenS.Claims.First(claim => claim.Type == "unique_name").Value);
 
-
+            var userInfo = await context.Customer.FirstOrDefaultAsync(x => (x.Id == idInToken && x.Email == emailInToken && x.Status == true));
 
             var couponCode = await context.CouponDiscount.FirstOrDefaultAsync(x => x.CouponCode == createDetailCart.CouponCode);
 
-            if (!string.IsNullOrEmpty(createDetailCart.CouponCode))
+            if(userInfo==null)
             {
-                if(createDetailCart.CouponCode.ToUpper().Equals("NO") ||string.IsNullOrEmpty(createDetailCart.CouponCode.Trim()))
-                {
-                    return await doAddCartDetail(createDetailCart, idInToken, couponCode.Id, null);
-                }
-                else
-                {
-                    if (couponCode.DateOfEnded < DateTime.Now)
-                    {
-                        return BadRequest("Quá hạn sử dụng của Coupon");
-                    }
-                    if (couponCode.MaxCountUse != 0 && couponCode.CountUse == couponCode.MaxCountUse)
-                    {
-                        return BadRequest("Coupon đã quá số lần sử dụng");
-                    }
-                    return await doAddCartDetail(createDetailCart, idInToken, couponCode.Id, couponCode);
-                }
-
-
+                return BadRequest();
             }
             else
-                return await doAddCartDetail(createDetailCart, idInToken,couponCode.Id, couponCode);
+            {
+                if (!string.IsNullOrEmpty(createDetailCart.CouponCode))
+                {
+                    if (createDetailCart.CouponCode.ToUpper().Equals("NO") || string.IsNullOrEmpty(createDetailCart.CouponCode.Trim()))
+                    {
+                        return await doAddCartDetail(createDetailCart, idInToken, couponCode.Id, null,userInfo);
+                    }
+                    else
+                    {
+                        if (couponCode.DateOfEnded < DateTime.Now)
+                        {
+                            return BadRequest("Quá hạn sử dụng của Coupon");
+                        }
+                        if (couponCode.MaxCountUse != 0 && couponCode.CountUse == couponCode.MaxCountUse)
+                        {
+                            return BadRequest("Coupon đã quá số lần sử dụng");
+                        }
+                        return await doAddCartDetail(createDetailCart, idInToken, couponCode.Id, couponCode,userInfo);
+                    }
+
+
+                }
+                else
+                    return await doAddCartDetail(createDetailCart, idInToken, couponCode.Id, couponCode, userInfo);
+            }
         }
-        private async Task<ActionResult>doAddCartDetail(CreateDetailCart createDetailCart,int idInToken,int idCouponCode,CouponDiscount couponCode)
+        private async Task<ActionResult>doAddCartDetail(CreateDetailCart createDetailCart,int idInToken,int idCouponCode,CouponDiscount couponCode,UserInfo userInfo)
         {
             var booksInCartDetail = mapper.Map<List<Book>>(createDetailCart.BookInDetailCartDTOs);
             Cart cart = new Cart();
@@ -207,7 +214,7 @@ namespace ProjectBookShop.Controllers
             cart.Address = createDetailCart.Address;
             cart.Note = createDetailCart.Note;
             cart.NameReceiveProduct = createDetailCart.NameReceiveProduct;
-            cart.SDT = createDetailCart.SDT;
+            cart.SDT = createDetailCart.Sdt;
             if(couponCode==null)
             {
                 cart.TotalPriceAfterDiscount = cart.TotalPrice;
@@ -216,6 +223,7 @@ namespace ProjectBookShop.Controllers
             {
                 cart.TotalPriceAfterDiscount = (int)(cart.TotalPrice - (cart.TotalPrice * couponCode.PercenDiscount / 100));
             }
+            cart.Customer = userInfo;
             context.Add(cart);
             await context.SaveChangesAsync();
 

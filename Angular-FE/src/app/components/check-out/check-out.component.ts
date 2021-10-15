@@ -120,13 +120,13 @@ export class CheckOutComponent implements OnInit {
       alert('Chưa Nhập Đủ Thông Tin');
     } else {
       this.submitFormCart = new SubmitFormCart();
-      this.submitFormCart.CouponCode =
+      this.submitFormCart.couponCode =
         this.formCustomerReceiverBook.get('couponCode')?.value;
 
-      this.submitFormCart.SDT = this.formCustomerReceiverBook.get('sdt')?.value;
-      this.submitFormCart.NameReceiveProduct =
+      this.submitFormCart.sdt = this.formCustomerReceiverBook.get('sdt')?.value;
+      this.submitFormCart.nameReceiveProduct =
         this.formCustomerReceiverBook.get('name')?.value;
-      this.submitFormCart.Note =
+      this.submitFormCart.note =
         this.formCustomerReceiverBook.get('note')?.value;
       let province = this.formCustomerReceiverBook.get('province')?.value.name;
       let distinct = this.formCustomerReceiverBook.get('distinct')?.value.name;
@@ -139,7 +139,7 @@ export class CheckOutComponent implements OnInit {
         distinct +
         ' , ' +
         province;
-      this.submitFormCart.Address = address;
+      this.submitFormCart.address = address;
       this.carts = this.addToCartSer.carts;
       let books: BookInDetailCartDto[] = [];
       let book: BookInDetailCartDto;
@@ -151,7 +151,7 @@ export class CheckOutComponent implements OnInit {
         book.ShortReview = item.book.shortReview;
         books.push(book);
       }
-      this.submitFormCart.BookInDetailCartDTOs = books;
+      this.submitFormCart.bookInDetailCartDTOs = books;
       console.log(this.submitFormCart);
       this.ckOutSer.doCheckOut(this.submitFormCart).subscribe({
         next: (res) => {
@@ -171,7 +171,7 @@ export class CheckOutComponent implements OnInit {
             this.router.navigateByUrl('/login').then(() => {
               window.location.reload();
             });
-          } else alert(err.error);
+          } else alert(err.message);
         },
       });
     }
