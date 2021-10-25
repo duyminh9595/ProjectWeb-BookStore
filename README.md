@@ -1,7 +1,7 @@
 Link Asana: https://app.asana.com/0/1201162842743339/1201162842743339
 # ProjectWeb-BookStore
 **Khách hàng:**
-1/ Đăng nhập, đăng ký bằng tài khoản ở website, gmail, facebook
+1/ Đăng nhập, đăng ký bằng tài khoản ở website, gmail, facebook \n
 2/ Tìm kiếm các thông tin về sách
 3/ Tìm kiếm các bài blog
 4/ Xem đánh giá của người đã từng mua sách
