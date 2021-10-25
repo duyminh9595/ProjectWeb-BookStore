@@ -22,4 +22,4 @@ Link Asana: https://app.asana.com/0/1201162842743339/1201162842743339
 6/ Quản lý bài viết do khách hàng viết
 7/ Quản lý review sách của khách hàng
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-<img src="https://drive.google.com/file/d/1ZL63fdqlfi4kdOdIXPd7dYAInQRXkp-n/view?usp=sharing" />
+[](pic.PNG)
