@@ -1,25 +1,29 @@
 Link Asana: https://app.asana.com/0/1201162842743339/1201162842743339
-# ProjectWeb-BookStore
-**Khách hàng:**
-1/ Đăng nhập, đăng ký bằng tài khoản ở website, gmail, facebook \n
-2/ Tìm kiếm các thông tin về sách
-3/ Tìm kiếm các bài blog
-4/ Xem đánh giá của người đã từng mua sách
-5/ Viết bài viết trên trang để nhận mã giảm giá
-6/ Mua sách
-7/ Đánh giá chất lượng sách sau khi mua
+# ProjectWeb-BookStore <br/>
+**Khách hàng:** <br/>
+1/ Đăng nhập, đăng ký bằng tài khoản ở website, gmail, facebook <br/>
+2/ Tìm kiếm các thông tin về sách <br/>
+3/ Tìm kiếm các bài blog <br/>
+4/ Xem đánh giá của người đã từng mua sách <br/>
+5/ Viết bài viết trên trang để nhận mã giảm giá <br/>
+6/ Mua sách <br/>
+7/ Đánh giá chất lượng sách sau khi mua <br/>
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-**Nhân viên bán hàng**
-1/ Tạo hóa đơn khách đã đặt sách
-2/ In hóa đơn
+**Nhân viên bán hàng**<br/>
+1/ Tạo hóa đơn khách đã đặt sách<br/>
+2/ In hóa đơn<br/>
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-**Admin**
-1/ Nhập sách mới
-2/ Cập nhật thông tin sách (thêm, sủa, xóa), số lượng sách
-3/ Thống kê sách
-4/ Cập nhật thông tin khách hàng
-5/ Tạo mã giảm giá, xác nhận đơn hàng
-6/ Quản lý bài viết do khách hàng viết
-7/ Quản lý review sách của khách hàng
+**Admin**<br/>
+1/ Nhập sách mới<br/>
+2/ Cập nhật thông tin sách (thêm, sủa, xóa), số lượng sách<br/>
+3/ Thống kê sách<br/>
+4/ Cập nhật thông tin khách hàng<br/>
+5/ Tạo mã giảm giá, xác nhận đơn hàng<br/>
+6/ Quản lý bài viết do khách hàng viết<br/>
+7/ Quản lý review sách của khách hàng<br/>
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-[](pic.PNG)
+**Usecase** <br />
+<img src="image.png" alt="use Case">
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+**Database** <br/>
+<img src="pic.PNG" alt="Table In  Database">
