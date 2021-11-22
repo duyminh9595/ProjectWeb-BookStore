@@ -88,7 +88,7 @@ namespace ProjectBookShop.Service
                 {
                     new Claim(ClaimTypes.Name, userInfo.Id.ToString()),
                     new Claim(ClaimTypes.Email, userInfo.Email.ToString()),
-                    new Claim(ClaimTypes.Role, "Admin")
+                    new Claim(ClaimTypes.Role, "User")
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature)

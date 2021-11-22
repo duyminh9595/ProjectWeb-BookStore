@@ -20,12 +20,13 @@ namespace ProjectBookShop.Service
             this.mapper = mapper;
         }
 
-        public async Task<BookReadDTO> CreateNewBook(BookCreateDTO bookCreateDTO)
+        public async Task<BookReadDTO> CreateNewBook(BookCreateDTO bookCreateDTO,AdminUser adminUser)
         {
             var book = mapper.Map<Book>(bookCreateDTO);
             var publisher = await context.Publisher.FirstOrDefaultAsync(x => x.Id == bookCreateDTO.PublisherId);
             var type = await context.Type.FirstOrDefaultAsync(x => x.Id == bookCreateDTO.TypeId);
             book.Publisher = publisher;
+            book.AdminUser = adminUser;
             book.Type = type;
             book.DateOfCreated = DateTime.Now;
             context.Add(book);

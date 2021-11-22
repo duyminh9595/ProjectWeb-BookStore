@@ -24,6 +24,9 @@ namespace ProjectBookShop.Entities
         public int CouponDiscountId { get; set; }
         public CouponDiscount CouponDiscount { get; set; }
         public List<DetailCart> DetailCarts { get; set; }
+        public AdminUser AdminUser { get; set; }
+        public bool AdminApprove { get; set; }
+        public DateTime DateAdminApprove { get; set; }
         [Required]
         public string Address { get; set; }
         [Required]

@@ -16,6 +16,8 @@ namespace ProjectBookShop.Helpers
             CreateMap<RegisterUserDTO, UserInfo>()
                 .ForMember(x => x.DateOfBirth, options => options.Ignore())
                 .ForMember(x => x.DateOfCreated, options => options.Ignore());
+            CreateMap<RegisterUserDTO, AdminUser>()
+                .ForMember(x => x.DateOfCreated, options => options.Ignore());
             CreateMap<PublisherReadDTO, Publisher>().ReverseMap();
             CreateMap<PublisherCreateDTO, Publisher>().ReverseMap();
             CreateMap<TypeReadDTO, Entities.Type>().ReverseMap();

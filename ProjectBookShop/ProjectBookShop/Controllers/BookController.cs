@@ -212,10 +212,10 @@ namespace ProjectBookShop.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<ActionResult>PostNewBook([FromBody]BookCreateDTO bookCreateDTO, [FromHeader] string email)
         {
-            var userInfo = await CheckEmailInToken(email);
-            if(userInfo!=null)
+            var adminUser = await CheckEmailInTokenAdmin(email);
+            if(adminUser != null)
             {
-                var bookReadDTO = await bookService.CreateNewBook(bookCreateDTO);
+                var bookReadDTO = await bookService.CreateNewBook(bookCreateDTO, adminUser);
                 return new CreatedAtRouteResult("getBook", new { id = bookReadDTO.Id }, bookReadDTO);
             }
             return
@@ -225,7 +225,7 @@ namespace ProjectBookShop.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<ActionResult> UpImageShowForBook(int id, [FromForm] BookUploadImageDTO bookUploadImageDTO, [FromHeader] string email)
         {
-            var userInfo = await CheckEmailInToken(email);
+            var userInfo = await CheckEmailInTokenAdmin(email);
             if (userInfo != null)
             {
                 var book = await context.Book.FirstOrDefaultAsync(x => x.Id == id);
@@ -290,6 +290,18 @@ namespace ProjectBookShop.Controllers
             var emailInToken = tokenS.Claims.First(claim => claim.Type == "email").Value;
             var idInToken = tokenS.Claims.First(claim => claim.Type == "unique_name").Value;
             var userInfo = await context.Customer.FirstOrDefaultAsync(x => (x.Email == emailInToken && x.Status == true&&x.Email==email && x.Id == Int32.Parse(idInToken)));
+            return userInfo;
+        }
+        private async Task<AdminUser> CheckEmailInTokenAdmin(string email)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            string authHeader = Request.Headers["Authorization"];
+            authHeader = authHeader.Replace("Bearer ", "");
+            var jsonToken = handler.ReadToken(authHeader);
+            var tokenS = handler.ReadToken(authHeader) as JwtSecurityToken;
+            var emailInToken = tokenS.Claims.First(claim => claim.Type == "email").Value;
+            var idInToken = tokenS.Claims.First(claim => claim.Type == "unique_name").Value;
+            var userInfo = await context.AdminUser.FirstOrDefaultAsync(x => (x.Email == emailInToken && x.Status == true && x.Email == email && x.Id == Int32.Parse(idInToken)));
             return userInfo;
         }
     }

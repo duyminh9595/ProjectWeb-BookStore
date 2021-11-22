@@ -16,5 +16,7 @@ namespace ProjectBookShop.Entities
         [Required]
         public string Name { get; set; }
         public List<Book> Books { get; set; }
+        public AdminUser AdminUser { get; set; }
+        public DateTime DateOfCreated { get; set; }
     }
 }

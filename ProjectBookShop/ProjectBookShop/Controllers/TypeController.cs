@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjectBookShop.DTO;
+using ProjectBookShop.Entities;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -45,11 +47,18 @@ namespace ProjectBookShop.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<ActionResult> Post([FromBody] TypeCreateDTO typeCreateDTO)
         {
-            var type = mapper.Map<Entities.Type>(typeCreateDTO);
-            context.Add(type);
-            await context.SaveChangesAsync();
-            var typeReadDTO = mapper.Map<TypeReadDTO>(type);
-            return new CreatedAtRouteResult("getType", new { id = typeReadDTO.Id }, typeReadDTO);
+            var adminInfo = await CheckEmailInTokenAdmin();
+            if (adminInfo != null)
+            {
+                var type = mapper.Map<Entities.Type>(typeCreateDTO);
+                type.AdminUser = adminInfo;
+                context.Add(type);
+                await context.SaveChangesAsync();
+                var typeReadDTO = mapper.Map<TypeReadDTO>(type);
+                return new CreatedAtRouteResult("getType", new { id = typeReadDTO.Id }, typeReadDTO);
+            }
+            else
+                return BadRequest();
         }
         [HttpGet("numberbook")]
         public async Task<ActionResult<List<NumberBookByTypeDTO>>>GetBookByType()
@@ -74,6 +83,19 @@ namespace ProjectBookShop.Controllers
             var books = await context.Book.Where(x => x.TypeId == id).ToListAsync();
             var data = mapper.Map<List<BookReadDTO>>(books);
             return data;
+        }
+
+        private async Task<AdminUser> CheckEmailInTokenAdmin()
+        {
+            var handler = new JwtSecurityTokenHandler();
+            string authHeader = Request.Headers["Authorization"];
+            authHeader = authHeader.Replace("Bearer ", "");
+            var jsonToken = handler.ReadToken(authHeader);
+            var tokenS = handler.ReadToken(authHeader) as JwtSecurityToken;
+            var emailInToken = tokenS.Claims.First(claim => claim.Type == "email").Value;
+            var idInToken = tokenS.Claims.First(claim => claim.Type == "unique_name").Value;
+            var userInfo = await context.AdminUser.FirstOrDefaultAsync(x => (x.Email == emailInToken && x.Status == true && x.Id == Int32.Parse(idInToken)));
+            return userInfo;
         }
     }
 }

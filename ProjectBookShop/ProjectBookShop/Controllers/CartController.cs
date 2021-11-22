@@ -136,7 +136,46 @@ namespace ProjectBookShop.Controllers
                 return BadRequest("Email không trùng với Email trong Token");
         }
 
-        
+        [HttpGet("{id:int}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        public async Task<ActionResult<List<CartBaseOnBookIdDTO>>>GetAllCartBaseOnBookId([FromHeader] string email, [FromQuery] PaginationDTO pagination, int id)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            string authHeader = Request.Headers["Authorization"];
+            authHeader = authHeader.Replace("Bearer ", "");
+            var jsonToken = handler.ReadToken(authHeader);
+            var tokenS = handler.ReadToken(authHeader) as JwtSecurityToken;
+            var emailInToken = tokenS.Claims.First(claim => claim.Type == "email").Value;
+            var idInToken = tokenS.Claims.First(claim => claim.Type == "unique_name").Value;
+            var adminInfo = await context.AdminUser.FirstOrDefaultAsync(x => (x.Email == emailInToken && x.Status == true));
+            if (email == emailInToken && adminInfo != null)
+            {
+                var carts =  await context.DetailCart.Where(x => x.BookId == id).ToListAsync();
+                if (carts == null)
+                    return null;
+                else
+                {
+                    List<CartBaseOnBookIdDTO> cartBaseOnBookIdDTOs = new List<CartBaseOnBookIdDTO>();
+                    foreach(var item in carts)
+                    {
+                        CartBaseOnBookIdDTO data = new CartBaseOnBookIdDTO();
+                        var cart = await context.Cart.FirstOrDefaultAsync(x => x.Id == item.CartId);
+                        data.AdminApprove = cart.AdminApprove;
+                        data.AdminUserId = cart.AdminUser.Id;
+                        data.DateOfCreated = cart.DateOfCreated;
+                        data.DateAdminApprove = cart.DateAdminApprove;
+                        data.DateOfDisabled = cart.DateOfDisabled;
+                        data.Id = cart.Id;
+                        data.Status = cart.Status;
+                        data.Reason = cart.Reason;
+                        cartBaseOnBookIdDTOs.Add(data);
+                    }
+                    return cartBaseOnBookIdDTOs;
+                }
+            }
+                return BadRequest("Email không trùng với Email trong Token");
+        }
+
 
 
 

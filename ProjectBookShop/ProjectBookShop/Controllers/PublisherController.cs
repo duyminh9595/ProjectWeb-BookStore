@@ -54,10 +54,12 @@ namespace ProjectBookShop.Controllers
             var tokenS = handler.ReadToken(authHeader) as JwtSecurityToken;
             var emailInToken = tokenS.Claims.First(claim => claim.Type == "email").Value;
             var idInToken = tokenS.Claims.First(claim => claim.Type == "unique_name").Value;
-            var userInfo = await context.Customer.FirstOrDefaultAsync(x => (x.Email == emailInToken && x.Status == true));
+            var userInfo = await context.AdminUser.FirstOrDefaultAsync(x => (x.Email == emailInToken && x.Status == true));
             if (email == emailInToken && userInfo != null)
             {
                 var publisher = mapper.Map<Publisher>(publisherCreateDTO);
+                publisher.AdminUser=userInfo;
+                publisher.DateOfCreated = DateTime.Now;
                 context.Add(publisher);
                 await context.SaveChangesAsync();
                 var publisherReadDTO = mapper.Map<PublisherReadDTO>(publisher);

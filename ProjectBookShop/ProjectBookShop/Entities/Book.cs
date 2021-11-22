@@ -14,6 +14,7 @@ namespace ProjectBookShop.Entities
         {
             this.Quantity = 0;
             this.Status = true;
+            this.DateOfCreated= DateTime.Now;
             BookImages = new List<BookImage>();
         }
         [Key]
@@ -21,6 +22,7 @@ namespace ProjectBookShop.Entities
         public int PublisherId { get; set; }
         public int TypeId { get; set; }
         public Publisher Publisher { get; set; }
+        public AdminUser AdminUser { get; set; }
         public Type Type { get; set; }
         [Required]
         public string Name { get; set; }

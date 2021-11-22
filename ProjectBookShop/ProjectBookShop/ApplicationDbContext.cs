@@ -36,5 +36,6 @@ namespace ProjectBookShop
         public DbSet<NumberBookOfTypePerMonth> NumberBookOfTypePerMonth { get; set; }
         public DbSet<NumberBookOfPublisherPerMonth> NumberBookOfPublisherPerMonth { get; set; }
         public DbSet<RatingStarBook> RatingStarBook { get; set; }
+        public DbSet<AdminUser> AdminUser { get; set; }
     }
 }

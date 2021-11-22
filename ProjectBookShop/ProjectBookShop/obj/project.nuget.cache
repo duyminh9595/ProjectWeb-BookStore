@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "uXSYi9dvumSKfwqb0lBvdHhTpvgaJ4cQBrB3XWQwWB6LQ08rjS/DXBKLn0RHoU14Znj2XG0K/sRGDGV0XF2iPQ==",
+  "dgSpecHash": "hBD/wfiizgT2KzPa1rD10kYLL4UMRzCS17Sl5ZI4gMh1lnoG2kG3hPPj5PbxK5gdknhMd6YEr7XyPuSLn37fBw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\duyminh\\Documents\\Visual Studio 2019\\Templates\\ProjectWeb-BookStore\\ProjectBookShop\\ProjectBookShop\\ProjectBookShop.csproj",
+  "projectFilePath": "E:\\ProjectWeb-BookStore\\ProjectBookShop\\ProjectBookShop\\ProjectBookShop.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\duyminh\\.nuget\\packages\\automapper\\10.1.1\\automapper.10.1.1.nupkg.sha512",
     "C:\\Users\\duyminh\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\8.1.1\\automapper.extensions.microsoft.dependencyinjection.8.1.1.nupkg.sha512",

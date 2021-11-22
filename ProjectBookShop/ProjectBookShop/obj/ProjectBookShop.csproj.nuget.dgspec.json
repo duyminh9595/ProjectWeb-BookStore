@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\duyminh\\Documents\\Visual Studio 2019\\Templates\\ProjectWeb-BookStore\\ProjectBookShop\\ProjectBookShop\\ProjectBookShop.csproj": {}
+    "E:\\ProjectWeb-BookStore\\ProjectBookShop\\ProjectBookShop\\ProjectBookShop.csproj": {}
   },
   "projects": {
-    "C:\\Users\\duyminh\\Documents\\Visual Studio 2019\\Templates\\ProjectWeb-BookStore\\ProjectBookShop\\ProjectBookShop\\ProjectBookShop.csproj": {
+    "E:\\ProjectWeb-BookStore\\ProjectBookShop\\ProjectBookShop\\ProjectBookShop.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\duyminh\\Documents\\Visual Studio 2019\\Templates\\ProjectWeb-BookStore\\ProjectBookShop\\ProjectBookShop\\ProjectBookShop.csproj",
+        "projectUniqueName": "E:\\ProjectWeb-BookStore\\ProjectBookShop\\ProjectBookShop\\ProjectBookShop.csproj",
         "projectName": "ProjectBookShop",
-        "projectPath": "C:\\Users\\duyminh\\Documents\\Visual Studio 2019\\Templates\\ProjectWeb-BookStore\\ProjectBookShop\\ProjectBookShop\\ProjectBookShop.csproj",
+        "projectPath": "E:\\ProjectWeb-BookStore\\ProjectBookShop\\ProjectBookShop\\ProjectBookShop.csproj",
         "packagesPath": "C:\\Users\\duyminh\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\duyminh\\Documents\\Visual Studio 2019\\Templates\\ProjectWeb-BookStore\\ProjectBookShop\\ProjectBookShop\\obj\\",
+        "outputPath": "E:\\ProjectWeb-BookStore\\ProjectBookShop\\ProjectBookShop\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\duyminh\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -113,7 +113,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     }

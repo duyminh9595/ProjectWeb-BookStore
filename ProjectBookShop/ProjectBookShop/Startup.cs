@@ -83,7 +83,7 @@ namespace ProjectBookShop
             services.AddTransient<IBookService, BookServiceImpl>();
             services.AddTransient<IArticleService, ArticleServiceImpl>();
             services.AddTransient<IGetCommentAndAndRatingStarService, GetCommentAndRatingStarServiceImpl>();
-
+            services.AddTransient<IAdminService, AdminServiceImpl>();
             services.AddControllers();
         }
 
