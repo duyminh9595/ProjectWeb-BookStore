@@ -10,7 +10,7 @@ import { SubmitFormCart } from '../model/submit-form-cart';
 export class CheckOutService {
   readonly APIEndPoint = environment.APIEndpoint;
   private APIAddToCart = this.APIEndPoint + 'cart';
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) { }
   getProvince(): Observable<any> {
     const url = 'https://provinces.open-api.vn/api/';
     return this.httpClient.get<any>(url).pipe();
@@ -24,6 +24,7 @@ export class CheckOutService {
     return this.httpClient.get<any>(url).pipe();
   }
   doCheckOut(data: SubmitFormCart): Observable<any> {
+    console.log(data);
     const yourHeader: HttpHeaders = new HttpHeaders({
       Authorization: `${localStorage.getItem('tokenLogin')}`,
     });

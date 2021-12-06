@@ -252,6 +252,29 @@ namespace ProjectBookShop.Controllers
                 return BadRequest();
             }
         }
+        [HttpGet("bookonallcart/{id:int}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        public async Task<ActionResult<List<CartContentBookDTO>>>GetBookOnAllCart(int id, [FromQuery] PaginationDTO pagination)
+        {
+            var queryable = context.DetailCart.AsQueryable().Where(x => x.BookId == id);
+            await HttpContext.InsertPaginationParametersInResponse(queryable, pagination.RecordsPerPage);
+            var data = await queryable.OrderByDescending(x => x.CartId).Paginate(pagination).ToListAsync();
+            List<CartContentBookDTO> cartContentBookDTOs = new List<CartContentBookDTO>();
+            foreach (var item in data)
+            {
+                CartContentBookDTO cartContentBookDTO = new CartContentBookDTO();
+                cartContentBookDTO.cartid = item.CartId;
+                var cart = await context.Cart.FirstOrDefaultAsync(x => x.Id == item.CartId);
+                cartContentBookDTO.date_created = cart.DateOfCreated.ToString();
+                var customer = await context.Customer.FirstOrDefaultAsync(x => x.Id == cart.CustomerId);
+                cartContentBookDTO.userid = customer.Id;
+                cartContentBookDTO.email_customer = customer.Email;
+                cartContentBookDTO.total_price = cart.TotalPrice;
+                cartContentBookDTO.total_price_after_discount = cart.TotalPriceAfterDiscount;
+                cartContentBookDTOs.Add(cartContentBookDTO);
+            }
+            return cartContentBookDTOs;
+        }
         [HttpPost("image/info/{id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<ActionResult>UpImages(int id,[FromForm]BookUploadImageDTO bookUploadImageDTO)

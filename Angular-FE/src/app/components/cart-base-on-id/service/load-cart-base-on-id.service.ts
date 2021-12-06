@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
 export class LoadCartBaseOnIdService {
   readonly APIEndPoint = environment.APIEndpoint;
   private APICartItem = this.APIEndPoint + 'cart/';
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) { }
   getCartDetail(cartId: number) {
     const yourHeader: HttpHeaders = new HttpHeaders({
       Authorization: `${localStorage.getItem('tokenLogin')}`,

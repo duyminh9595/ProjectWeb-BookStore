@@ -1,9 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AddType } from 'src/app/model/add-type';
+import { CatBook } from 'src/app/model/cat-book';
+import { CategoryService } from './service/category.service';
 
 @Component({
-  selector: 'ngbd-modal-content',
-  template:`
+	selector: 'ngbd-modal-content',
+	template: `
   <div class="modal-dialog modal-dialog-centered mw-650px">
 										<!--begin::Modal content-->
 										<div class="modal-content">
@@ -38,7 +42,9 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 															<label class="required fs-6 fw-bold mb-2">Name</label>
 															<!--end::Label-->
 															<!--begin::Input-->
-															<input type="text" class="form-control form-control-solid" placeholder="Tên Thể Loại" name="name" value="" />
+															<input 
+															(keyup)="onKeyName($event)"
+															type="text" class="form-control form-control-solid" placeholder="Tên Thể Loại" name="name" value="" />
 															<!--end::Input-->
 														</div>
 														<!--end::Input group-->
@@ -70,31 +76,57 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
   `
 })
 export class NgbdModalContent {
-  @Input() name!:string;
+	@Input() name!: string;
+	nameType!: string;
+	onKeyName(event: any) {
+		this.nameType = event.target.value;
+	}
+	constructor(public activeModal: NgbActiveModal, private ser: CategoryService) { }
+	doAddCategory(e: any) {
+		e.preventDefault();
+		console.log("Hello")
+		let data: AddType = new AddType();
+		data.name = this.nameType;
+		this.ser.addType(data).subscribe({
+			next: res => {
+				location.reload();
+			},
+			error: err => {
+				alert("Lỗi")
+			}
+		})
+	}
 
-  constructor(public activeModal: NgbActiveModal) {}
-  doAddCategory(e:any){
-    e.preventDefault();
-    console.log("Hello")
-  }
-  
 }
 
 
 @Component({
-  selector: 'app-category',
-  templateUrl: './category.component.html',
-  styleUrls: ['./category.component.css']
+	selector: 'app-category',
+	templateUrl: './category.component.html',
+	styleUrls: ['./category.component.css']
 })
 export class CategoryComponent implements OnInit {
 
 
-  ngOnInit(): void {
-  }
-  constructor(private modalService: NgbModal) {}
+	ngOnInit(): void {
+		this.getDataFirst();
+	}
+	getDataFirst() {
+		this.ser.getTypeBook().subscribe(this.getDatas());
+	}
+	data: CatBook[] = [];
+	getDatas() {
+		return (data: any) => {
+			this.data = data
+		}
+	}
+	constructor(private modalService: NgbModal, private ser: CategoryService, private router: Router) { }
 
-  open() {
-    const modalRef = this.modalService.open(NgbdModalContent);
-    modalRef.componentInstance.name = 'World';
-  }
+	open() {
+		const modalRef = this.modalService.open(NgbdModalContent);
+		modalRef.componentInstance.name = 'World';
+	}
+	xemChiTiet(item: CatBook) {
+		this.router.navigateByUrl('/category/' + item.typeId)
+	}
 }

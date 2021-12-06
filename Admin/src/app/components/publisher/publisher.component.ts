@@ -1,9 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AddPublisher } from 'src/app/model/add-publisher';
+import { PublisherBook } from 'src/app/model/publisher-book';
+import { PublisherService } from './service/publisher.service';
 
 @Component({
-  selector: 'ngbd-modal-content',
-  template:`
+	selector: 'ngbd-modal-content',
+	template: `
   <div class="modal-dialog modal-dialog-centered mw-650px">
 										<!--begin::Modal content-->
 										<div class="modal-content">
@@ -38,7 +42,9 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 															<label class="required fs-6 fw-bold mb-2">Name</label>
 															<!--end::Label-->
 															<!--begin::Input-->
-															<input type="text" class="form-control form-control-solid" placeholder="Tên Nhà Xuất Bản" name="name" value="" #tennxb/>
+															<input type="text" 
+															(keyup)="onKeyName($event)"
+															class="form-control form-control-solid" placeholder="Tên Nhà Xuất Bản" name="name" value="" #tennxb/>
 															<!--end::Input-->
 														</div>
 														<!--end::Input group-->
@@ -70,28 +76,55 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
   `
 })
 export class NgbdModalContent {
-  constructor(public activeModal: NgbActiveModal) {}
-  doAddCategory(e:any, tennxb:string){
-    e.preventDefault();
-  }
-  
+	constructor(public activeModal: NgbActiveModal, private ser: PublisherService) { }
+	doAddCategory(e: any, tennxb: string) {
+		e.preventDefault();
+		let data: AddPublisher = new AddPublisher();
+		data.name = this.namePublisher;
+		this.ser.addPublisher(data).subscribe(
+			{
+				next: res => {
+					location.reload();
+				},
+				error: err => {
+					alert("Lỗi")
+				}
+			}
+		)
+	}
+	namePublisher!: string;
+	onKeyName(event: any) {
+		this.namePublisher = event.target.value;
+	}
 }
 
 
 @Component({
-  selector: 'app-publisher',
-  templateUrl: './publisher.component.html',
-  styleUrls: ['./publisher.component.css']
+	selector: 'app-publisher',
+	templateUrl: './publisher.component.html',
+	styleUrls: ['./publisher.component.css']
 })
 export class PublisherComponent implements OnInit {
 
 
-  ngOnInit(): void {
-  }
-  constructor(private modalService: NgbModal) {}
+	ngOnInit(): void {
+		this.getDataFirst();
+	}
+	data: PublisherBook[] = [];
+	getDataFirst() {
+		this.ser.getPublisherBook().subscribe(this.getDatas());
+	}
+	getDatas() {
+		return (data: any) => {
+			this.data = data
+		}
+	}
+	constructor(private modalService: NgbModal, private ser: PublisherService, private router: Router) { }
 
-  open() {
-    const modalRef = this.modalService.open(NgbdModalContent);
-  }
-
+	open() {
+		const modalRef = this.modalService.open(NgbdModalContent);
+	}
+	chiTietBookBaseOnPublisherId(item: PublisherBook) {
+		this.router.navigateByUrl('/publisher/' + item.publisherId);
+	}
 }

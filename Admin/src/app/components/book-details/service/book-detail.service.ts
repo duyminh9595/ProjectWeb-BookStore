@@ -1,5 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { CommendOnBook } from 'src/app/model/commend-on-book';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -7,9 +9,36 @@ import { environment } from 'src/environments/environment';
 })
 export class BookDetailService {
   readonly APIEndPoint = environment.APIEndpoint;
-  private APIProduct = this.APIEndPoint + 'book/';
+  private APIInvoiceBelongBook = this.APIEndPoint + 'book/';
   constructor(private httpClient: HttpClient) { }
   getProductById(id: number) {
-    return this.httpClient.get<any>(this.APIProduct + id).pipe();
+    return this.httpClient.get<any>(this.APIInvoiceBelongBook + id).pipe();
+  }
+  getCartDetail(bookid: number) {
+    const yourHeader: HttpHeaders = new HttpHeaders({
+      Authorization: `${localStorage.getItem('tokenLogin')}`,
+      Email: `${localStorage.getItem('emailLogin')}`,
+    });
+    return this.httpClient.get<any>(this.APIEndPoint + "cart/bookbaseoncart/" + bookid, {
+      headers: yourHeader,
+    });
+  }
+  getAllCommendBelongBook(bookid: number) {
+    const yourHeader: HttpHeaders = new HttpHeaders({
+      Authorization: `${localStorage.getItem('tokenLogin')}`,
+      Email: `${localStorage.getItem('emailLogin')}`,
+    });
+    return this.httpClient.get<any>(this.APIEndPoint + "cart/getallcommendbookidadmin/" + bookid, {
+      headers: yourHeader,
+    });
+  }
+  doHideShowCommend(data: CommendOnBook, bookid: number) {
+    const yourHeader: HttpHeaders = new HttpHeaders({
+      Authorization: `${localStorage.getItem('tokenLogin')}`,
+      Email: `${localStorage.getItem('emailLogin')}`,
+    });
+    return this.httpClient.post<any>(this.APIEndPoint + "cart/getallcommendbookidadmin/" + bookid + "/userid/" + data.userInfoId, null, {
+      headers: yourHeader,
+    });
   }
 }

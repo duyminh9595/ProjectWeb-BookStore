@@ -8,7 +8,7 @@ import { CommonModule } from "@angular/common";
 import { DomSanitizer } from '@angular/platform-browser';
 import { BookSerService } from './service/book-ser.service';
 import { AddBook } from 'src/app/model/add-book';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BookInfor } from 'src/app/model/book-infor';
 
 @Component({
@@ -339,7 +339,19 @@ export class BookComponent implements OnInit {
 	books: BookInfor[] = [];
 
 	ngOnInit(): void {
-		this.bookSer.getAllBook().subscribe(this.getDatas());
+		let checkidtexist = this.activeRoute.snapshot.paramMap.has('publisherid');
+		let checkid = this.activeRoute.snapshot.paramMap.has('catid');
+		if (checkidtexist) {
+			let id = +this.activeRoute.snapshot.paramMap.get('publisherid')!;
+			this.ser.getPublisherBookBaseonPublisherId(id).subscribe(this.getDatas())
+		}
+		else if (checkid) {
+			let id = +this.activeRoute.snapshot.paramMap.get('catid')!;
+			this.serCat.getTypeBookBaseTypeid(id).subscribe(this.getDatas())
+		}
+		else {
+			this.bookSer.getAllBook().subscribe(this.getDatas());
+		}
 	}
 	getDatas() {
 		return (data: any) => {
@@ -347,11 +359,11 @@ export class BookComponent implements OnInit {
 			console.log(data);
 		}
 	}
-	constructor(private modalService: NgbModal, private bookSer: BookSerService) { }
+	constructor(private modalService: NgbModal, private bookSer: BookSerService, private router: Router,
+		private activeRoute: ActivatedRoute, private ser: PublisherService, private serCat: CategoryService) { }
 
 	open() {
 		const modalRef = this.modalService.open(NgbdModalContentAddBook);
-
 	}
 
 

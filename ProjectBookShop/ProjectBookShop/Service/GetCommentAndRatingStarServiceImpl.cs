@@ -24,6 +24,10 @@ namespace ProjectBookShop.Service
         public async Task<RatingStarBook> CheckUserHasCommend(int bookId, int userId)
         {
             var data = await context.RatingStarBook.FirstOrDefaultAsync(x => (x.BookId == bookId && x.UserInfoId == userId));
+            if(data==null)
+            {
+                return null;
+            }
             return data;
         }   
 

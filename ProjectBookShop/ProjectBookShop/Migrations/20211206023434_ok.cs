@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ProjectBookShop.Migrations
 {
-    public partial class d : Migration
+    public partial class ok : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -295,6 +295,9 @@ namespace ProjectBookShop.Migrations
                     TotalPrice = table.Column<int>(type: "int", nullable: false),
                     TotalPriceAfterDiscount = table.Column<int>(type: "int", nullable: false),
                     CouponDiscountId = table.Column<int>(type: "int", nullable: false),
+                    AdminUserId = table.Column<int>(type: "int", nullable: false),
+                    AdminApprove = table.Column<bool>(type: "bit", nullable: false),
+                    DateAdminApprove = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NameReceiveProduct = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SDT = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -303,6 +306,12 @@ namespace ProjectBookShop.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Cart", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Cart_AdminUser_AdminUserId",
+                        column: x => x.AdminUserId,
+                        principalTable: "AdminUser",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Cart_CouponDiscount_CouponDiscountId",
                         column: x => x.CouponDiscountId,
@@ -582,6 +591,11 @@ namespace ProjectBookShop.Migrations
                 name: "IX_BookImage_BookId",
                 table: "BookImage",
                 column: "BookId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cart_AdminUserId",
+                table: "Cart",
+                column: "AdminUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cart_CouponDiscountId",

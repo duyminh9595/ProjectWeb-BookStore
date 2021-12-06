@@ -49,7 +49,7 @@
                   />
                   <input
                     class="text-center quantity-prod"
-                    value="{{ item.quantityInCart }}"
+                    value="{{ item.quantity }}"
                     aria-invalid="false"
                   />
                   <input
@@ -63,7 +63,7 @@
                 </div>
               </td>
               <td class="tdRight">
-                <p>{{ item.quantityInCart }} X {{ item.book.price }}</p>
+                <p>{{ item.quantity }} X {{ item.book.price }}</p>
               </td>
               <td class="ic-remove" title="remove from cart">
                 <a (click)="removeItem(item)">

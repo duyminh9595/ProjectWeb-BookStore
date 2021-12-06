@@ -25,6 +25,7 @@ import { BlogDetailComponent } from './components/blog-detail/blog-detail.compon
 import { EventComponent } from './components/event/event.component';
 import { CommonModule } from '@angular/common';
 import { BookDetailsComponent } from './components/book-details/book-details.component';
+import { RegisterComponent } from './components/register/register.component';
 
 
 
@@ -54,6 +55,14 @@ const routes: Routes = [
       {
         path: 'publisher',
         component: PublisherComponent,
+      },
+      {
+        path: 'publisher/:publisherid',
+        component: BookComponent,
+      },
+      {
+        path: 'category/:catid',
+        component: BookComponent,
       },
       {
         path: 'category',
@@ -91,7 +100,8 @@ const routes: Routes = [
     BlogDetailComponent,
     EventComponent,
     NgbdModalContentAddBook,
-    BookDetailsComponent
+    BookDetailsComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

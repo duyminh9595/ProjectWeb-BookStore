@@ -28,11 +28,17 @@ export class AddToCartService {
       checkCartItem = existingCartItem != undefined;
     }
     if (checkCartItem) {
-      existingCartItem.quantityInCart++;
+      existingCartItem.quantity++;
     } else {
       existingCartItem = new CartItem();
       existingCartItem.book = data;
-      existingCartItem.quantityInCart = 1;
+      existingCartItem.id = data.id;
+      existingCartItem.name = data.name;
+      existingCartItem.shortreview = data.shortReview;
+      existingCartItem.urlbookimageshow = data.urlBookImageShow;
+      existingCartItem.quantity = 1;
+      existingCartItem.price = data.price;
+      existingCartItem.priceTotal = data.price * existingCartItem.quantity;
       this.carts.push(existingCartItem);
     }
     this.storage.setItem('cartItems', JSON.stringify(this.carts));
@@ -40,17 +46,17 @@ export class AddToCartService {
   }
   minusCartItem(data: BookInHomepage) {
     let cartItem: CartItem = this.carts.find(
-      (item) => item.book.id == data.id
+      (item) => item.id == data.id
     )!;
-    cartItem.quantityInCart--;
-    if (cartItem.quantityInCart == 0) {
+    cartItem.quantity--;
+    if (cartItem.quantity == 0) {
       this.removeCartItem(cartItem.book);
     }
     this.computeData();
   }
   addNumberCartItem(data: BookInHomepage, quantity: number) {
     let cartItem: CartItem = this.carts.find(
-      (item) => item.book.id == data.id
+      (item) => item.id == data.id
     )!;
     cartItem.quantityInCart = quantity;
     if (cartItem.quantityInCart == 0) {
@@ -59,7 +65,7 @@ export class AddToCartService {
     this.computeData();
   }
   removeCartItem(data: BookInHomepage) {
-    const position = this.carts.findIndex((x) => x.book.id == data.id);
+    const position = this.carts.findIndex((x) => x.id == data.id);
     if (position > -1) {
       this.carts.splice(position, 1);
       this.computeData();
@@ -73,8 +79,8 @@ export class AddToCartService {
     let price: number = 0;
     let quantity: number = 0;
     for (let item of this.carts) {
-      quantity += item.quantityInCart;
-      price += item.book.price * item.quantityInCart;
+      quantity += item.quantity;
+      price += item.book.price * item.quantity;
     }
     this.totalPrice.next(price);
     this.totalQuantity.next(quantity);

@@ -16,6 +16,8 @@ namespace ProjectBookShop.DTO
         public string NameReceiveProduct { get; set; }
         public string SDT { get; set; }
         public string Note { get; set; }
+        public String date_created { get; set; }
+        public int userid { get; set; }
         public List<BookInCreateCartSuccessDTO> BookInDetailCartDTOs { get; set; }
     }
 }

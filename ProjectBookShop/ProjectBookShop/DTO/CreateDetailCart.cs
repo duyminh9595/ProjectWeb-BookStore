@@ -13,7 +13,7 @@ namespace ProjectBookShop.DTO
         [Required]
         public string Address { get; set; }
         [Required]
-        public string Sdt { get; set; }
+        public int Sdt { get; set; }
         [Required]
         public string NameReceiveProduct { get; set; }
         public string Note { get; set; }

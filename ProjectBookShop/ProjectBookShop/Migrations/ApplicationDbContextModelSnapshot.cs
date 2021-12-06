@@ -383,11 +383,20 @@ namespace ProjectBookShop.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("AdminApprove")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("AdminUserId")
+                        .HasColumnType("int");
+
                     b.Property<int>("CouponDiscountId")
                         .HasColumnType("int");
 
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("DateAdminApprove")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DateOfCreated")
                         .HasColumnType("datetime2");
@@ -419,6 +428,8 @@ namespace ProjectBookShop.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AdminUserId");
 
                     b.HasIndex("CouponDiscountId");
 
@@ -808,6 +819,12 @@ namespace ProjectBookShop.Migrations
 
             modelBuilder.Entity("ProjectBookShop.Entities.Cart", b =>
                 {
+                    b.HasOne("ProjectBookShop.Entities.AdminUser", "AdminUser")
+                        .WithMany()
+                        .HasForeignKey("AdminUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ProjectBookShop.Entities.CouponDiscount", "CouponDiscount")
                         .WithMany()
                         .HasForeignKey("CouponDiscountId")
@@ -819,6 +836,8 @@ namespace ProjectBookShop.Migrations
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("AdminUser");
 
                     b.Navigation("CouponDiscount");
 

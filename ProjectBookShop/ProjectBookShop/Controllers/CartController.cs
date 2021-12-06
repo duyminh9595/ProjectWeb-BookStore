@@ -102,6 +102,7 @@ namespace ProjectBookShop.Controllers
         }
 
         //get cart by id by user
+        
         [HttpGet("{id:int}", Name = "getCart")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User,Admin")]
         public async Task<ActionResult<CreateCartSuccessDTO>> GetCartById([FromHeader] string email, [FromQuery] PaginationDTO pagination,int id)
@@ -136,7 +137,7 @@ namespace ProjectBookShop.Controllers
                 return BadRequest("Email không trùng với Email trong Token");
         }
 
-        [HttpGet("{id:int}")]
+        [HttpGet("bookbaseoncart/{id:int}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<ActionResult<List<CartBaseOnBookIdDTO>>>GetAllCartBaseOnBookId([FromHeader] string email, [FromQuery] PaginationDTO pagination, int id)
         {
@@ -150,7 +151,7 @@ namespace ProjectBookShop.Controllers
             var adminInfo = await context.AdminUser.FirstOrDefaultAsync(x => (x.Email == emailInToken && x.Status == true));
             if (email == emailInToken && adminInfo != null)
             {
-                var carts =  await context.DetailCart.Where(x => x.BookId == id).ToListAsync();
+                var carts = await context.DetailCart.Where(x => x.BookId == id).ToListAsync() ;
                 if (carts == null)
                     return null;
                 else
@@ -160,16 +161,23 @@ namespace ProjectBookShop.Controllers
                     {
                         CartBaseOnBookIdDTO data = new CartBaseOnBookIdDTO();
                         var cart = await context.Cart.FirstOrDefaultAsync(x => x.Id == item.CartId);
+                        if(cart.AdminUser!=null)
+                        {
+                            data.AdminApprove = cart.AdminApprove;
+                            data.AdminUserId = cart.AdminUser.Id;
+
+                            
+                        }
                         data.AdminApprove = cart.AdminApprove;
-                        data.AdminUserId = cart.AdminUser.Id;
-                        data.DateOfCreated = cart.DateOfCreated;
                         data.DateAdminApprove = cart.DateAdminApprove;
+                        data.DateOfCreated = cart.DateOfCreated;
                         data.DateOfDisabled = cart.DateOfDisabled;
                         data.Id = cart.Id;
                         data.Status = cart.Status;
                         data.Reason = cart.Reason;
                         cartBaseOnBookIdDTOs.Add(data);
                     }
+                    cartBaseOnBookIdDTOs.Reverse();
                     return cartBaseOnBookIdDTOs;
                 }
             }
@@ -177,7 +185,106 @@ namespace ProjectBookShop.Controllers
         }
 
 
+        [HttpGet("getallcommendbookidadmin/{id:int}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        public async Task<ActionResult<List<CommendOnBookAllDTO>>>GetAllCommendBaseOnBookId([FromHeader] string email,[FromQuery] PaginationDTO pagination,int id)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            string authHeader = Request.Headers["Authorization"];
+            authHeader = authHeader.Replace("Bearer ", "");
+            var jsonToken = handler.ReadToken(authHeader);
+            var tokenS = handler.ReadToken(authHeader) as JwtSecurityToken;
+            var emailInToken = tokenS.Claims.First(claim => claim.Type == "email").Value;
+            var idInToken = tokenS.Claims.First(claim => claim.Type == "unique_name").Value;
+            var adminInfo = await context.AdminUser.FirstOrDefaultAsync(x => (x.Email == emailInToken && x.Status == true));
+            if (email == emailInToken && adminInfo != null)
+            {
+                var commend= await context.RatingStarBook.Where(x => x.BookId == id).ToListAsync();
+                List<CommendOnBookAllDTO> commendAndRatingDTOs = new List<CommendOnBookAllDTO>();
+                foreach (var item in commend)
+                {
+                    CommendOnBookAllDTO commendAndRatingDTO = new CommendOnBookAllDTO();
+                    commendAndRatingDTO.Commend = item.Commend;
+                    commendAndRatingDTO.DateOfCreated = item.DateOfCreated;
+                    commendAndRatingDTO.Rating = item.Rating;
+                    commendAndRatingDTO.Status = item.Status;
+                    commendAndRatingDTO.UserInfoId = item.UserInfoId;
+                    commendAndRatingDTOs.Add(commendAndRatingDTO);
+                }
+                return commendAndRatingDTOs;
+            }
+            return BadRequest("Email không trùng với Email trong Token");
+        }
 
+        [HttpPost("getallcommendbookidadmin/{id:int}/userid/{userid:int}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        public async Task<ActionResult> ShowHideCommendBaseOnBookId([FromHeader] string email, [FromQuery] PaginationDTO pagination, int id,int userid)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            string authHeader = Request.Headers["Authorization"];
+            authHeader = authHeader.Replace("Bearer ", "");
+            var jsonToken = handler.ReadToken(authHeader);
+            var tokenS = handler.ReadToken(authHeader) as JwtSecurityToken;
+            var emailInToken = tokenS.Claims.First(claim => claim.Type == "email").Value;
+            var idInToken = tokenS.Claims.First(claim => claim.Type == "unique_name").Value;
+            var adminInfo = await context.AdminUser.FirstOrDefaultAsync(x => (x.Email == emailInToken && x.Status == true));
+            if (email == emailInToken && adminInfo != null)
+            {
+                var commend = await context.RatingStarBook.FirstOrDefaultAsync(x => x.UserInfoId == userid && x.BookId == id);
+                commend.Status = !commend.Status;
+                await context.SaveChangesAsync();
+                return Ok();
+            }
+            return BadRequest("Email không trùng với Email trong Token");
+        }
+
+
+
+        [HttpGet("getallcartadmin")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        public async Task<ActionResult<List<CartOnAdminUIDTO>>>AllCartOnAdminUI()
+        {
+            var carts = await context.Cart.ToListAsync();
+            List<CartOnAdminUIDTO> cartOnAdminUIDTOs = new List<CartOnAdminUIDTO>();
+            foreach (var item in carts)
+            {
+                CartOnAdminUIDTO cartOnAdminUIDTO = new CartOnAdminUIDTO();
+                cartOnAdminUIDTO.admin_approve = item.AdminApprove;
+                cartOnAdminUIDTO.date_created = item.DateOfCreated.ToString();
+                cartOnAdminUIDTO.id = item.Id;
+                cartOnAdminUIDTO.status = item.Status;
+                cartOnAdminUIDTO.admin_approve_id = item.AdminUserId;
+                cartOnAdminUIDTOs.Add(cartOnAdminUIDTO);
+            }
+            cartOnAdminUIDTOs.Sort((x, y) => y.date_created.CompareTo(x.date_created));
+            return cartOnAdminUIDTOs;
+        }
+        [HttpPost("approve/{id:int}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        public async Task<ActionResult> ApproveCart(int id)
+        {
+            var carts = await context.Cart.FirstOrDefaultAsync(x => x.Id == id);
+            if (carts == null)
+                return BadRequest();
+            if(carts.Status)
+            {
+                carts.AdminApprove = true;
+                var handler = new JwtSecurityTokenHandler();
+                string authHeader = Request.Headers["Authorization"];
+                authHeader = authHeader.Replace("Bearer ", "");
+                var jsonToken = handler.ReadToken(authHeader);
+                var tokenS = handler.ReadToken(authHeader) as JwtSecurityToken;
+                var emailInToken = tokenS.Claims.First(claim => claim.Type == "email").Value;
+                var admin = await context.AdminUser.FirstOrDefaultAsync(x => x.Email.Equals(emailInToken));
+                if(admin!=null)
+                {
+                    carts.AdminUser = admin;
+                    await context.SaveChangesAsync();
+                    return Ok();
+                }
+            }
+            return BadRequest();
+        }
 
         //add to cart
         [HttpPost]
@@ -252,8 +359,9 @@ namespace ProjectBookShop.Controllers
             cart.DateOfCreated = DateTime.Now;
             cart.Address = createDetailCart.Address;
             cart.Note = createDetailCart.Note;
+            cart.AdminUserId = 1;
             cart.NameReceiveProduct = createDetailCart.NameReceiveProduct;
-            cart.SDT = createDetailCart.Sdt;
+            cart.SDT = createDetailCart.Sdt.ToString();
             if(couponCode==null)
             {
                 cart.TotalPriceAfterDiscount = cart.TotalPrice;
@@ -280,6 +388,8 @@ namespace ProjectBookShop.Controllers
             createCartSuccessDTO.CartId = id;
             createCartSuccessDTO.TotalPrice = cart.TotalPrice;
             createCartSuccessDTO.TotalPriceAfterDisCount = cart.TotalPriceAfterDiscount;
+            createCartSuccessDTO.date_created = cart.DateOfCreated.ToString();
+            createCartSuccessDTO.userid = cart.CustomerId;
             var detailCarts = await context.DetailCart.Where(data => data.CartId == id).ToListAsync();
             createCartSuccessDTO.BookInDetailCartDTOs = new List<BookInCreateCartSuccessDTO>();
             foreach (var item in detailCarts)

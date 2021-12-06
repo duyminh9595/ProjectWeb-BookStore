@@ -43,7 +43,7 @@ export class CheckOutComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private addToCartSer: AddToCartService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.cartItems = JSON.parse(localStorage.getItem('cartItems')!);
@@ -147,7 +147,7 @@ export class CheckOutComponent implements OnInit {
         book = new BookInDetailCartDto();
         book.Id = item.book.id;
         book.Name = item.book.name;
-        book.Quantity = item.quantityInCart;
+        book.Quantity = item.quantity;
         book.ShortReview = item.book.shortReview;
         books.push(book);
       }
