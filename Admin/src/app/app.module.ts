@@ -26,9 +26,37 @@ import { EventComponent } from './components/event/event.component';
 import { CommonModule } from '@angular/common';
 import { BookDetailsComponent } from './components/book-details/book-details.component';
 import { RegisterComponent } from './components/register/register.component';
+import { InfoAccountComponent } from './components/info-account/info-account.component';
+import { BillingAccountComponent } from './components/billing-account/billing-account.component';
+import { SettingAccountComponent } from './components/setting-account/setting-account.component';
 
 
+import { AngularFireModule } from "@angular/fire/compat";
+import {
+  AngularFireStorageModule,
+  AngularFireStorageReference,
+  AngularFireUploadTask
+} from "@angular/fire/compat/storage";
+import { DanhgiaComponent } from './components/danhgia/danhgia.component';
+import { BaivietComponent } from './components/baiviet/baiviet.component';
+import { ReviewbaivietComponent } from './components/reviewbaiviet/reviewbaiviet.component';
+import { ModalAddMaGiamGiaComponent } from './components/modal-add-ma-giam-gia/modal-add-ma-giam-gia.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+
+import {
+  MatDialogModule
+} from '@angular/material/dialog';
+import {
+  MatButtonModule
+} from '@angular/material/button';
+import {
+  MatInputModule
+} from '@angular/material/input';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { InvoiceBaseonCouponComponent } from './components/invoice-baseon-coupon/invoice-baseon-coupon.component';
+import { ModalThongkesachComponent } from './components/modal-thongkesach/modal-thongkesach.component';
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   {
@@ -41,16 +69,16 @@ const routes: Routes = [
       { path: 'book', component: BookComponent },
       { path: 'book/:bookid', component: BookDetailsComponent },
       {
-        path: 'customer/:customerid',
-        component: UserDetailComponent,
-      },
-      {
         path: 'invoice',
         component: InvoiceComponent,
       },
       {
         path: 'invoice/:invoiceid',
         component: InvoiceDetailComponent,
+      },
+      {
+        path: 'invoicebaseoncoupon/:couponid',
+        component: InvoiceBaseonCouponComponent,
       },
       {
         path: 'publisher',
@@ -76,6 +104,32 @@ const routes: Routes = [
         path: 'event',
         component: EventComponent,
       },
+      {
+        path: 'article/:articleid',
+        component: ReviewbaivietComponent,
+      },
+      {
+        path: 'account/:accountid',
+        component: InfoAccountComponent,
+        children: [
+          {
+            path: '',
+            component: BillingAccountComponent
+          },
+          {
+            path: 'setting',
+            component: SettingAccountComponent
+          },
+          {
+            path: 'danhgia',
+            component: DanhgiaComponent
+          },
+          {
+            path: 'baiviet',
+            component: BaivietComponent
+          }
+        ]
+      }
     ]
   },
   { path: '#', redirectTo: '', pathMatch: 'full' },
@@ -101,13 +155,33 @@ const routes: Routes = [
     EventComponent,
     NgbdModalContentAddBook,
     BookDetailsComponent,
-    RegisterComponent
+    RegisterComponent,
+    InfoAccountComponent,
+    BillingAccountComponent,
+    SettingAccountComponent,
+    DanhgiaComponent,
+    BaivietComponent,
+    ReviewbaivietComponent,
+    ModalAddMaGiamGiaComponent,
+    InvoiceBaseonCouponComponent,
+    ModalThongkesachComponent
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled' }),
     HttpClientModule,
-    NgbModule
+    NgbModule,
+    AngularFireStorageModule,
+    AngularFireModule.initializeApp({
+      apiKey: "AIzaSyCygO7o54HwNq4eobN4848Xnaw_nuQgwck",
+      authDomain: "newsproject-fa5bb.firebaseapp.com",
+      projectId: "newsproject-fa5bb",
+      storageBucket: "newsproject-fa5bb.appspot.com",
+      messagingSenderId: "1053553302212",
+      appId: "1:1053553302212:web:5ca79d1dd45c389ca28791",
+      measurementId: "G-6Q30DEJELJ"
+    }),
+    BrowserAnimationsModule, MatDialogModule, MatInputModule, MatNativeDateModule, MatDatepickerModule, MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

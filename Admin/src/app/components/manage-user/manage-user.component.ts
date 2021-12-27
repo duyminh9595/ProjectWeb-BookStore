@@ -1,11 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { UserInfo } from 'src/app/model/user-info';
+import { Name } from 'src/app/models/name';
+import { ManageUserService } from './service/manage-user.service';
 
 
 
 @Component({
-  selector: 'ngbd-modal-content',
-  template: `
+    selector: 'ngbd-modal-content',
+    template: `
   <div class="modal-dialog modal-dialog-centered mw-650px" >
   <!--begin::Modal content-->
   <div class="modal-content">
@@ -210,33 +214,61 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
   `
 })
 export class NgbdModalContent {
-  @Input() name!:string;
+    @Input() name!: string;
 
-  constructor(public activeModal: NgbActiveModal) {}
-  doAddUser(e:any){
-    e.preventDefault();
-    console.log("Hello")
-  }
-  
+    constructor(public activeModal: NgbActiveModal) { }
+    doAddUser(e: any) {
+        e.preventDefault();
+        console.log("Hello")
+    }
+
 }
 
 
 
 
 @Component({
-  selector: 'app-manage-user',
-  templateUrl: './manage-user.component.html',
-  styleUrls: ['./manage-user.component.css']
+    selector: 'app-manage-user',
+    templateUrl: './manage-user.component.html',
+    styleUrls: ['./manage-user.component.css']
 })
 export class ManageUserComponent implements OnInit {
 
-  ngOnInit(): void {
-  }
+    data: UserInfo[] = [];
+    ngOnInit(): void {
+        this.ser.getAllUser().subscribe(this.getDatas())
+    }
+    getDatas() {
+        return (data: any) => {
+            this.data = [];
+            this.data = data;
+            console.log(this.data)
+        }
+    }
+    constructor(private modalService: NgbModal, private ser: ManageUserService, private router: Router) { }
 
-  constructor(private modalService: NgbModal) {}
-
-  open() {
-    const modalRef = this.modalService.open(NgbdModalContent);
-    modalRef.componentInstance.name = 'World';
-  }
+    open() {
+        const modalRef = this.modalService.open(NgbdModalContent);
+        modalRef.componentInstance.name = 'World';
+    }
+    clickShow(id: any) {
+        let tempData = this.data.find(x => x.id === id);
+        tempData!.show = !tempData?.show;
+    }
+    name: Name = new Name()
+    onKeyNameUser(event: any) {
+        this.name.name = event.target.value;
+        this.data = [];
+        this.ser.getAllUserByName(this.name).subscribe(this.getDatas())
+    }
+    disableCustomer(id: any) {
+        this.ser.disableAccount(id).subscribe({
+            next: res => {
+                this.ser.getAllUser().subscribe(this.getDatas())
+            }
+        })
+    }
+    seeinfoaccount(id: any) {
+        this.router.navigateByUrl('/account/' + id)
+    }
 }

@@ -10,6 +10,7 @@ namespace ProjectBookShop.Service
     public interface IGetCommentAndAndRatingStarService
     {
         public Task<List<CommendAndRatingDTO>> GetAllCommandAndRatingOfBookId(int bookId);
+        public Task<List<CommendAndRatingDTO>> GetAllCommandAndRatingOfBookBaseOnUserId(int bookId);
         public Task<RatingStarBook> CheckUserHasCommend(int bookId, int userId);
         public Task<bool> UserHasBuyProduct(int bookId, int userId);
     }

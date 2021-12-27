@@ -1,0 +1,23 @@
+<h1 mat-dialog-title>Nhập ngày muốn thống kê</h1>
+<div mat-dialog-content>
+  <p>Nhập ngày bắt đầu</p>
+  <mat-form-field appearance="fill" style="width: 100%;" class="browser-default search-field">
+    <mat-label>Ngày</mat-label>
+    <input matInput [matDatepicker]="picker1" (dateChange)="addEventStart( $event)">
+    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+    <mat-datepicker #picker1></mat-datepicker>
+  </mat-form-field>
+</div>
+<div mat-dialog-content>
+  <p>Nhập ngày kết thúc</p>
+  <mat-form-field appearance="fill" style="width: 100%;" class="browser-default search-field">
+    <mat-label>Ngày</mat-label>
+    <input matInput [matDatepicker]="picker" (dateChange)="addEventEnd( $event)">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="xemthongke()">Ok</button>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+</div>

@@ -8,6 +8,7 @@ namespace ProjectBookShop.DTO
     public class CommendAndRatingDTO
     {
         public int BookId { get; set; }
+        public string BookName { get; set; }
         public int UserInfoId { get; set; }
         public string UserInfoEmail { get; set; }
         public float Rating { get; set; }

@@ -5,6 +5,7 @@ import { BookInfor } from 'src/app/model/book-infor';
 import { CatBook } from 'src/app/model/cat-book';
 import { Publisher } from 'src/app/model/publisher';
 import { Type } from 'src/app/model/type';
+import { NameDto } from 'src/app/models/name-dto';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -33,6 +34,15 @@ export class CategoryService {
       Email: `${localStorage.getItem('emailLogin')}`,
     });
     return this.httpClient.post<any>(this.APITypes, data, {
+      headers: yourHeader,
+    });
+  }
+  searchbynametheloai(data: NameDto) {
+    const yourHeader: HttpHeaders = new HttpHeaders({
+      Authorization: `${localStorage.getItem('tokenLogin')}`,
+      Email: `${localStorage.getItem('emailLogin')}`,
+    });
+    return this.httpClient.post<any>(this.APIEndPoint + 'type/findname', data, {
       headers: yourHeader,
     });
   }

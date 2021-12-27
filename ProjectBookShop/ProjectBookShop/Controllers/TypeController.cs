@@ -43,6 +43,24 @@ namespace ProjectBookShop.Controllers
             var typeReadDTO = mapper.Map<TypeReadDTO>(type);
             return Ok(typeReadDTO);
         }
+        [HttpPost("findname")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        public async Task<ActionResult<List<NumberBookByTypeDTO>>> Post([FromBody] NameDTO nameDTO)
+        {
+            var types = await context.Type.Where(x=>x.Name.Contains(nameDTO.name)).ToListAsync();
+            var books = await context.Book.Where(x => x.Status == true).ToListAsync();
+            List<NumberBookByTypeDTO> numberBookByTypeDTOs = new List<NumberBookByTypeDTO>();
+            NumberBookByTypeDTO data;
+            foreach (var type in types)
+            {
+                data = new NumberBookByTypeDTO();
+                data.NumberBook = books.Where(x => x.TypeId == type.Id).Count();
+                data.TypeId = type.Id;
+                data.TypeName = type.Name;
+                numberBookByTypeDTOs.Add(data);
+            }
+            return numberBookByTypeDTOs;
+        }
         [HttpPost]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<ActionResult> Post([FromBody] TypeCreateDTO typeCreateDTO)

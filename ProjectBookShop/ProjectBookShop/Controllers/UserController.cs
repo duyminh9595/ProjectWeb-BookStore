@@ -22,6 +22,7 @@ using Google.Apis.Drive.v3;
 using Google.Apis.Services;
 using System.Threading;
 using ProjectBookShop.Service;
+using ProjectBookShop.Helpers;
 
 namespace ProjectBookShop.Controller
 {
@@ -129,6 +130,43 @@ namespace ProjectBookShop.Controller
                     return BadRequest("Mật Khẩu không trùng khớp");
             }
         }
+        [HttpGet("seeallaccounts")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        public async Task<ActionResult<List<UserInfoDTO>>> SeeAllAccount([FromQuery] PaginationDTO pagination)
+        {
+            var queryable = context.Customer.AsQueryable();
+            await HttpContext.InsertPaginationParametersInResponse(queryable, pagination.RecordsPerPage);
+            var userInfos = await queryable.OrderByDescending(x => x.DateOfCreated).Paginate(pagination).ToListAsync();
+            var data = mapper.Map<List<UserInfoDTO>>(userInfos);
+            return Ok(data);
+        }
+        [HttpGet("seeinfoaccountbyid")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        public async Task<ActionResult<UserInfoDTO>> SeeAccountById(int id)
+        {
+            var userInfo = await context.Customer.FirstOrDefaultAsync(x => x.Id == id);
+            var data = mapper.Map<UserInfoDTO>(userInfo);
+            return Ok(data);
+        }
+        [HttpPost("findaccountbyname")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        public async Task<ActionResult<List<UserInfoDTO>>> SeeAllAccountByName([FromQuery] PaginationDTO pagination,[FromBody]NameDTO nameDTO)
+        {
+            var queryable = context.Customer.AsQueryable();
+            await HttpContext.InsertPaginationParametersInResponse(queryable, pagination.RecordsPerPage);
+            var userInfos = await queryable.Where(x => x.Email.Contains(nameDTO.name) || x.FirstName.Contains(nameDTO.name) || x.LastName.Contains(nameDTO.name)).Paginate(pagination).ToListAsync();
+            var data = mapper.Map<List<UserInfoDTO>>(userInfos);
+            return Ok(data);
+        }
+        [HttpPost("disableaccount")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        public async Task<ActionResult<List<UserInfoDTO>>> DisableAccount([FromQuery] int id)
+        {
+            var data = await context.Customer.FirstOrDefaultAsync(x => x.Id == id);
+            data.Status = !data.Status;
+            await context.SaveChangesAsync();
+            return Ok(data);
+        }
 
         private async Task<UserInfo> CheckEmailInToken()
         {
@@ -142,6 +180,32 @@ namespace ProjectBookShop.Controller
             var userInfo = await context.Customer.FirstOrDefaultAsync(x => (x.Email == emailInToken && x.Status == true && x.Id == Int32.Parse(idInToken)));
             return userInfo;
         }
+        [HttpPost("admin/uploadimage")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        public async Task<ActionResult> AdminUploadImageUser([FromBody] ImageDTO imageDTO,int id)
+        {
+            var customer = await context.Customer.FirstOrDefaultAsync(x => x.Id == id);
+            if(customer==null)
+            {
+                return BadRequest();
+            }
+            customer.UrlImageAvatar = imageDTO.link;
+            await context.SaveChangesAsync();
+            return Ok();
+        }
+        [HttpPost("admin/updatepass")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        public async Task<ActionResult> AdminUpdatePasswordUser([FromBody] NewPassDTO newPassDTO, int id)
+        {
+            var customer = await context.Customer.FirstOrDefaultAsync(x => x.Id == id);
+            if (customer == null)
+            {
+                return BadRequest();
+            }
+            customer.Password = BC.HashPassword(newPassDTO.password);
+            await context.SaveChangesAsync();
+            return Ok();
+        }
 
         [HttpPost("signup")]
         public async Task<ActionResult>SignUp([FromBody] RegisterUserDTO registerUserDTO )
@@ -152,6 +216,36 @@ namespace ProjectBookShop.Controller
             return BadRequest();
         }
 
-        
+        [HttpGet("top5trongthang")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        public async Task<ActionResult<List<Top5ThangDTO>>>GetTop5Thang()
+        {
+            var users = await context.Customer.ToListAsync();
+            List<Top5ThangDTO> top5ThangDTOs = new List<Top5ThangDTO>();
+            foreach(var item in users)
+            {
+                var carts = await context.Cart.Where(x => x.DateOfCreated.Year == DateTime.Now.Year && x.DateOfCreated.Month == DateTime.Now.Month &&x.CustomerId==item.Id && x.AdminApprove==true)
+                    .ToListAsync();
+                carts.Sort((x, y) => y.DateOfCreated.CompareTo(x.DateOfCreated));
+                Top5ThangDTO top5ThangDTO = new Top5ThangDTO();
+                top5ThangDTO.UserId = item.Id;
+                top5ThangDTO.UserName = item.FirstName + " " + item.LastName;
+                top5ThangDTO.UserEmail = item.Email;
+                top5ThangDTO.IdHoaDonGanNhat = carts.ElementAt(0).Id;
+                top5ThangDTO.NgayHoaDonGanNhat = carts[0].DateOfCreated.ToLongDateString();
+                top5ThangDTO.ImageUrl = item.UrlImageAvatar;
+                float sum = 0;
+                foreach(var data in carts)
+                {
+                    sum += data.TotalPriceAfterDiscount;
+                }
+                top5ThangDTO.TongTienTrongThang = sum;
+                top5ThangDTOs.Add(top5ThangDTO);
+            }
+            top5ThangDTOs.Sort((x, y) => y.TongTienTrongThang.CompareTo( x.TongTienTrongThang));
+
+            return top5ThangDTOs;
+        }
+
     }
 }

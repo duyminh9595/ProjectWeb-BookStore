@@ -25,6 +25,14 @@ export class InvoiceService {
       headers: yourHeader,
     });
   }
+  searchbyid(id: number) {
+    const yourHeader: HttpHeaders = new HttpHeaders({
+      Authorization: `${localStorage.getItem('tokenLogin')}`
+    });
+    return this.httpClient.get<GetResponse>(this.APIEndPoint + "cart/find/" + id, {
+      headers: yourHeader,
+    });
+  }
 }
 interface GetResponse {
   response: CartOnAdmin[];

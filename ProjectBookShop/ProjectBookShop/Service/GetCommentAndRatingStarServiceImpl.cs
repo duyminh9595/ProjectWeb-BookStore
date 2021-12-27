@@ -37,6 +37,12 @@ namespace ProjectBookShop.Service
             var item = mapper.Map<List<CommendAndRatingDTO>>(data);
             return item;
         }
+        public async Task<List<CommendAndRatingDTO>> GetAllCommandAndRatingOfBookBaseOnUserId(int userid)
+        {
+            var data = await context.RatingStarBook.Where(x => x.UserInfoId == userid).OrderByDescending(x => x.DateOfCreated).ToListAsync();
+            var item = mapper.Map<List<CommendAndRatingDTO>>(data);
+            return item;
+        }
 
         public async Task<bool> UserHasBuyProduct(int bookId, int userId)
         {

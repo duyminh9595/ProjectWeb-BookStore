@@ -4,7 +4,10 @@
 
 export const environment = {
   production: false,
-  APIEndpoint: 'https://localhost:5001/api/'
+  APIEndpoint: 'https://localhost:5001/api/',
+  iduser: 0,
+  setting: false,
+  billing: true
 };
 
 /*

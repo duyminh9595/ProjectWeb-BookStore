@@ -29,7 +29,33 @@ namespace ProjectBookShop.Controllers
             this.mapper = mapper;
             this.getCommentAndAndRatingStarService = getCommentAndAndRatingStarService;
         }
-        
+        [HttpGet("user/{id:int}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        public async Task<ActionResult<List<CommendAndRatingDTO>>> GetAllCommendAndRatingOfBookBaseOnUserId(int id)
+        {
+            //bookid
+            var data = await getCommentAndAndRatingStarService.GetAllCommandAndRatingOfBookBaseOnUserId(id);
+            var users = await context.Customer.FirstOrDefaultAsync(x=>x.Id==id);
+            foreach (var cmd in data)
+            {
+                var book = await context.Book.FirstOrDefaultAsync(x => x.Id == cmd.BookId);
+                cmd.BookName = book.Name;
+            }
+            return data;
+        }
+        [HttpPost("disablecommend")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        public async Task<ActionResult>DisableEnableCommend([FromBody]EnableDisableCommendDTO enableDisableCommendDTO)
+        {
+            var commend = await context.RatingStarBook.FirstOrDefaultAsync(x => x.UserInfoId == enableDisableCommendDTO.userid && x.BookId == enableDisableCommendDTO.bookid);
+            if(commend!=null)
+            {
+                commend.Status = !commend.Status;
+                await context.SaveChangesAsync();
+                return Ok();
+            }
+            return BadRequest();
+        }
         [HttpGet("{id:int}")]
         public async Task<ActionResult<List<CommendAndRatingDTO>>>GetAllCommendAndRatingOfBookId(int id)
         {

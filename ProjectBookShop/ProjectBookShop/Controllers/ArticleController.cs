@@ -50,6 +50,53 @@ namespace ProjectBookShop.Controllers
             }
             return articlesShow;
         }
+        [HttpGet("admin-user")]
+        public async Task<ActionResult<List<ArticleShowDTO>>> GetAritcle([FromQuery] PaginationDTO pagination,int id)
+        {
+            var queryable = context.Article.AsQueryable();
+            await HttpContext.InsertPaginationParametersInResponse(queryable, pagination.RecordsPerPage);
+            var articles = queryable.Where(x => x.CustomerId==id).OrderByDescending(x => x.DateOfApproved).Paginate(pagination).ToList();
+            var articlesShow = mapper.Map<List<ArticleShowDTO>>(articles);
+            var customers = context.Customer.ToList();
+            foreach (var item in articlesShow)
+            {
+                var customer = customers.FirstOrDefault(x => x.Id == item.CustomerId);
+                item.AuthorName = customer.Email;
+            }
+            return articlesShow;
+        }
+        [HttpGet("all-article")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        public async Task<ActionResult<List<ArticleShowDTO>>> GetAllAritcle([FromQuery] PaginationDTO pagination)
+        {
+            var queryable = context.Article.AsQueryable();
+            await HttpContext.InsertPaginationParametersInResponse(queryable, pagination.RecordsPerPage);
+            var articles = queryable.OrderByDescending(x => x.DateOfApproved).Paginate(pagination).ToList();
+            var articlesShow = mapper.Map<List<ArticleShowDTO>>(articles);
+            var customers = context.Customer.ToList();
+            foreach (var item in articlesShow)
+            {
+                var customer = customers.FirstOrDefault(x => x.Id == item.CustomerId);
+                item.AuthorName = customer.Email;
+            }
+            return articlesShow;
+        }
+        [HttpPost("articlebyname")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        public async Task<ActionResult<List<ArticleShowDTO>>> GetAllAritcleByName([FromQuery] PaginationDTO pagination,[FromBody]NameDTO nameDTO)
+        {
+            var queryable = context.Article.AsQueryable();
+            await HttpContext.InsertPaginationParametersInResponse(queryable, pagination.RecordsPerPage);
+            var articles = queryable.Where(x=>x.Title.Contains(nameDTO.name)).OrderByDescending(x => x.DateOfApproved).Paginate(pagination).ToList();
+            var articlesShow = mapper.Map<List<ArticleShowDTO>>(articles);
+            var customers = context.Customer.ToList();
+            foreach (var item in articlesShow)
+            {
+                var customer = customers.FirstOrDefault(x => x.Id == item.CustomerId);
+                item.AuthorName = customer.Email;
+            }
+            return articlesShow;
+        }
         [HttpGet("account")]
         public async Task<ActionResult<List<ArticleShowDTO>>> GetAritcleByAccount()
         {
@@ -162,34 +209,25 @@ namespace ProjectBookShop.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<ActionResult>ApproveArticle(int id)
         {
-            var user = await checkUserEmailInToken();
+            var user = await checkUserEmailInTokenAdmin();
             if(user==null)
             {
                 return BadRequest();
             }
             else
             {
-                var userRoles = await context.UserRole.Where(x => x.UserInfoId == user.Id).ToListAsync();
-                var admin = userRoles.FirstOrDefault(x => x.Role_Name.Equals("Admin"));
-                if(admin==null)
+                var article = await context.Article.FirstOrDefaultAsync(x => x.Id == id);
+                if (article == null )
                 {
                     return BadRequest();
                 }
                 else
                 {
-                    var article = await context.Article.FirstOrDefaultAsync(x => x.Id == id);
-                    if(article==null || article.Approve==true)
-                    {
-                        return BadRequest();
-                    }
-                    else
-                    {
-                        article.AdminId = user.Id;
-                        article.DateOfApproved = DateTime.Now;
-                        article.Approve = true;
-                        await context.SaveChangesAsync();
-                        return Ok();
-                    }
+                    article.AdminId = user.Id;
+                    article.DateOfApproved = DateTime.Now;
+                    article.Approve = !article.Approve;
+                    await context.SaveChangesAsync();
+                    return Ok();
                 }
             }
         }
@@ -204,6 +242,19 @@ namespace ProjectBookShop.Controllers
             var idInToken = tokenS.Claims.First(claim => claim.Type == "unique_name").Value;
             string emailHeader = Request.Headers["Email"];
             var user = await context.Customer.FirstOrDefaultAsync(x => (x.Id == Int32.Parse(idInToken) && x.Email == emailHeader && x.Email == emailInToken && x.Status == true));
+            return user;
+        }
+        private async Task<AdminUser> checkUserEmailInTokenAdmin()
+        {
+            var handler = new JwtSecurityTokenHandler();
+            string authHeader = Request.Headers["Authorization"];
+            authHeader = authHeader.Replace("Bearer ", "");
+            var jsonToken = handler.ReadToken(authHeader);
+            var tokenS = handler.ReadToken(authHeader) as JwtSecurityToken;
+            var emailInToken = tokenS.Claims.First(claim => claim.Type == "email").Value;
+            var idInToken = tokenS.Claims.First(claim => claim.Type == "unique_name").Value;
+            string emailHeader = Request.Headers["Email"];
+            var user = await context.AdminUser.FirstOrDefaultAsync(x => (x.Id == Int32.Parse(idInToken) && x.Email == emailHeader && x.Email == emailInToken && x.Status == true));
             return user;
         }
         private async Task<List<UserRole>>findRoles(int id)

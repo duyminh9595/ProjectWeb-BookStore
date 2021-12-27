@@ -1,0 +1,52 @@
+<div class="card">
+  <!--begin::Card header-->
+  <div class="card-header card-header-stretch border-bottom border-gray-200">
+    <!--begin::Title-->
+    <div class="card-title">
+      <h3 class="fw-bolder m-0">Tất cả hóa đơn đã mua</h3>
+    </div>
+  </div>
+  <!--end::Card header-->
+  <!--begin::Tab Content-->
+  <div class="tab-content">
+    <!--begin::Tab panel-->
+    <div id="kt_billing_months" class="card-body p-0 tab-pane fade show active" role="tabpanel"
+      aria-labelledby="kt_billing_months">
+      <!--begin::Table container-->
+      <div class="table-responsive">
+        <!--begin::Table-->
+        <table class="table table-row-bordered align-middle gy-4 gs-9">
+          <thead class="border-bottom border-gray-200 fs-6 text-gray-600 fw-bolder bg-light bg-opacity-75">
+            <tr>
+              <td class="min-w-150px">Date</td>
+              <td class="min-w-150px">Số sao</td>
+              <td class="min-w-150px">Bình luận</td>
+              <td class="min-w-150px">Status</td>
+              <td>Chức năng</td>
+            </tr>
+          </thead>
+          <tbody class="fw-bold text-gray-600">
+            <!--begin::Table row-->
+            <tr *ngFor="let item of data">
+              <td>{{item.dateOfCreated}}</td>
+              <td>{{item.rating}}</td>
+              <td>{{item.commend}}</td>
+              <td>{{item.status}}</td>
+              <td class="text-right" (click)="disable(item.bookId,item.userInfoId)" *ngIf="item.status">
+                <a class="btn btn-sm btn-light btn-active-light-primary">Disable</a>
+              </td>
+              <td class="text-right" (click)="enable(item.bookId,item.userInfoId)" *ngIf="!item.status">
+                <a class="btn btn-sm btn-light btn-active-light-primary">Enable</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!--end::Table-->
+      </div>
+      <!--end::Table container-->
+    </div>
+
+    <!--end::Tab panel-->
+  </div>
+  <!--end::Tab Content-->
+</div>

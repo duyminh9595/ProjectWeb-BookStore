@@ -22,22 +22,25 @@ export class InvoiceDetailComponent implements OnInit {
     let checkidexist = this.activeRoute.snapshot.paramMap.has('invoiceid');
     if (checkidexist) {
       this.id = +this.activeRoute.snapshot.paramMap.get('invoiceid')!;
+      console.log(this.id)
       this.getDataFirst();
     }
     else {
       this.router.navigateByUrl('/invoice');
     }
   }
-  data!: InforCart;
+  data: InforCart = new InforCart();
   getDataFirst() {
     this.ser.getCartDetail(this.id).subscribe({
       next: res => {
         this.data = res;
-        console.log(this.data)
       },
       error: err => {
         this.router.navigateByUrl('/invoice')
       }
     })
+  }
+  gotoBook(id: number) {
+    this.router.navigateByUrl('/book/' + id)
   }
 }

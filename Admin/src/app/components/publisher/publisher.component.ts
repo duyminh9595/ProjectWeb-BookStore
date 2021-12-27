@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddPublisher } from 'src/app/model/add-publisher';
 import { PublisherBook } from 'src/app/model/publisher-book';
+import { NameDto } from 'src/app/models/name-dto';
 import { PublisherService } from './service/publisher.service';
 
 @Component({
@@ -126,5 +127,17 @@ export class PublisherComponent implements OnInit {
 	}
 	chiTietBookBaseOnPublisherId(item: PublisherBook) {
 		this.router.navigateByUrl('/publisher/' + item.publisherId);
+	}
+	name: NameDto = new NameDto();
+	nhaptennxb(event: any) {
+		this.name.name = event.target.value;
+		if (this.name.name.length > 0) {
+			this.data = []
+			console.log(this.name)
+			this.ser.findpublisher(this.name).subscribe(this.getDatas())
+		}
+		else {
+			this.getDataFirst()
+		}
 	}
 }

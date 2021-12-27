@@ -1,0 +1,17 @@
+<div class="container" style="font-size: 14px">
+  <div class="col-md-12" *ngIf="loadBLog">
+    <img src="{{ data.urlImageArtice }}" />
+    <div class="blog-desc">
+      <h2>{{data.title}}</h2>
+      <p class="blog-date" style="color: #006994">
+        {{ data.dateOfApproved | slice: 0:10 }} -
+        <span style="color: #800075">by {{ data.authorName }}</span>
+      </p>
+      <p class="blog-date" style="color: red" (click)="approve(data.id)">Approve: {{data.approve}}</p>
+      <p class="blog-info" innerHTML="{{ data.content }}"></p>
+      <p class="blog-tags">
+        <i class="fa fa-tag" aria-hidden="true"></i><span>Art - Crime - Fiction</span>
+      </p>
+    </div>
+  </div>
+</div>

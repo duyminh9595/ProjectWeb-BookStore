@@ -1,0 +1,45 @@
+<h1 mat-dialog-title>Nhập mã giảm giá</h1>
+<div mat-dialog-content>
+  <p>Nhập ngày bắt đầu</p>
+  <mat-form-field appearance="fill" style="width: 100%;" class="browser-default search-field">
+    <mat-label>Ngày</mat-label>
+    <input matInput [matDatepicker]="picker1" (dateChange)="addEventStart( $event)">
+    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+    <mat-datepicker #picker1></mat-datepicker>
+  </mat-form-field>
+</div>
+<div mat-dialog-content>
+  <p>Nhập ngày kết thúc</p>
+  <mat-form-field appearance="fill" style="width: 100%;" class="browser-default search-field">
+    <mat-label>Ngày</mat-label>
+    <input matInput [matDatepicker]="picker" (dateChange)="addEventEnd( $event)">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+</div>
+<div mat-dialog-content>
+  <p>Nhập mã</p>
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Nhập mã</mat-label>
+    <input matInput placeholder="Nhập mã" type="text" required (keyup)="onKeyDescription($event)">
+  </mat-form-field>
+</div>
+<div mat-dialog-content>
+  <p>Nhập phần trăm</p>
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Nhập phần trăm</mat-label>
+    <input matInput placeholder="Nhập phần trăm<" type="number" required (keyup)="onKeyNhapPhanTram($event)">
+  </mat-form-field>
+</div>
+<div mat-dialog-content>
+  <p>Số lượng tối đa sử dụng</p>
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Số lượng tối đa sử dụng</mat-label>
+    <input matInput placeholder="Số lượng tối đa sử dụng" type="number" required (keyup)="onKeyMax($event)"
+      style="width: 100%;">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="addMa()">Ok</button>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+</div>

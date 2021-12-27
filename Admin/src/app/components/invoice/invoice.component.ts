@@ -34,4 +34,15 @@ export class InvoiceComponent implements OnInit {
       }
     })
   }
+  nhapmahoadon(event: any) {
+    let data = event.target.value;
+    if (data.length > 0) {
+      this.datas = []
+      this.ser.searchbyid(+data).subscribe(this.getDatas())
+    }
+    else {
+      this.datas = [];
+      this.getDataFirst();
+    }
+  }
 }

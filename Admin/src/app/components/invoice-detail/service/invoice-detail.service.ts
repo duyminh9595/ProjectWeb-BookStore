@@ -14,7 +14,7 @@ export class InvoiceDetailService {
       Authorization: `${localStorage.getItem('tokenLogin')}`,
       Email: `${localStorage.getItem('emailLogin')}`,
     });
-    return this.httpClient.get<any>(this.APICartItem + "admin/" + cartId, {
+    return this.httpClient.get<any>(this.APICartItem + "detailcartadmin/" + cartId, {
       headers: yourHeader,
     });
   }

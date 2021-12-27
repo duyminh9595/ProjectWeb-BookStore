@@ -9,8 +9,8 @@ namespace ProjectBookShop.DTO
     {
         public string CouponCode { get; set; }
         public string DetailCoupon { get; set; }
-        public DateTime DateOfCreated { get; set; }
-        public DateTime DateOfEnded { get; set; }
+        public String DateOfCreated { get; set; }
+        public String DateOfEnded { get; set; }
         public int CountUse { get; set; }
         public int MaxCountUse { get; set; }
         public bool Status { get; set; }

@@ -223,8 +223,6 @@
                           <div class="fw-bolder fs-6 text-gray-800">ID tài khoản đặt: {{data.userid}}</div>
                           <!--end::Text-->
                           <!--end::Description-->
-                          <div class="fw-bold fs-7 text-gray-600">9858 South 53rd Ave.
-                            <br />Matthews, NC 28104</div>
                           <!--end::Description-->
                         </div>
                         <!--end::Col-->
@@ -245,7 +243,8 @@
                             <tbody>
                               <tr class="fw-bolder text-gray-700 fs-5 text-end"
                                 *ngFor="let item of data.bookInDetailCartDTOs">
-                                <td class="d-flex align-items-center pt-6">
+                                <td class="d-flex align-items-center pt-6" (click)="gotoBook(item.id)"
+                                  routerLinkActive="router-link-active">
                                   <i class="fa fa-genderless text-danger fs-2 me-2"></i>{{item.name}}</td>
                                 <td class="pt-6">{{item.quantity}}</td>
                                 <td class="pt-6">{{item.price}}</td>

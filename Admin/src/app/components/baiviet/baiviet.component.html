@@ -1,0 +1,63 @@
+<div class="card">
+  <!--begin::Card header-->
+  <div class="card-header card-header-stretch border-bottom border-gray-200">
+    <!--begin::Title-->
+    <div class="card-title">
+      <h3 class="fw-bolder m-0">Tất cả bài viết</h3>
+    </div>
+  </div>
+  <!--end::Card header-->
+  <!--begin::Tab Content-->
+  <div class="tab-content">
+    <!--begin::Tab panel-->
+    <div id="kt_billing_months" class="card-body p-0 tab-pane fade show active" role="tabpanel"
+      aria-labelledby="kt_billing_months">
+      <!--begin::Table container-->
+      <div class="table-responsive">
+        <!--begin::Table-->
+        <table class="table table-row-bordered align-middle gy-4 gs-9">
+          <thead class="border-bottom border-gray-200 fs-6 text-gray-600 fw-bolder bg-light bg-opacity-75">
+            <tr>
+              <td class="min-w-150px">Hình ảnh thumbnail</td>
+              <td class="min-w-150px">Ngày viết</td>
+              <td class="min-w-150px">Tiêu đề</td>
+              <td class="min-w-150px">Approve</td>
+              <td class="min-w-150px">Ngày Approve</td>
+              <td>Chức năng</td>
+            </tr>
+          </thead>
+          <tbody class="fw-bold text-gray-600">
+            <!--begin::Table row-->
+            <tr *ngFor="let item of data">
+              <td (click)="seeBaiViet(item.id)"><img src="{{item.urlImageArtice}}"
+                  style="width: 150px;height: 150px;" /> </td>
+              <td>{{item.dateOfCreated}}</td>
+              <td>{{item.title}}</td>
+              <td>{{item.approve}}</td>
+              <td *ngIf="!item.approve"></td>
+              <td *ngIf="item.approve">{{item.dateOfApproved}}</td>
+              <td>
+                <div class="col">
+                  <div ngbDropdown class="d-inline-block">
+                    <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Chọn chức năng
+                    </button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                      <button ngbDropdownItem (click)="disable(item.id)" *ngIf="item.approve">Disable</button>
+                      <button ngbDropdownItem (click)="enable(item.id)" *ngIf="!item.approve">Enable</button>
+                      <button ngbDropdownItem (click)="seeBaiViet(item.id)">Xem trước bài viết</button>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!--end::Table-->
+      </div>
+      <!--end::Table container-->
+    </div>
+
+    <!--end::Tab panel-->
+  </div>
+  <!--end::Tab Content-->
+</div>

@@ -26,7 +26,7 @@ namespace ProjectBookShop.Controllers
             this.context = context;
             this.mapper = mapper;
         }
-        [HttpGet("/list")]
+        [HttpGet("list")]
         public async Task<ActionResult<List<ListCouponDTO>>>GetAllCoupon([FromQuery] PaginationDTO pagination)
         {
             var queryable = context.CouponDiscount.AsQueryable();
@@ -35,7 +35,14 @@ namespace ProjectBookShop.Controllers
             return mapper.Map<List<ListCouponDTO>>(coupons);
         }
 
-
+        [HttpGet("listcustomer")]
+        public async Task<ActionResult<List<ListCouponDTO>>> GetAllCouponForCustomer([FromQuery] PaginationDTO pagination)
+        {
+            var queryable = context.CouponDiscount.AsQueryable();
+            await HttpContext.InsertPaginationParametersInResponse(queryable, pagination.RecordsPerPage);
+            var coupons = await queryable.Where(x=>x.Status==true).Paginate(pagination).ToListAsync();
+            return mapper.Map<List<ListCouponDTO>>(coupons);
+        }
 
         [HttpGet("{id:int}",Name ="getCoupon")]
         public async Task<ActionResult<CouponDetailDTO>> GetCouponById(int id)
@@ -51,28 +58,26 @@ namespace ProjectBookShop.Controllers
             context.Add(coupon);
             await context.SaveChangesAsync();
             var couponDetailDTO = mapper.Map<CouponDetailDTO>(coupon);
-            return new CreatedAtRouteResult("getCoupon", new { id = coupon.Id }, couponDetailDTO);
+            return Ok();
         }
-        [HttpPut("{id:int}/disable")]
+        [HttpPost("disable")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<ActionResult<CouponDetailDTO>> DisableCoupon(int id)
         {
-            var coupon = await context.CouponDiscount.FirstOrDefaultAsync(x => x.Id == id);
+            var coupon = await context.CouponDiscount.FirstOrDefaultAsync(x => x.Id == id && x.Id!=1);
             coupon.Status = false;
             await context.SaveChangesAsync();
-            var couponDetailDTO = mapper.Map<CouponDetailDTO>(coupon);
-            return new CreatedAtRouteResult("getCoupon", new { id = coupon.Id }, couponDetailDTO);
+            return Ok();
         }
 
-        [HttpPut("{id:int}/enable")]
+        [HttpPost("enable")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<ActionResult<CouponDetailDTO>> EnableCoupon(int id)
         {
-            var coupon = await context.CouponDiscount.FirstOrDefaultAsync(x => x.Id == id);
+            var coupon = await context.CouponDiscount.FirstOrDefaultAsync(x => x.Id == id && x.Id!=1);
             coupon.Status = true;
             await context.SaveChangesAsync();
-            var couponDetailDTO = mapper.Map<CouponDetailDTO>(coupon);
-            return new CreatedAtRouteResult("getCoupon", new { id = coupon.Id }, couponDetailDTO);
+            return Ok();
         }
     }
 }

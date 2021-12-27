@@ -4,6 +4,7 @@ import { AddPublisher } from 'src/app/model/add-publisher';
 import { BookInfor } from 'src/app/model/book-infor';
 import { Publisher } from 'src/app/model/publisher';
 import { PublisherBook } from 'src/app/model/publisher-book';
+import { NameDto } from 'src/app/models/name-dto';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -32,6 +33,15 @@ export class PublisherService {
       Email: `${localStorage.getItem('emailLogin')}`,
     });
     return this.httpClient.post<any>(this.APITypes, data, {
+      headers: yourHeader,
+    });
+  }
+  findpublisher(data: NameDto) {
+    const yourHeader: HttpHeaders = new HttpHeaders({
+      Authorization: `${localStorage.getItem('tokenLogin')}`,
+      Email: `${localStorage.getItem('emailLogin')}`,
+    });
+    return this.httpClient.post<any>(this.APIEndPoint + 'publisher/findname', data, {
       headers: yourHeader,
     });
   }

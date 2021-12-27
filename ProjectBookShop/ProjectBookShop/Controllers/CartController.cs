@@ -88,21 +88,94 @@ namespace ProjectBookShop.Controllers
             var queryablecart = context.Cart.AsQueryable().Where(s => s.Id == id);
             await HttpContext.InsertPaginationParametersInResponse(queryablecart, Int32.MaxValue);
 
-            var detail = queryablecart.Where(x => x.Id == id);
-            if (detail == null)
+            var carts = await queryablecart.OrderByDescending(x => x.DateOfCreated).Paginate(pagination).ToListAsync();
+            var cartsDTO = mapper.Map<List<ListCartDTO>>(carts);
+            var coupons = await context.CouponDiscount.ToListAsync();
+            foreach (var item in cartsDTO)
             {
-                return Ok($"Cart ID {id} không tồn tại");
+                item.PercentDiscount = coupons.FirstOrDefault(x => x.Id == item.CouponDiscountId).PercenDiscount;
             }
-            else
+            return Ok(cartsDTO);
+
+        }
+        //get cart by id by admin
+        [HttpGet("find/{id:int}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        public async Task<ActionResult<List<CartOnAdminUIDTO>>> SearchGetCartByIdByAdmin([FromQuery] PaginationDTO pagination, int id)
+        {
+            var carts = await context.Cart.Where(x=>x.Id==id).ToListAsync();
+            List<CartOnAdminUIDTO> cartOnAdminUIDTOs = new List<CartOnAdminUIDTO>();
+            foreach (var item in carts)
             {
-                var cart = await context.Cart.FirstOrDefaultAsync(x => x.Id == id);
-                return await showBookInCreateCartSucces(cart.Id, cart);
+                CartOnAdminUIDTO cartOnAdminUIDTO = new CartOnAdminUIDTO();
+                cartOnAdminUIDTO.admin_approve = item.AdminApprove;
+                cartOnAdminUIDTO.date_created = item.DateOfCreated.ToString();
+                cartOnAdminUIDTO.id = item.Id;
+                cartOnAdminUIDTO.status = item.Status;
+                cartOnAdminUIDTO.admin_approve_id = item.AdminUserId;
+                cartOnAdminUIDTOs.Add(cartOnAdminUIDTO);
             }
+            cartOnAdminUIDTOs.Sort((x, y) => y.date_created.CompareTo(x.date_created));
+            return cartOnAdminUIDTOs;
+        }
+        //get cart by id by admin
+        [HttpGet("getcartbaseoncoupon")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        public async Task<ActionResult<List<CartOnAdminUIDTO>>> SearchGetCartByCouponIdByAdmin([FromQuery] PaginationDTO pagination, int coupon)
+        {
+            var carts = await context.Cart.Where(x => x.CouponDiscountId == coupon).ToListAsync();
+            List<CartOnAdminUIDTO> cartOnAdminUIDTOs = new List<CartOnAdminUIDTO>();
+            foreach (var item in carts)
+            {
+                CartOnAdminUIDTO cartOnAdminUIDTO = new CartOnAdminUIDTO();
+                cartOnAdminUIDTO.admin_approve = item.AdminApprove;
+                cartOnAdminUIDTO.date_created = item.DateOfCreated.ToString();
+                cartOnAdminUIDTO.id = item.Id;
+                cartOnAdminUIDTO.status = item.Status;
+                cartOnAdminUIDTO.admin_approve_id = item.AdminUserId;
+                cartOnAdminUIDTOs.Add(cartOnAdminUIDTO);
+            }
+            cartOnAdminUIDTOs.Sort((x, y) => y.date_created.CompareTo(x.date_created));
+            return cartOnAdminUIDTOs;
+        }
+        [HttpGet("getcartbaseoncouponandcartid")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        public async Task<ActionResult<List<CartOnAdminUIDTO>>> SearchGetCartByCouponIdAndCartIdByAdmin([FromQuery] PaginationDTO pagination, int coupon,int cartid)
+        {
+            var carts = await context.Cart.Where(x => x.CouponDiscountId == coupon && x.Id==cartid).ToListAsync();
+            List<CartOnAdminUIDTO> cartOnAdminUIDTOs = new List<CartOnAdminUIDTO>();
+            foreach (var item in carts)
+            {
+                CartOnAdminUIDTO cartOnAdminUIDTO = new CartOnAdminUIDTO();
+                cartOnAdminUIDTO.admin_approve = item.AdminApprove;
+                cartOnAdminUIDTO.date_created = item.DateOfCreated.ToString();
+                cartOnAdminUIDTO.id = item.Id;
+                cartOnAdminUIDTO.status = item.Status;
+                cartOnAdminUIDTO.admin_approve_id = item.AdminUserId;
+                cartOnAdminUIDTOs.Add(cartOnAdminUIDTO);
+            }
+            cartOnAdminUIDTOs.Sort((x, y) => y.date_created.CompareTo(x.date_created));
+            return cartOnAdminUIDTOs;
+        }
+        [HttpGet("admin-user/{id:int}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        public async Task<ActionResult> GetCartByUserIdByAdmin([FromQuery] PaginationDTO pagination, int id)
+        {
+            var queryablecart = context.Cart.AsQueryable().Where(s => s.CustomerId == id);
+            await HttpContext.InsertPaginationParametersInResponse(queryablecart, Int32.MaxValue);
+            var carts = await queryablecart.OrderByDescending(x => x.DateOfCreated).Paginate(pagination).ToListAsync();
+            var cartsDTO = mapper.Map<List<ListCartDTO>>(carts);
+            var coupons = await context.CouponDiscount.ToListAsync();
+            foreach (var item in cartsDTO)
+            {
+                item.PercentDiscount = coupons.FirstOrDefault(x => x.Id == item.CouponDiscountId).PercenDiscount;
+            }
+            return Ok(cartsDTO);
 
         }
 
         //get cart by id by user
-        
+
         [HttpGet("{id:int}", Name = "getCart")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User,Admin")]
         public async Task<ActionResult<CreateCartSuccessDTO>> GetCartById([FromHeader] string email, [FromQuery] PaginationDTO pagination,int id)
@@ -135,6 +208,21 @@ namespace ProjectBookShop.Controllers
             }
             else
                 return BadRequest("Email không trùng với Email trong Token");
+        }
+
+
+        [HttpGet("detailcartadmin/{id:int}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        public async Task<ActionResult<CreateCartSuccessDTO>> GetAdminCartById( [FromQuery] PaginationDTO pagination, int id)
+        {
+            var queryablecart = context.Cart.AsQueryable().Where(s => s.Id == id);
+            await HttpContext.InsertPaginationParametersInResponse(queryablecart, Int32.MaxValue);
+
+            var detail = queryablecart.Where(x => x.Id == id);
+            var cart = await context.Cart.FirstOrDefaultAsync(x => x.Id == id);
+            if (cart == null)
+                return NotFound();
+            return await showBookInCreateCartSucces(cart.Id, cart);
         }
 
         [HttpGet("bookbaseoncart/{id:int}")]

@@ -71,4 +71,10 @@ export class BookDetailsComponent implements OnInit {
   refreshPage() {
     location.reload()
   }
+  goToCart(id: number) {
+    this.router.navigateByUrl('/invoice/' + id)
+  }
+  viewInvoice(id: number) {
+
+  }
 }

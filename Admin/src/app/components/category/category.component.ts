@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddType } from 'src/app/model/add-type';
 import { CatBook } from 'src/app/model/cat-book';
+import { NameDto } from 'src/app/models/name-dto';
 import { CategoryService } from './service/category.service';
 
 @Component({
@@ -112,11 +113,14 @@ export class CategoryComponent implements OnInit {
 		this.getDataFirst();
 	}
 	getDataFirst() {
+		this.data = []
 		this.ser.getTypeBook().subscribe(this.getDatas());
 	}
 	data: CatBook[] = [];
 	getDatas() {
+		this.data = []
 		return (data: any) => {
+			console.log(data)
 			this.data = data
 		}
 	}
@@ -128,5 +132,16 @@ export class CategoryComponent implements OnInit {
 	}
 	xemChiTiet(item: CatBook) {
 		this.router.navigateByUrl('/category/' + item.typeId)
+	}
+	name: NameDto = new NameDto();
+	nhaptentheloai(event: any) {
+		this.name.name = event.target.value;
+		if (this.name.name.length > 0) {
+			this.data = []
+			this.ser.searchbynametheloai(this.name).subscribe(this.getDatas())
+		}
+		else {
+			this.getDataFirst();
+		}
 	}
 }

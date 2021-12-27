@@ -86,5 +86,71 @@ namespace ProjectBookShop.Controllers
             }
             return numberBookByPublisherDTOs;
         }
+        [HttpPost("findname")]
+        public async Task<ActionResult<List<NumberBookByPublisherDTO>>> GetBookByName([FromBody]NameDTO nameDTO)
+        {
+            var publisher = await context.Publisher.Where(x=>x.Name.Contains(nameDTO.name)).ToListAsync();
+            var books = await context.Book.Where(x => (x.Status == true)).ToListAsync();
+            List<NumberBookByPublisherDTO> numberBookByPublisherDTOs = new List<NumberBookByPublisherDTO>();
+            NumberBookByPublisherDTO data;
+            foreach (var item in publisher)
+            {
+                data = new NumberBookByPublisherDTO();
+                data.NumberBook = books.Where(x => x.PublisherId == item.Id).Count();
+                data.PublisherId = item.Id;
+                data.PublisherName = item.Name;
+                numberBookByPublisherDTOs.Add(data);
+            }
+            return numberBookByPublisherDTOs;
+        }
+        [HttpGet("sltrongthang")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        public async Task<ActionResult<List<SachNXBTrongThangDTO>>> GetTop5Thang()
+        {
+            var nxbs = await context.Publisher.ToListAsync();
+            List<SachNXBTrongThangDTO> sachNXBTrongThangDTOs = new List<SachNXBTrongThangDTO>();
+            var carts = await context.Cart.Where(x => x.DateOfCreated.Year == DateTime.Now.Year && x.DateOfCreated.Month == DateTime.Now.Month && x.AdminApprove == true)
+                    .ToListAsync();
+            var types = await context.Type.ToListAsync();
+            var books = await context.Book.ToListAsync();
+            foreach (var item in nxbs)
+            {
+                foreach(var cart in carts)
+                {
+                    var detailcarts = await context.DetailCart.Where(x => x.CartId == cart.Id).ToListAsync();
+                    foreach(var data in detailcarts)
+                    {
+                        foreach(var book in books)
+                        {
+                            if(data.BookId==book.Id)
+                            {
+                                bool check = false;
+                                foreach (var datatemp in sachNXBTrongThangDTOs)
+                                {
+                                    if(datatemp.SachId==book.Id)
+                                    {
+                                        datatemp.Sl += data.Quantity;
+                                        check = true;
+                                    }
+                                }
+                                if (!check)
+                                {
+                                    SachNXBTrongThangDTO sachNXBTrongThangDTO = new SachNXBTrongThangDTO();
+                                    sachNXBTrongThangDTO.IdNXB = item.Id;
+                                    sachNXBTrongThangDTO.IdTheLoai = book.TypeId;
+                                    sachNXBTrongThangDTO.SachId = book.Id;
+                                    sachNXBTrongThangDTO.NameNXB = item.Name;
+                                    sachNXBTrongThangDTO.NameTheLoai = types[types.FindIndex(x=>x.Id==book.TypeId)].Name;
+                                    sachNXBTrongThangDTO.Sl = data.Quantity;
+                                    sachNXBTrongThangDTOs.Add(sachNXBTrongThangDTO);
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            return sachNXBTrongThangDTOs;
+        }
     }
 }
