@@ -308,11 +308,10 @@
             <!--begin::Body-->
             <div class="card-body pt-2">
               <!--begin::Item-->
-              <div class="d-flex align-items-center mb-7" *ngFor="let item of datamid">
+              <div class="d-flex align-items-center mb-7" *ngFor="let item of nxb">
                 <!--begin::Avatar-->
                 <div class="flex-grow-1">
-                  <a (click)="seenxb(item.idNXB)"
-                    class="text-dark fw-bolder text-hover-primary fs-6">{{item.nameNXB}}</a>
+                  <a (click)="seenxb(item.id)" class="text-dark fw-bolder text-hover-primary fs-6">{{item.name}}</a>
                   <span class="text-muted d-block fw-bold">Số lượng đã bán: {{item.sl}}</span>
                 </div>
                 <!--end::Text-->
@@ -355,7 +354,7 @@
             <!--begin::Body-->
             <div class="card-body pt-0">
               <!--begin::Item-->
-              <div class="d-flex align-items-center bg-light-warning rounded p-5 mb-7" *ngFor="let item of datamid">
+              <div class="d-flex align-items-center bg-light-warning rounded p-5 mb-7" *ngFor="let item of theloai">
                 <!--begin::Icon-->
                 <span class="svg-icon svg-icon-warning me-5">
                   <!--begin::Svg Icon | path: icons/duotune/abstract/abs027.svg-->
@@ -374,10 +373,10 @@
                 <!--end::Icon-->
                 <!--begin::Title-->
                 <div class="flex-grow-1 me-2">
-                  <a (click)="seeTheLoai(item.idTheLoai)" class="fw-bolder text-gray-800 text-hover-primary fs-6">Tên
+                  <a (click)="seeTheLoai(item.id)" class="fw-bolder text-gray-800 text-hover-primary fs-6">Tên
                     thể
                     loại:
-                    {{item.nameTheLoai}}</a>
+                    {{item.name}}</a>
                   <span class="text-muted fw-bold d-block">Số lượng: {{item.sl}}</span>
                 </div>
               </div>

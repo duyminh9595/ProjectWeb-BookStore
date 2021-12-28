@@ -105,7 +105,7 @@ namespace ProjectBookShop.Controllers
         }
         [HttpGet("sltrongthang")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
-        public async Task<ActionResult<List<SachNXBTrongThangDTO>>> GetTop5Thang()
+        public async Task<ActionResult<ThongKeDTO>> GetTop5Thang()
         {
             var nxbs = await context.Publisher.ToListAsync();
             List<SachNXBTrongThangDTO> sachNXBTrongThangDTOs = new List<SachNXBTrongThangDTO>();
@@ -113,8 +113,7 @@ namespace ProjectBookShop.Controllers
                     .ToListAsync();
             var types = await context.Type.ToListAsync();
             var books = await context.Book.ToListAsync();
-            foreach (var item in nxbs)
-            {
+ 
                 foreach(var cart in carts)
                 {
                     var detailcarts = await context.DetailCart.Where(x => x.CartId == cart.Id).ToListAsync();
@@ -136,10 +135,10 @@ namespace ProjectBookShop.Controllers
                                 if (!check)
                                 {
                                     SachNXBTrongThangDTO sachNXBTrongThangDTO = new SachNXBTrongThangDTO();
-                                    sachNXBTrongThangDTO.IdNXB = item.Id;
+                                    sachNXBTrongThangDTO.IdNXB = nxbs[nxbs.FindIndex(x=>x.Id==book.PublisherId)].Id;
                                     sachNXBTrongThangDTO.IdTheLoai = book.TypeId;
                                     sachNXBTrongThangDTO.SachId = book.Id;
-                                    sachNXBTrongThangDTO.NameNXB = item.Name;
+                                sachNXBTrongThangDTO.NameNXB = nxbs[nxbs.FindIndex(x => x.Id == book.PublisherId)].Name;
                                     sachNXBTrongThangDTO.NameTheLoai = types[types.FindIndex(x=>x.Id==book.TypeId)].Name;
                                     sachNXBTrongThangDTO.Sl = data.Quantity;
                                     sachNXBTrongThangDTOs.Add(sachNXBTrongThangDTO);
@@ -148,9 +147,41 @@ namespace ProjectBookShop.Controllers
                             }
                         }
                     }
+                
+                }
+            List<TheLoaiTrongThangDTO> theLoaiTrongThangDTOs = new List<TheLoaiTrongThangDTO>();
+            List<NxbTrongThangDTO> nxbTrongThangDTOs = new List<NxbTrongThangDTO>();
+            foreach (var item in sachNXBTrongThangDTOs)
+            {
+                if(theLoaiTrongThangDTOs.FindIndex(x=>x.id==item.IdTheLoai)<0)
+                {
+                    TheLoaiTrongThangDTO theLoaiTrongThangDTO = new TheLoaiTrongThangDTO();
+                    theLoaiTrongThangDTO.id = item.IdTheLoai;
+                    theLoaiTrongThangDTO.name = item.NameTheLoai;
+                    theLoaiTrongThangDTO.sl = item.Sl;
+                    theLoaiTrongThangDTOs.Add(theLoaiTrongThangDTO);
+                }
+                else
+                {
+                    theLoaiTrongThangDTOs[theLoaiTrongThangDTOs.FindIndex(x => x.id == item.IdTheLoai)].sl += item.Sl;
+                }
+                if (nxbTrongThangDTOs.FindIndex(x => x.id == item.IdNXB) <0)
+                {
+                    NxbTrongThangDTO nxbTrongThangDTO = new NxbTrongThangDTO();
+                    nxbTrongThangDTO.id = item.IdNXB;
+                    nxbTrongThangDTO.name = item.NameNXB;
+                    nxbTrongThangDTO.sl = item.Sl;
+                    nxbTrongThangDTOs.Add(nxbTrongThangDTO);
+                }
+                else
+                {
+                    nxbTrongThangDTOs[nxbTrongThangDTOs.FindIndex(x => x.id == item.IdNXB)].sl += item.Sl;
                 }
             }
-            return sachNXBTrongThangDTOs;
+            ThongKeDTO thongKeDTO = new ThongKeDTO();
+            thongKeDTO.nxbs = nxbTrongThangDTOs;
+            thongKeDTO.theLoais = theLoaiTrongThangDTOs;
+            return thongKeDTO;
         }
     }
 }

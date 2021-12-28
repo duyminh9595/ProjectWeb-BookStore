@@ -12,6 +12,9 @@ import { IndexService } from './service/index.service';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { ModalThongkeDoanhthuComponent } from '../modal-thongke-doanhthu/modal-thongke-doanhthu.component';
+import { Dataget } from 'src/app/models/dataget';
+import { Doanhsotheloai } from 'src/app/models/doanhsotheloai';
+import { Doanhsonxb } from 'src/app/models/doanhsonxb';
 
 @Component({
   selector: 'ngbd-modal-content',
@@ -241,7 +244,9 @@ export class IndexComponent implements OnInit {
   constructor(private router: Router, private ser: IndexService, private modalService: NgbModal, public dialog: MatDialog) { }
   data: Baiviet[] = [];
   dataTopThang: Topthangdto[] = [];
-  datamid: Soluongbooktheloainxb[] = [];
+  dataget: Dataget = new Dataget();
+  theloai: Doanhsotheloai[] = [];
+  nxb: Doanhsonxb[] = [];
   ngOnInit(): void {
     this.getDataFirst()
     this.getDataSecond();
@@ -259,10 +264,12 @@ export class IndexComponent implements OnInit {
     })
   }
   getDataThird() {
-    this.datamid = [];
+    this.dataget = new Dataget();
     this.ser.getAllBookTrongThang().subscribe({
       next: res => {
-        this.datamid = res;
+        this.dataget = res;
+        this.theloai = this.dataget.theLoais;
+        this.nxb = this.dataget.nxbs;
       }
     })
   }

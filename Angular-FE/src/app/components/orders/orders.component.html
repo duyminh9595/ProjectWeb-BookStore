@@ -21,9 +21,15 @@
           <!-- header -->
           <tbody>
             <tr class="tab-top-txt">
-              <td><p>Product</p></td>
-              <td class="tdCenter"><p>Quantity</p></td>
-              <td class="tdRight"><p>Price</p></td>
+              <td>
+                <p>Product</p>
+              </td>
+              <td>
+                <p>Quantity</p>
+              </td>
+              <td class="tdRight">
+                <p>Price</p>
+              </td>
               <td></td>
             </tr>
 
@@ -31,35 +37,17 @@
             <tr *ngFor="let item of carts">
               <td class="cart-column-img">
                 <div class="col-md-3 cart-prod-img">
-                  <img
-                    alt="Divina Commedia"
-                    src="{{ item.book.urlBookImageShow }}"
-                  />
+                  <img alt="Divina Commedia" src="{{ item.book.urlBookImageShow }}" style="width: 100px;" />
                   <p>{{ item.book.name }}</p>
                 </div>
               </td>
               <td class="cart-quantity">
                 <div class="input-append">
-                  <input
-                    class="btn bt-minus-prod"
-                    type="button"
-                    value="-"
-                    aria-disabled="true"
-                    (click)="minusItem(item)"
-                  />
-                  <input
-                    class="text-center quantity-prod"
-                    value="{{ item.quantity }}"
-                    aria-invalid="false"
-                  />
-                  <input
-                    class="btn btn-lg btn-primary bt-plus-prod"
-                    type="button"
-                    value="+"
-                    tabindex="0"
-                    aria-disabled="false"
-                    (click)="addItem(item)"
-                  />
+                  <input class="btn bt-minus-prod" type="button" value="-" aria-disabled="true"
+                    (click)="minusItem(item)" />
+                  <input class="text-center quantity-prod" value="{{ item.quantity }}" aria-invalid="false" />
+                  <input class="btn btn-lg btn-primary bt-plus-prod" type="button" value="+" tabindex="0"
+                    aria-disabled="false" (click)="addItem(item)" />
                 </div>
               </td>
               <td class="tdRight">
@@ -74,8 +62,12 @@
 
             <!-- footer -->
             <tr class="cart-total">
-              <td><p>Total</p></td>
-              <td class="tdCenter"><p></p></td>
+              <td>
+                <p>Total</p>
+              </td>
+              <td class="tdCenter">
+                <p></p>
+              </td>
               <td class="tdRight">
                 <p>Tổng cộng {{ totalPrice }}</p>
               </td>
@@ -84,18 +76,11 @@
 
             <tr>
               <td colspan="4" class="btn-checkout-prod">
-                <button
-                  class="btn btn-lg btn-primary cart-clear-all"
-                  (click)="removeAllItem()"
-                >
+                <button class="btn btn-lg btn-primary cart-clear-all" (click)="removeAllItem()">
                   <i class="icon-trash icon-white"></i> clear cart
                 </button>
                 <div class="btn-payment">
-                  <button
-                    class="btn btn-lg btn-primary checkout"
-                    routerLink="/checkout"
-                    routerLinkActive="active"
-                  >
+                  <button class="btn btn-lg btn-primary checkout" routerLink="/checkout" routerLinkActive="active">
                     <i class="icon-ok icon-white"></i> Check out
                   </button>
                 </div>

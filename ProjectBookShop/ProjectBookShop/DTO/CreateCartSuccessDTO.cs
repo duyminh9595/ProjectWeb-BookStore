@@ -19,5 +19,7 @@ namespace ProjectBookShop.DTO
         public String date_created { get; set; }
         public int userid { get; set; }
         public List<BookInCreateCartSuccessDTO> BookInDetailCartDTOs { get; set; }
+        public bool status { get; set; }
+        
     }
 }

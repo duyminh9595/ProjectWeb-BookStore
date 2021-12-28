@@ -57,7 +57,6 @@ namespace ProjectBookShop.Controllers
             var coupon = mapper.Map<CouponDiscount>(couponCreateDTO);
             context.Add(coupon);
             await context.SaveChangesAsync();
-            var couponDetailDTO = mapper.Map<CouponDetailDTO>(coupon);
             return Ok();
         }
         [HttpPost("disable")]

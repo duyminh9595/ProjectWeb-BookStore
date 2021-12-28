@@ -28,6 +28,9 @@
       <div class="col-md-7">
         <h2>Ghi chú: {{ data.note }}</h2>
       </div>
+      <div class="col-md-7">
+        <h2>Admin xác nhận: {{ data.status }}</h2>
+      </div>
     </div>
   </div>
 </section>
@@ -47,10 +50,18 @@
           <!-- header -->
           <tbody>
             <tr class="tab-top-txt">
-              <td><p>Product</p></td>
-              <td class="tdCenter"><p>Quantity</p></td>
-              <td class="tdRight"><p>Price Per Unit</p></td>
-              <td class="tdRight"><p>Tổng Tiền</p></td>
+              <td>
+                <p>Product</p>
+              </td>
+              <td class="tdCenter">
+                <p>Quantity</p>
+              </td>
+              <td class="tdRight">
+                <p>Price Per Unit</p>
+              </td>
+              <td class="tdRight">
+                <p>Tổng Tiền</p>
+              </td>
             </tr>
 
             <!-- cart items -->
@@ -58,11 +69,7 @@
             <tr *ngFor="let item of data.bookInDetailCartDTOs">
               <td class="cart-column-img">
                 <div class="" routerLink="/books/{{ item.id }}">
-                  <img
-                    style="width: 150px; height: 150px"
-                    alt="Divina Commedia"
-                    src="{{ item.imageUrl }}"
-                  />
+                  <img style="width: 150px; height: 150px" alt="Divina Commedia" src="{{ item.imageUrl }}" />
                   <p style="width: 100%">{{ item.name }}</p>
                 </div>
               </td>

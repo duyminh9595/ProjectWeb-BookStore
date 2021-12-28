@@ -488,7 +488,7 @@ namespace ProjectBookShop.Controllers
                 data.Id = book.Id;
                 data.Name = book.Name;
                 data.ImageUrl = context.Book.FirstOrDefault(x=>(x.Id==book.Id )).UrlBookImageShow;
-                data.Price = book.Price;
+                data.Price = item.Price;
                 data.Quantity = item.Quantity;
                 createCartSuccessDTO.BookInDetailCartDTOs.Add(data);
             }
@@ -499,6 +499,7 @@ namespace ProjectBookShop.Controllers
             createCartSuccessDTO.NameReceiveProduct = cart.NameReceiveProduct;
             createCartSuccessDTO.SDT = cart.SDT;
             createCartSuccessDTO.Note = cart.Note;
+            createCartSuccessDTO.status = cart.AdminApprove;
             return createCartSuccessDTO;
         }
     }

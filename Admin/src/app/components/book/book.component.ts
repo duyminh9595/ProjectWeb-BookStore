@@ -365,6 +365,19 @@ export class BookComponent implements OnInit {
 
 	open() {
 		const modalRef = this.modalService.open(NgbdModalContentAddBook);
+		let checkidtexist = this.activeRoute.snapshot.paramMap.has('publisherid');
+		let checkid = this.activeRoute.snapshot.paramMap.has('catid');
+		if (checkidtexist) {
+			let id = +this.activeRoute.snapshot.paramMap.get('publisherid')!;
+			this.ser.getPublisherBookBaseonPublisherId(id).subscribe(this.getDatas())
+		}
+		else if (checkid) {
+			let id = +this.activeRoute.snapshot.paramMap.get('catid')!;
+			this.serCat.getTypeBookBaseTypeid(id).subscribe(this.getDatas())
+		}
+		else {
+			this.bookSer.getAllBook().subscribe(this.getDatas());
+		}
 	}
 	selectbookid(id: number) {
 		environment.bookid = id;

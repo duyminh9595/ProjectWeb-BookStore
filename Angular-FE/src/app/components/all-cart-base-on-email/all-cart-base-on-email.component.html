@@ -19,11 +19,24 @@
           <!-- header -->
           <tbody>
             <tr class="tab-top-txt">
-              <td><p>CartId</p></td>
-              <td><p>Ngày tạo đơn</p></td>
-              <td class="tdCenter"><p>Giá tiền trước giảm giá</p></td>
-              <td class="tdCenter"><p>Số phần trăm giảm</p></td>
-              <td class="tdRight"><p>Giá thực trả</p></td>
+              <td>
+                <p>CartId</p>
+              </td>
+              <td>
+                <p>Ngày tạo đơn</p>
+              </td>
+              <td class="tdCenter">
+                <p>Giá tiền trước giảm giá</p>
+              </td>
+              <td class="tdCenter">
+                <p>Số phần trăm giảm</p>
+              </td>
+              <td class="tdRight">
+                <p>Giá thực trả</p>
+              </td>
+              <td class="tdCenter">
+                <p>Status</p>
+              </td>
               <td>View</td>
             </tr>
 
@@ -54,11 +67,12 @@
                 </div>
               </td>
               <td class="ic-remove" title="remove from cart">
-                <a
-                  class="input-append"
-                  routerLink="/infocart/{{ item.id }}"
-                  routerLinkActive="active"
-                >
+                <div class="input-append">
+                  <p>{{ item.status }}</p>
+                </div>
+              </td>
+              <td class="ic-remove" title="remove from cart">
+                <a class="input-append" routerLink="/infocart/{{ item.id }}" routerLinkActive="active">
                   <button type="button" class="btn btn-success">
                     Chi tiết
                   </button>

@@ -11,4 +11,5 @@ export class InfoCartId {
   sdt!: string;
   note!: string;
   bookInDetailCartDTOs: BookInCartid[] = [];
+  status!: boolean;
 }
