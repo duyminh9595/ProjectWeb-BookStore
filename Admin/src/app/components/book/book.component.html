@@ -198,7 +198,7 @@
                 <!--begin::Joined-->
                 <!--begin::Action=-->
                 <td class="text-end">
-                  <a routerLink="/book/{{ item.id }}" routerLinkActive="active"
+                  <a routerLink="/book/{{ item.id }}" routerLinkActive="active" (click)="selectbookid(item.id)"
                     class="btn btn-light btn-active-light-primary btn-sm" data-kt-menu-trigger="click"
                     data-kt-menu-placement="bottom-end">Actions
                     <!--begin::Svg Icon | path: icons/duotune/arrows/arr072.svg-->

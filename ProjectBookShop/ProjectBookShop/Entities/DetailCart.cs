@@ -16,5 +16,6 @@ namespace ProjectBookShop.Entities
         public Book Book { get; set; }
         [Required]
         public int Quantity { get; set; }
+        public int Price { get; set; }
     }
 }

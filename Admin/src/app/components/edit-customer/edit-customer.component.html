@@ -1,0 +1,25 @@
+<h1 mat-dialog-title>Chọn ngày và giới tính</h1>
+<div mat-dialog-content>
+  <p>Chọn năm sinh</p>
+  <mat-form-field appearance="fill" style="width: 100%;" class="browser-default search-field">
+    <mat-label>Ngày</mat-label>
+    <input matInput [matDatepicker]="picker1" (dateChange)="addEventStart( $event)" [formControl]="dateOfBirth">
+    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+    <mat-datepicker #picker1></mat-datepicker>
+  </mat-form-field>
+</div>
+<mat-form-field appearance="fill" style="width: 100%;">
+  <mat-label>Gender</mat-label>
+  <mat-select (selectionChange)="changeGender($event.value)" [(value)]="gender">
+    <mat-option [value]="1">
+      Nam
+    </mat-option>
+    <mat-option [value]="0">
+      Nữ
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+<div mat-dialog-actions>
+  <button mat-button (click)="update()">Ok</button>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+</div>

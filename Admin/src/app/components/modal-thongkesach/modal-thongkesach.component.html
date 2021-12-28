@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>Nhập ngày muốn thống kê</h1>
+<h1 mat-dialog-title>Nhập ngày muốn thống kê sách</h1>
 <div mat-dialog-content>
   <p>Nhập ngày bắt đầu</p>
   <mat-form-field appearance="fill" style="width: 100%;" class="browser-default search-field">
@@ -17,7 +17,36 @@
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
 </div>
+<div class="container" style="width: 100%;">
+  <div class="row">
+
+    <div class="col-md-12" id="htmlData">
+      <h1 style="text-align: center;">Báo cáo số lượng sách</h1>
+      <h3 *ngIf="loadData">Từ ngày: {{data.start}}</h3>
+      <h3 *ngIf="loadData">đến ngày: {{data.end}}</h3>
+      <table class="table table-bordered">
+        <tr class="table-primary">
+          <th>Id</th>
+          <th>Tên Sách</th>
+          <th>Tên Nhà Xuất Bản</th>
+          <th>Tên Thê Loại</th>
+          <th>Số Lượng</th>
+        </tr>
+        <tr *ngFor="let item of array">
+          <th>{{item.id}}</th>
+          <td>{{item.tenSach}}</td>
+          <td>{{item.tenNXB}}</td>
+          <td>{{item.tenTheLoai}}</td>
+          <td>{{item.sl}}</td>
+        </tr>
+      </table>
+    </div>
+
+
+  </div>
+</div>
 <div mat-dialog-actions>
-  <button mat-button (click)="xemthongke()">Ok</button>
+  <button mat-button (click)="xemthongke()">Xem Thống Kê</button>
+  <button mat-button (click)="inPdf()" *ngIf="loadData">In File PDF</button>
   <button mat-button (click)="onNoClick()">No Thanks</button>
 </div>

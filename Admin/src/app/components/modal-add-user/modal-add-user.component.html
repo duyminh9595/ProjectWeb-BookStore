@@ -1,0 +1,46 @@
+<h1 style="text-align: center;">Nhập thông tin người dùng</h1>
+<div mat-dialog-content>
+  <p>Nhập First Name</p>
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Nhập First Name</mat-label>
+    <input matInput placeholder="Nhập First Name" type="text" required (keyup)="onKeyFirstName($event)">
+  </mat-form-field>
+</div>
+<div mat-dialog-content>
+  <p>Nhập Last Name</p>
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Nhập Last Name</mat-label>
+    <input matInput placeholder="Nhập Last Name" type="text" required (keyup)="onKeyLastName($event)">
+  </mat-form-field>
+</div>
+<div mat-dialog-content>
+  <p>Nhập Email</p>
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Nhập Email</mat-label>
+    <input matInput placeholder="Nhập Email" type="text" required (keyup)="onKeyEmail($event)" style="width: 100%;">
+  </mat-form-field>
+</div>
+<div mat-dialog-content>
+  <p>Nhập mật khẩu</p>
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Nhập mật khẩu</mat-label>
+    <input matInput placeholder="Nhập mật khẩu" type="password" required (keyup)="onKeyMatKhau($event)"
+      style="width: 100%;">
+  </mat-form-field>
+</div>
+<div mat-dialog-content>
+  <p>Chọn giới tính</p>
+  <mat-form-field appearance="fill" class="example-full-width">
+    <mat-label>Chọn giới tính</mat-label>
+    <mat-select (selectionChange)="changeGender($event.value)">
+      <mat-option *ngFor="let item of genders" [value]="item.value">
+        {{item.viewValue}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="addUser()">Ok</button>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+</div>

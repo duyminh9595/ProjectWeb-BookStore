@@ -10,8 +10,8 @@ using ProjectBookShop;
 namespace ProjectBookShop.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211206023434_ok")]
-    partial class ok
+    [Migration("20211228073731_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -487,6 +487,9 @@ namespace ProjectBookShop.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("CartId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Price")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")

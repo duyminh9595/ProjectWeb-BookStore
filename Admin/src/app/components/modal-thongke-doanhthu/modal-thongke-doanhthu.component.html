@@ -1,0 +1,46 @@
+<h1 mat-dialog-title>Nhập ngày muốn thống kê doanh thu</h1>
+<div mat-dialog-content>
+  <p>Nhập ngày bắt đầu</p>
+  <mat-form-field appearance="fill" style="width: 100%;" class="browser-default search-field">
+    <mat-label>Ngày</mat-label>
+    <input matInput [matDatepicker]="picker1" (dateChange)="addEventStart( $event)">
+    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+    <mat-datepicker #picker1></mat-datepicker>
+  </mat-form-field>
+</div>
+<div mat-dialog-content>
+  <p>Nhập ngày kết thúc</p>
+  <mat-form-field appearance="fill" style="width: 100%;" class="browser-default search-field">
+    <mat-label>Ngày</mat-label>
+    <input matInput [matDatepicker]="picker" (dateChange)="addEventEnd( $event)">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+</div>
+<div class="container" style="width: 100%;">
+  <div class="row">
+
+    <div class="col-md-12" id="htmlData">
+      <h1 style="text-align: center;">Báo cáo doanh thu</h1>
+      <h3 *ngIf="loadData">Từ ngày: {{data.start}}</h3>
+      <h3 *ngIf="loadData">đến ngày: {{data.end}}</h3>
+      <table class="table table-bordered">
+        <tr class="table-primary">
+          <th>Ngày</th>
+          <th>Tiền trước giảm giá</th>
+          <th>Tiền sau giảm giá</th>
+        </tr>
+        <tr *ngFor="let item of dataDoanhThu">
+          <th>{{item.ngay}}</th>
+          <td>{{item.doanhThuTruocGiamGia}}</td>
+          <td>{{item.doanhThuSauGiamGia}}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="xemthongke()">Xem Thống Kê</button>
+  <button mat-button (click)="inPdf()" *ngIf="loadData">In File PDF</button>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+</div>

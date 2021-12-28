@@ -12,9 +12,12 @@ export class NavigationComponent implements OnInit {
   ngOnInit(): void {
   }
   local: Storage = localStorage;
+  session: Storage = sessionStorage;
   doSignOut() {
     this.local.removeItem("emailLogin")
     this.local.removeItem("tokenLogin")
+    this.session.removeItem("emailLogin")
+    this.session.removeItem("tokenLogin")
     window.location.href = '/';
   }
 

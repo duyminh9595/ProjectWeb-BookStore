@@ -439,6 +439,7 @@ namespace ProjectBookShop.Controllers
             
                 detailCart.BookId = item.Id;
                 detailCart.Quantity = item.Quantity;
+                detailCart.Price = book.Price;
                 book.Quantity = book.Quantity - item.Quantity;
                 cart.TotalPrice += item.Quantity * book.Price;
                 detailCart.Cart = cart;

@@ -275,6 +275,24 @@ namespace ProjectBookShop.Controllers
             }
             return cartContentBookDTOs;
         }
+        [HttpPost("update")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        public async Task<ActionResult>UpdateBook(int id,[FromBody]UpdateSachDTO updateSachDTO)
+        {
+            var book = await context.Book.FirstOrDefaultAsync(x => x.Id == id);
+            if(book!=null)
+            {
+                book.Name = updateSachDTO.name;
+                book.Price = updateSachDTO.price;
+                book.PublisherId = updateSachDTO.publisherId;
+                book.TypeId = updateSachDTO.typeId;
+                book.ShortReview = updateSachDTO.shortReview;
+                book.AuthorName = updateSachDTO.authorName;
+                await context.SaveChangesAsync();
+                return Ok();
+            }
+            return BadRequest();
+        }
         [HttpPost("image/info/{id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<ActionResult>UpImages(int id,[FromForm]BookUploadImageDTO bookUploadImageDTO)
@@ -326,6 +344,19 @@ namespace ProjectBookShop.Controllers
             var idInToken = tokenS.Claims.First(claim => claim.Type == "unique_name").Value;
             var userInfo = await context.AdminUser.FirstOrDefaultAsync(x => (x.Email == emailInToken && x.Status == true && x.Email == email && x.Id == Int32.Parse(idInToken)));
             return userInfo;
+        }
+        [HttpPost("adminupdateimage")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        public async Task<ActionResult> UpdateBookImage(int id, [FromBody] UpdateImageDTO updateSachDTO)
+        {
+            var book = await context.Book.FirstOrDefaultAsync(x => x.Id == id);
+            if (book != null)
+            {
+                book.UrlBookImageShow = updateSachDTO.image_url;
+                await context.SaveChangesAsync();
+                return Ok();
+            }
+            return BadRequest();
         }
     }
 }

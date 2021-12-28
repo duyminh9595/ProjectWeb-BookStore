@@ -10,6 +10,7 @@ import { BookSerService } from './service/book-ser.service';
 import { AddBook } from 'src/app/model/add-book';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BookInfor } from 'src/app/model/book-infor';
+import { environment } from 'src/environments/environment';
 
 @Component({
 	selector: 'ngbd-modal-content',
@@ -365,6 +366,8 @@ export class BookComponent implements OnInit {
 	open() {
 		const modalRef = this.modalService.open(NgbdModalContentAddBook);
 	}
-
+	selectbookid(id: number) {
+		environment.bookid = id;
+	}
 
 }

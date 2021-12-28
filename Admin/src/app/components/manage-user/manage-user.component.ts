@@ -1,8 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserInfo } from 'src/app/model/user-info';
 import { Name } from 'src/app/models/name';
+import { ModalAddUserComponent } from '../modal-add-user/modal-add-user.component';
 import { ManageUserService } from './service/manage-user.service';
 
 
@@ -245,11 +247,15 @@ export class ManageUserComponent implements OnInit {
             console.log(this.data)
         }
     }
-    constructor(private modalService: NgbModal, private ser: ManageUserService, private router: Router) { }
+    constructor(private modalService: NgbModal, private ser: ManageUserService, private router: Router, public dialog: MatDialog) { }
 
     open() {
-        const modalRef = this.modalService.open(NgbdModalContent);
-        modalRef.componentInstance.name = 'World';
+        const dialogRef = this.dialog.open(ModalAddUserComponent, {
+            width: '550px'
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            this.ser.getAllUser().subscribe(this.getDatas())
+        });
     }
     clickShow(id: any) {
         let tempData = this.data.find(x => x.id === id);

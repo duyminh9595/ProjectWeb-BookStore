@@ -1,0 +1,59 @@
+<h1 mat-dialog-title>Edit Sách</h1>
+<div mat-dialog-content>
+  <p>Nhập tiêu đề sách</p>
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Nhập tiêu đề sách</mat-label>
+    <input matInput placeholder="Nhập tiêu đề sách" type="text" required (keyup)="onKeyTieuDe($event)"
+      [(ngModel)]="product.name">
+  </mat-form-field>
+</div>
+<div mat-dialog-content>
+  <p>Nhập nội dung</p>
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Nhập nội dung</mat-label>
+    <textarea matInput placeholder="Nhập nội dung" type="text" required (keyup)="onKeyNoiDung($event)"
+      [(ngModel)]="product.shortReview" style="height: 50px;"></textarea>
+  </mat-form-field>
+</div>
+<div mat-dialog-content>
+  <p>Nhập tên tác giả</p>
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Nhập tên tác giả</mat-label>
+    <input matInput placeholder="Nhập tên tác giả" type="text" required (keyup)="onkeytacgia($event)"
+      [(ngModel)]="product.authorName">
+  </mat-form-field>
+</div>
+<div mat-dialog-content>
+  <p>Chọn nhà xuất bản</p>
+  <mat-form-field appearance="fill" style="width: 100%;">
+    <mat-label>Chọn nhà xuất bản</mat-label>
+    <mat-select (selectionChange)="changeNXB($event.value)" [(value)]="nxb">
+      <mat-option [value]="item.id" *ngFor="let item of data">
+        {{item.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div mat-dialog-content>
+  <p>Chọn thể loại</p>
+  <mat-form-field appearance="fill" style="width: 100%;">
+    <mat-label>Chọn thể loại</mat-label>
+    <mat-select (selectionChange)="changetheloai($event.value)" [(value)]="theloai">
+      <mat-option [value]="item.id" *ngFor="let item of dataCategory">
+        {{item.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div mat-dialog-content>
+  <p>Nhập giá bán</p>
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Nhập tiêu đề sách</mat-label>
+    <input matInput placeholder="Nhập giá bán" type="number" required (keyup)="onkeygiaban($event)"
+      [(ngModel)]="product.price">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="update()">Ok</button>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+</div>

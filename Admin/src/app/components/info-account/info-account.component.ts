@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize, Observable } from 'rxjs';
 import { UserInfo } from 'src/app/model/user-info';
 import { environment } from 'src/environments/environment';
+import { EditCustomerComponent } from '../edit-customer/edit-customer.component';
 import { ManageUserService } from '../manage-user/service/manage-user.service';
 import { InfoAccountService } from './service/info-account.service';
 
@@ -15,7 +17,7 @@ import { InfoAccountService } from './service/info-account.service';
 export class InfoAccountComponent implements OnInit {
 
   constructor(private router: Router,
-    private activeRoute: ActivatedRoute, private ser: InfoAccountService, private manageSer: ManageUserService, private storage: AngularFireStorage) {
+    private activeRoute: ActivatedRoute, private ser: InfoAccountService, private manageSer: ManageUserService, private storage: AngularFireStorage, public dialog: MatDialog) {
 
   }
 
@@ -24,6 +26,16 @@ export class InfoAccountComponent implements OnInit {
     this.settingaccount = false;
     this.hoadondamua = true;
 
+  }
+  edit() {
+    const dialogRef = this.dialog.open(EditCustomerComponent, {
+      width: '550px'
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.router.navigateByUrl('/account/' + environment.iduser).then(() => {
+        window.location.reload();
+      });
+    });
   }
   data: UserInfo = new UserInfo();
   detailUser() {

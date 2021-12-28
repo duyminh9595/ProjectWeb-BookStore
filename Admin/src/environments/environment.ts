@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   APIEndpoint: 'https://localhost:5001/api/',
   iduser: 0,
+  bookid: 0,
   setting: false,
   billing: true
 };

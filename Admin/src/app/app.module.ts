@@ -43,7 +43,9 @@ import { ReviewbaivietComponent } from './components/reviewbaiviet/reviewbaiviet
 import { ModalAddMaGiamGiaComponent } from './components/modal-add-ma-giam-gia/modal-add-ma-giam-gia.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-
+import {
+  MatSelectModule
+} from '@angular/material/select';
 import {
   MatDialogModule
 } from '@angular/material/dialog';
@@ -53,10 +55,18 @@ import {
 import {
   MatInputModule
 } from '@angular/material/input';
+import {
+  MatFormFieldModule
+} from '@angular/material/form-field';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { InvoiceBaseonCouponComponent } from './components/invoice-baseon-coupon/invoice-baseon-coupon.component';
 import { ModalThongkesachComponent } from './components/modal-thongkesach/modal-thongkesach.component';
+import { ModalAddUserComponent } from './components/modal-add-user/modal-add-user.component';
+import { EditCustomerComponent } from './components/edit-customer/edit-customer.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ModalThongkeDoanhthuComponent } from './components/modal-thongke-doanhthu/modal-thongke-doanhthu.component';
+import { ModalEditContentComponent } from './components/modal-edit-content/modal-edit-content.component';
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   {
@@ -164,7 +174,11 @@ const routes: Routes = [
     ReviewbaivietComponent,
     ModalAddMaGiamGiaComponent,
     InvoiceBaseonCouponComponent,
-    ModalThongkesachComponent
+    ModalThongkesachComponent,
+    ModalAddUserComponent,
+    EditCustomerComponent,
+    ModalThongkeDoanhthuComponent,
+    ModalEditContentComponent
   ],
   imports: [
     BrowserModule,
@@ -181,7 +195,8 @@ const routes: Routes = [
       appId: "1:1053553302212:web:5ca79d1dd45c389ca28791",
       measurementId: "G-6Q30DEJELJ"
     }),
-    BrowserAnimationsModule, MatDialogModule, MatInputModule, MatNativeDateModule, MatDatepickerModule, MatButtonModule
+    BrowserAnimationsModule, MatDialogModule, MatInputModule, MatNativeDateModule, MatDatepickerModule, MatButtonModule, MatSelectModule, FormsModule,
+    ReactiveFormsModule, MatFormFieldModule
   ],
   providers: [],
   bootstrap: [AppComponent]

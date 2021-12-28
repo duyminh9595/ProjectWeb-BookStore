@@ -247,5 +247,112 @@ namespace ProjectBookShop.Controller
             return top5ThangDTOs;
         }
 
+        [HttpGet("infoadmin")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        public async Task<ActionResult<InfoNgaySinhGenderDTO>> GetInfoNgaySinhGender(int id)
+        {
+            InfoNgaySinhGenderDTO infoNgaySinhGenderDTO = new InfoNgaySinhGenderDTO();
+            var customer = await context.Customer.FirstOrDefaultAsync(x => x.Id == id);
+            if(customer!=null)
+            {
+                infoNgaySinhGenderDTO.Gender = customer.Gender;
+                infoNgaySinhGenderDTO.NgaySinh = customer.DateOfBirth.ToString();
+                return infoNgaySinhGenderDTO;
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+        [HttpPost("updateadmin")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        public async Task<ActionResult> GetInfoNgaySinhGender(int id,[FromBody]InfoNgaySinhGenderDTO infoNgaySinhGenderDTO)
+        {
+            var customer = await context.Customer.FirstOrDefaultAsync(x => x.Id == id);
+            if (customer != null)
+            {
+                customer.Gender = infoNgaySinhGenderDTO.Gender;
+                customer.DateOfBirth = infoNgaySinhGenderDTO.NgaySinh;
+                await context.SaveChangesAsync();
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+        [HttpPost("thongkesach")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        public async Task<ActionResult<List<DoanhSoSachDTO>>> GetDoanhSoSach( [FromBody] StartEndDateDTO startEndDateDTO)
+        {
+            List<DoanhSoSachDTO> doanhSoSachDTOs = new List<DoanhSoSachDTO>();
+            var cart = await context.Cart.Where(x => x.DateOfCreated >= DateTime.Parse(startEndDateDTO.start) && x.DateOfCreated <= DateTime.Parse(startEndDateDTO.end).AddDays(1)).ToListAsync();
+            foreach (var item in cart)
+            {
+                var detailcart = await context.DetailCart.Where(x => x.CartId == item.Id).ToListAsync();
+                foreach (var itemdetail in detailcart)
+                {
+                    bool check = false;
+                    foreach (var itemdoanhso in doanhSoSachDTOs)
+                    {
+                        if(itemdoanhso.Id==itemdetail.BookId)
+                        {
+                            check = true;
+                            itemdoanhso.Sl += itemdetail.Quantity;
+                            break;
+                        }
+                    }
+                    if(!check)
+                    {
+                        DoanhSoSachDTO doanhSoSachDTO = new DoanhSoSachDTO();
+                        doanhSoSachDTO.Sl = itemdetail.Quantity;
+                        doanhSoSachDTO.Id = itemdetail.BookId;
+                        doanhSoSachDTOs.Add(doanhSoSachDTO);
+                    }
+                }
+            }
+            foreach (var item in doanhSoSachDTOs)
+            {
+                var book = await context.Book.FirstOrDefaultAsync(x => x.Id == item.Id);
+                var publisher = await context.Publisher.FirstOrDefaultAsync(x => x.Id == book.PublisherId);
+                var type = await context.Type.FirstOrDefaultAsync(x => x.Id == book.TypeId);
+                item.TenNXB = publisher.Name;
+                item.TenTheLoai = type.Name;
+                item.TenSach = book.Name;
+            }
+            return Ok(doanhSoSachDTOs);
+        }
+        [HttpPost("thongkedoanhthu")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        public async Task<ActionResult<List<DoanhThuDTO>>> GetDoanhThu( [FromBody] StartEndDateDTO startEndDateDTO)
+        {
+            List<DoanhThuDTO> doanhThuDTOs = new List<DoanhThuDTO>();
+            var dates = new List<DateTime>();
+
+            for (var dt = DateTime.Parse(startEndDateDTO.start); dt <= DateTime.Parse(startEndDateDTO.end); dt = dt.AddDays(1))
+            {
+                dates.Add(dt);
+            }
+            foreach (var date in dates)
+            {
+                var carts = await context.Cart.Where(x => x.DateOfCreated >= date && x.DateOfCreated <= date.AddDays(1)).ToListAsync();
+                int tientruocgiamgia = 0;
+                int tiensaugiamgia = 0;
+                foreach (var item in carts)
+                {
+                    tientruocgiamgia += item.TotalPrice;
+                    tiensaugiamgia += item.TotalPriceAfterDiscount;
+                }
+                if(tientruocgiamgia!=0)
+                {
+                    DoanhThuDTO doanhThuDTO = new DoanhThuDTO();
+                    doanhThuDTO.Ngay = date.ToShortDateString();
+                    doanhThuDTO.DoanhThuTruocGiamGia = tientruocgiamgia;
+                    doanhThuDTO.DoanhThuSauGiamGia = tiensaugiamgia;
+                    doanhThuDTOs.Add(doanhThuDTO);
+                }
+            }
+            return Ok(doanhThuDTOs);
+        }
     }
 }

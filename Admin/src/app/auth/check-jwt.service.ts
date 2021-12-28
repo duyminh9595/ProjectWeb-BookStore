@@ -6,9 +6,10 @@ import { BehaviorSubject, Subject } from 'rxjs';
 })
 export class CheckJwtService {
   localStore: Storage = localStorage;
+  session: Storage = sessionStorage;
   emailLogin: Subject<string> = new BehaviorSubject<any>(1);
   tokenLogin: Subject<string> = new BehaviorSubject<any>(1);
-  constructor() {}
+  constructor() { }
   checkLogin() {
     if (
       localStorage.getItem('tokenLogin') != null &&
@@ -19,6 +20,17 @@ export class CheckJwtService {
       this.emailLogin.next(email);
       this.tokenLogin.next(token);
       return true;
-    } else return false;
+    }
+    else if (
+      sessionStorage.getItem('tokenLogin') != null &&
+      sessionStorage.getItem('emailLogin') != null
+    ) {
+      const email = this.localStore.getItem('emailLogin')!;
+      const token = this.localStore.getItem('tokenLogin')!;
+      this.emailLogin.next(email);
+      this.tokenLogin.next(token);
+      return true;
+    }
+    else return false;
   }
 }

@@ -30,7 +30,7 @@
             <!--begin::Details toggle-->
             <div class="d-flex flex-stack fs-4 py-3">
               <div class="fw-bolder rotate collapsible" data-bs-toggle="collapse" href="#kt_customer_view_details"
-                role="button" aria-expanded="false" aria-controls="kt_customer_view_details">Details
+                role="button" aria-expanded="false" aria-controls="kt_customer_view_details">Image
                 <span class="ms-2 rotate-180">
                   <!--begin::Svg Icon | path: icons/duotune/arrows/arr072.svg-->
                   <span class="svg-icon svg-icon-3">
@@ -43,8 +43,8 @@
                   <!--end::Svg Icon-->
                 </span></div>
               <span data-bs-toggle="tooltip" data-bs-trigger="hover" title="Edit customer details">
-                <a href="#" class="btn btn-sm btn-light-primary" data-bs-toggle="modal"
-                  data-bs-target="#kt_modal_update_customer">Edit</a>
+                <input (change)="upload($event)" type="file" accept="image/png, image/gif, image/jpeg" name="files"
+                  placeholder="Hình ảnh thumbnail" class="form-control" />
               </span>
             </div>
             <!--end::Details toggle-->
@@ -110,7 +110,7 @@
               <!--end::Card title-->
               <!--begin::Card toolbar-->
               <div class="card-toolbar">
-                <a href="#" class="btn btn-sm btn-flex btn-light-primary" data-bs-toggle="modal"
+                <a (click)="editBook(product.id)" class="btn btn-sm btn-flex btn-light-primary" data-bs-toggle="modal"
                   data-bs-target="#kt_modal_adjust_balance">
                   <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
                   <span class="svg-icon svg-icon-3">

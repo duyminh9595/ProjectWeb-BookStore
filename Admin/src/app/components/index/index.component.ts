@@ -1,12 +1,17 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Baiviet } from 'src/app/models/baiviet';
 import { Soluongbooktheloainxb } from 'src/app/models/soluongbooktheloainxb';
 import { Topthangdto } from 'src/app/models/topthangdto';
+import { ModalAddUserComponent } from '../modal-add-user/modal-add-user.component';
 import { ModalThongkesachComponent } from '../modal-thongkesach/modal-thongkesach.component';
 import { IndexService } from './service/index.service';
+
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import { ModalThongkeDoanhthuComponent } from '../modal-thongke-doanhthu/modal-thongke-doanhthu.component';
 
 @Component({
   selector: 'ngbd-modal-content',
@@ -273,7 +278,12 @@ export class IndexComponent implements OnInit {
     this.router.navigateByUrl('/article/' + id)
   }
   addCustomer() {
-
+    const dialogRef = this.dialog.open(ModalAddUserComponent, {
+      width: '550px'
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.getDataFirst();
+    });
   }
   xemthongtinkhach(id: number) {
     this.router.navigateByUrl('/account/' + id)
@@ -289,7 +299,13 @@ export class IndexComponent implements OnInit {
   }
   chonNgayThongKeSach() {
     const dialogRef = this.dialog.open(ModalThongkesachComponent, {
-      width: '550px'
+      width: '950px'
     });
   }
+  chonNgayThongKeDoanhThu() {
+    const dialogRef = this.dialog.open(ModalThongkeDoanhthuComponent, {
+      width: '950px'
+    });
+  }
+
 }

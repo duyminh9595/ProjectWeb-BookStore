@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CommendOnBook } from 'src/app/model/commend-on-book';
+import { ImageTruyen } from 'src/app/models/image-truyen';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -29,6 +30,15 @@ export class BookDetailService {
       Email: `${localStorage.getItem('emailLogin')}`,
     });
     return this.httpClient.get<any>(this.APIEndPoint + "cart/getallcommendbookidadmin/" + bookid, {
+      headers: yourHeader,
+    });
+  }
+  updateImage(bookid: number, data: ImageTruyen) {
+    const yourHeader: HttpHeaders = new HttpHeaders({
+      Authorization: `${localStorage.getItem('tokenLogin')}`,
+      Email: `${localStorage.getItem('emailLogin')}`,
+    });
+    return this.httpClient.post<any>(this.APIEndPoint + "book/adminupdateimage?id=" + bookid, data, {
       headers: yourHeader,
     });
   }
