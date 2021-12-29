@@ -7695,6 +7695,7 @@
       "Microsoft.EntityFrameworkCore.SqlServer >= 5.0.10",
       "Microsoft.EntityFrameworkCore.Tools >= 5.0.10",
       "Microsoft.Extensions.Configuration.Binder >= 3.1.19",
+      "Newtonsoft.Json >= 13.0.1",
       "Pagination >= 3.0.0.3",
       "Status >= 1.0.0",
       "System.Linq.Dynamic.Core >= 1.2.12"
@@ -7780,6 +7781,10 @@
           "Microsoft.Extensions.Configuration.Binder": {
             "target": "Package",
             "version": "[3.1.19, )"
+          },
+          "Newtonsoft.Json": {
+            "target": "Package",
+            "version": "[13.0.1, )"
           },
           "Pagination": {
             "target": "Package",

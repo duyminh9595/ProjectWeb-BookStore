@@ -8,6 +8,7 @@ import { BookOnCart } from 'src/app/model/book-on-cart';
 import { CommendOnBook } from 'src/app/model/commend-on-book';
 import { ImageTruyen } from 'src/app/models/image-truyen';
 import { ModalEditContentComponent } from '../modal-edit-content/modal-edit-content.component';
+import { ModalUpdateQuantityComponent } from '../modal-update-quantity/modal-update-quantity.component';
 import { BookDetailService } from './service/book-detail.service';
 
 @Component({
@@ -135,6 +136,15 @@ export class BookDetailsComponent implements OnInit {
           console.log(url);
         }
       });
+  }
+  updatesl(id: number) {
+    const dialogRef = this.dialog.open(ModalUpdateQuantityComponent, {
+      width: '450px',
+      data: this.bookid
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.getProductById();
+    });
   }
 
 }

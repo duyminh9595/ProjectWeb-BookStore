@@ -67,6 +67,7 @@ import { EditCustomerComponent } from './components/edit-customer/edit-customer.
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalThongkeDoanhthuComponent } from './components/modal-thongke-doanhthu/modal-thongke-doanhthu.component';
 import { ModalEditContentComponent } from './components/modal-edit-content/modal-edit-content.component';
+import { ModalUpdateQuantityComponent } from './components/modal-update-quantity/modal-update-quantity.component';
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   {
@@ -178,7 +179,8 @@ const routes: Routes = [
     ModalAddUserComponent,
     EditCustomerComponent,
     ModalThongkeDoanhthuComponent,
-    ModalEditContentComponent
+    ModalEditContentComponent,
+    ModalUpdateQuantityComponent
   ],
   imports: [
     BrowserModule,

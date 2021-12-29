@@ -358,5 +358,18 @@ namespace ProjectBookShop.Controllers
             }
             return BadRequest();
         }
+        [HttpPost("updatesl")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        public async Task<ActionResult> UpdateBookSL(int id, [FromBody] SlSachDTO slSachDTO)
+        {
+            var book = await context.Book.FirstOrDefaultAsync(x => x.Id == id);
+            if (book != null)
+            {
+                book.Quantity += slSachDTO.sl ;
+                await context.SaveChangesAsync();
+                return Ok();
+            }
+            return BadRequest();
+        }
     }
 }

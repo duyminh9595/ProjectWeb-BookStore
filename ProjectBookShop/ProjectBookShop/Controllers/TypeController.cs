@@ -73,7 +73,7 @@ namespace ProjectBookShop.Controllers
                 context.Add(type);
                 await context.SaveChangesAsync();
                 var typeReadDTO = mapper.Map<TypeReadDTO>(type);
-                return new CreatedAtRouteResult("getType", new { id = typeReadDTO.Id }, typeReadDTO);
+                return Ok();
             }
             else
                 return BadRequest();

@@ -1,0 +1,4 @@
+E:\ProjectWeb-BookStore\ProjectBookShop\ProjectBookShop\obj\Release\netcoreapp3.1\linux-x64\PubTmp\Out\appsettings.Development.json
+E:\ProjectWeb-BookStore\ProjectBookShop\ProjectBookShop\obj\Release\netcoreapp3.1\linux-x64\PubTmp\Out\appsettings.json
+E:\ProjectWeb-BookStore\ProjectBookShop\ProjectBookShop\obj\Release\netcoreapp3.1\linux-x64\PubTmp\Out\service_account.json
+E:\ProjectWeb-BookStore\ProjectBookShop\ProjectBookShop\obj\Release\netcoreapp3.1\linux-x64\PubTmp\Out\ProjectBookShop

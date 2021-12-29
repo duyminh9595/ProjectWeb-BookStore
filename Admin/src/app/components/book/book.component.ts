@@ -246,7 +246,8 @@ export class NgbdModalContentAddBook {
 				next: res => {
 					this.bookSer.uploadImageBook(this.formData, res.id).subscribe({
 						next: res => {
-							alert("Thêm thành công")
+							alert("Thêm thành công");
+							location.reload();
 						},
 						error: err => {
 							alert("Thêm hình ảnh thất bại");

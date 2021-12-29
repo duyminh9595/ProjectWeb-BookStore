@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>Nhập Số Lượng</h1>
+<div mat-dialog-content>
+  <p>Nhập số lượng sách</p>
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Nhập số lượng sách</mat-label>
+    <input matInput placeholder="Nhập số lượng sách" type="number" required (keyup)="onKeySoLuong($event)">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="update()">Ok</button>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+</div>

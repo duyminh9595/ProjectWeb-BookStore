@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_PublishTargetUrl>E:\ProjectWeb-BookStore\ProjectBookShop\ProjectBookShop\bin\publish\</_PublishTargetUrl>
+    <History>True|2021-12-29T02:32:24.0274256Z;True|2021-12-29T09:29:15.8023951+07:00;True|2021-12-29T09:28:31.9711368+07:00;True|2021-12-29T09:28:21.7252853+07:00;True|2021-12-29T09:23:59.8614096+07:00;True|2021-12-28T22:57:43.5149789+07:00;</History>
+  </PropertyGroup>
+</Project>
